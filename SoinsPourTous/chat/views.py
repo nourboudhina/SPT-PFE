@@ -1,6 +1,3 @@
-import datetime
-import json
-import logging
 from random import randint
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404,redirect
@@ -8,24 +5,15 @@ from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from .models import  Message,Room
 from account.models import TokenForDoctor,Medecin,Token, User
-from rest_framework.parsers import FormParser
 from rest_framework.decorators import api_view
 from django.contrib.auth.hashers import make_password,check_password
 from django.shortcuts import render
 from django.views.decorators.csrf import ensure_csrf_cookie,csrf_protect
 from django.views.decorators.csrf import csrf_exempt
 from django.template.loader import get_template
-from django.template import loader
-from account.serializers import   UserSerializer
 from SoinsPourTous.settings import TEMPLATES_BASE_URL
 from rest_framework.decorators import permission_classes
-from rest_framework.permissions import IsAuthenticated ,DjangoModelPermissions,AllowAny
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from django.http import Http404
-from django.utils import timezone
-from datetime import timedelta
-from rest_framework.exceptions import AuthenticationFailed
-from django.contrib.auth.decorators import login_required
     
     
 def room(request) : 
@@ -51,10 +39,6 @@ def checkview(request,token,username):
             return JsonResponse({'message': 'Code de salle non fourni'}, status=400)
     else:
         return JsonResponse({'message': 'Méthode non autorisée'}, status=405)
-    
-    
-from django.http import JsonResponse
-from .models import Message
 
 
 @api_view(['POST'])

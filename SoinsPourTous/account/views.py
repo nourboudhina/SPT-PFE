@@ -6,8 +6,8 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404,redirect
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from account.models import  Otp, PasswordResetToken, Token, User, Medecin, TokenForDoctor
-from account.utils import IsAuthenticatedUser, send_otp, send_password_reset_email, token_response, token_response_doctor
+from account.models import  Otp, PasswordResetToken, Token, User, Medecin, TokenForDoctor, Agent, TokenForAgent
+from account.utils import IsAuthenticatedUser, send_otp, send_password_reset_email, token_response, token_response_Agent, token_response_doctor
 from rest_framework.parsers import FormParser
 from rest_framework.decorators import api_view
 from django.contrib.auth.hashers import make_password,check_password
@@ -190,23 +190,45 @@ def login_pour_medecin(request):
     password = request.data.get('password')
 
     if username:
-        user1 = Medecin.objects.filter(username=username).first()
+        user = Medecin.objects.filter(username=username).first()
         
-        password1 = user1.password if user1 else None
+        password1 = user.password if user else None
     
     else:
         return JsonResponse({'error': 'data missing'}, status=400)
 
-    if user1 :
+    if user :
         if password == password1:
-            return token_response_doctor(user1)
+            return token_response_doctor(user)
         else :
             return JsonResponse({'response':'mdpincorrecte'})
     else:
         return JsonResponse({'error': 'incorrect password'}, status=400)
     
     
+@csrf_exempt 
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def login_pour_agent(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+
+    if username:
+        user = Agent.objects.filter(username=username).first()
+        
+        password1 = user.password if user else None
     
+    else:
+        return JsonResponse({'error': 'data missing'}, status=400)
+
+    if user :
+        if password == password1:
+            return token_response_Agent(user)
+        else :
+            return JsonResponse({'response':'mdpincorrecte'})
+    else:
+        return JsonResponse({'error': 'incorrect password'}, status=400)
+     
     
     
     

@@ -56,7 +56,19 @@ class TokenForDoctor(models.Model) :
 
     def __str__(self) : 
         return self.user.username
-    
+
+class Agent(models.Model) : 
+    username = models.CharField(max_length=50)
+    password = models.CharField(max_length=1000)
+
+
+class TokenForAgent(models.Model) : 
+    token = models.CharField(max_length = 5000)
+    user = models.ForeignKey(Agent, on_delete= models.CASCADE,related_name="tokens")
+    created_at = models.DateTimeField(auto_now_add = True)
+
+    def __str__(self) : 
+        return self.user.username
 class PasswordResetToken(models.Model) : 
     token = models.CharField(max_length = 5000)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='password_reset_tokens')

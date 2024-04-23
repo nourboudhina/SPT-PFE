@@ -1,7 +1,8 @@
+from typing import __all__
 from django.contrib import admin
 from django.contrib.admin import register
 
-from account.models import  Otp, PasswordResetToken, Token, User, Medecin, TokenForDoctor
+from account.models import  Agent, Medecin, Otp, PasswordResetToken,  Token, TokenForAgent, TokenForDoctor, User
 # Register your models here.
 
 
@@ -10,10 +11,7 @@ from account.models import  Otp, PasswordResetToken, Token, User, Medecin, Token
 class UserAdmin(admin.ModelAdmin):
     list_display = ['email','phone','fullname','created_at']
 
-    
-    
-    
-    
+
     
 @register(Medecin)
 class MedecinAdmin(admin.ModelAdmin) : 
@@ -29,7 +27,12 @@ class TokenAdmin(admin.ModelAdmin) :
     
     
 @register(TokenForDoctor)
-class TokenAdmin(admin.ModelAdmin) : 
+class TokenDoctor(admin.ModelAdmin) : 
+    list_display = ['token','user','created_at']
+
+
+@register(TokenForAgent)
+class TokenAgent(admin.ModelAdmin) : 
     list_display = ['token','user','created_at']
 
 
@@ -37,3 +40,10 @@ class TokenAdmin(admin.ModelAdmin) :
 class PasswordResetTokenAdmin(admin.ModelAdmin) : 
     list_display=['token','user','created_at']
     
+
+@register(Agent)
+class RoomAdmin(admin.ModelAdmin):
+    list_display = ['username','password']
+
+
+
