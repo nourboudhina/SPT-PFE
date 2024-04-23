@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'account',
     'chat',
+    'accueil',
+    'planning',
     'django_browser_reload',
     'corsheaders',
 ]

@@ -1,8 +1,9 @@
 
 from django.contrib import admin
 from django.urls import path, include 
-from account.views import  create_account, login, password_reset_confirm, password_reset_form, password_updated, request_otp, resend_otp, userData, verify_otp,password_reset_email, login_pour_medecin, login_pour_agent
+from account.views import create_account, login, password_reset_confirm, password_reset_form, password_updated, request_otp, resend_otp, userData, verify_otp,password_reset_email, login_pour_medecin, login_pour_agent
 from chat.views import checkview, send, getmessage
+from accueil.views import getPageAcceuil, getProfileAgent, getProfileDoctor, getProfilePatient
 from django.conf.urls.static import static
 
 urlpatterns = [
@@ -23,5 +24,9 @@ urlpatterns = [
     path('<token>/<username>/checkview/', checkview, name='checkview'),
     path('<token>/<username>/<room_code>/send/', send, name='send'),
     path('<token>/getMessage/<str:room>/', getmessage),
+    path('getpageacceuil/<str:token>/',getPageAcceuil),
+    path('getProfilePatient/<token>/',getProfilePatient),
+    path('getProfileDoctor/<token>/',getProfileDoctor),
+    path('getProfileAgent/<token>/',getProfileAgent),
     path("__reload__/", include("django_browser_reload.urls")),
 ]

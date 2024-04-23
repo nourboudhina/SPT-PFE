@@ -1,3 +1,11 @@
+from typing import __all__
 from django.contrib import admin
+from django.contrib.admin import register
 
-# Register your models here.
+from .models import PageAcceuil
+
+
+@register(PageAcceuil)
+class PageAcceuilAdmin(admin.ModelAdmin):
+    list_display = ['postwithimage','postwithtet']
+

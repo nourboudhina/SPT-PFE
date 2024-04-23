@@ -26,11 +26,9 @@ from django.utils import timezone
 from datetime import timedelta
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth.decorators import login_required, permission_required
+from rest_framework import permissions
 
-
-
-
-
+        
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def request_otp(request):
