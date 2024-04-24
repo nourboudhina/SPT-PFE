@@ -64,7 +64,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'frontend/build')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,12 +128,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS=[
-    os.path.join(BASE_DIR,'frontend/build/static')
-]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+# we whitelist localhost:3000 because that's where frontend will be served
+CORS_ORIGIN_WHITELIST = (
+     'localhost:3000/'
+ )
 MEDIA_URL = '/media/'
-MEDIA_ROOT= os.path.join(BASE_DIR,'frontend/build/static/media')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -165,7 +167,7 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.TemplateHTMLRenderer',  # Assurez-vous que ce renderer est inclus pour les templates DRF
     ],
 }
-TEMPLATES_BASE_URL = 'http://127.0.0.1:8000','http://192.168.1.17:8000/'
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST='smtp-relay.brevo.com'
 EMAIL_USE_TLS = True
@@ -175,11 +177,3 @@ EMAIL_HOST_PASSWORD ='9qICvKV76mzRFsSr'
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES' : {
-        'rest_framework.authentication.SessionAuthentication'
-        'rest_framework.authentication.BasicAuthentication',
-        'flutter_app.authentication.TokenAuthentication'
-        
-    }
-}
