@@ -12,23 +12,7 @@ import { Link } from "react-router-dom";
 import Flatpickr from "react-flatpickr";
 import Select from "react-select";
 
-const ProductsGlobalFilter = () => {
-    return (
-        <React.Fragment>
-            <div className="col-sm-auto ms-auto">
-                <div>
-                    <Link
-                        to="/apps-ecommerce-add-product"
-                        className="btn btn-success"
-                    >
-                        <i className="ri-add-line align-bottom me-1"></i> Add
-                        Product
-                    </Link>
-                </div>
-            </div>
-        </React.Fragment>
-    );
-};
+
 const CustomersGlobalFilter = () => {
     const [customerStatus, setcustomerStatus] = useState(null);
 
@@ -88,7 +72,7 @@ const CustomersGlobalFilter = () => {
                             >
                                 {" "}
                                 <i className="ri-equalizer-fill me-2 align-bottom"></i>
-                                Filters
+                                Filtres
                             </button>
                         </div>
                     </Col>
@@ -188,7 +172,7 @@ const OrderGlobalFilter = () => {
                     <button type="button" className="btn btn-primary w-100">
                         {" "}
                         <i className="ri-equalizer-fill me-1 align-bottom"></i>
-                        Filters
+                        Filtres
                     </button>
                 </div>
             </Col>
@@ -216,7 +200,7 @@ const ContactsGlobalFilter = () => {
         <React.Fragment>
             <div className="col-md-auto ms-auto">
                 <div className="d-flex align-items-center gap-2">
-                    <span className="text-muted">Sort by: </span>
+                    <span className="text-muted">Trier par : </span>
                     <Select
                         className="mb-0"
                         value={sortBy}
@@ -233,80 +217,7 @@ const ContactsGlobalFilter = () => {
     );
 };
 
-const CompaniesGlobalFilter = () => {
-    const [sortBy, setsortBy] = useState("Owner");
 
-    function handlesortBy(sortBy) {
-        setsortBy(sortBy);
-    }
-
-    const sortbyname = [
-        {
-            options: [
-                { label: "Owner", value: "Owner" },
-                { label: "Company", value: "Company" },
-                { label: "Location", value: "Location" },
-            ],
-        },
-    ];
-    return (
-        <React.Fragment>
-            <div className="col-md-auto ms-auto">
-                <div className="d-flex align-items-center gap-2">
-                    <span className="text-muted">Sort by: </span>
-                    <Select
-                        className="mb-0"
-                        value={sortBy}
-                        onChange={() => {
-                            handlesortBy();
-                        }}
-                        options={sortbyname}
-                        id="choices-single-default"
-                    ></Select>
-                </div>
-            </div>
-        </React.Fragment>
-    );
-};
-
-const CryptoOrdersGlobalFilter = () => {
-    return (
-        <React.Fragment>
-            <Col xl={2} md={6}>
-                <div className="input-group">
-                    <span className="input-group-text" id="basic-addon1"><i className="ri-calendar-2-line"></i></span>
-                    <Flatpickr
-                        placeholder="Select date"
-                        className="form-control"
-                        options={{
-                            mode: "range",
-                            dateFormat: "d M, Y"
-                        }}
-                    />
-                </div>
-            </Col>
-            <Col xl={2} md={4}>
-                <select className="form-control" data-choices data-choices-search-false name="choices-single-default"
-                    id="choices-single-default">
-                    <option defaultValue="">Select Type</option>
-                    <option value="Buy">Sell</option>
-                    <option value="Sell">Buy</option>
-                </select>
-            </Col>
-            <Col xl={2} md={4}>
-                <select className="form-control" data-choices data-choices-search-false name="choices-single-default2"
-                    id="choices-single-default2">
-                    <option defaultValue="">Select Status</option>
-                    <option value="Successful">Successful</option>
-                    <option value="Cancelled">Cancelled</option>
-                </select>
-            </Col>
-            <Col xl={1} md={4}>
-                <button className="btn btn-success w-100">Filters</button>
-            </Col>
-        </React.Fragment>
-    );
-};
 
 const InvoiceListGlobalSearch = () => {
     const [isStatus, setisStatus] = useState(null);
@@ -361,7 +272,7 @@ const InvoiceListGlobalSearch = () => {
             <Col sm={4} xxl={1}>
                 <Button color="primary" className="w-100">
                     <i className="ri-equalizer-fill me-1 align-bottom"></i>{" "}
-                    Filters
+                    Filtres
                 </Button>
             </Col>
 
@@ -369,39 +280,6 @@ const InvoiceListGlobalSearch = () => {
     );
 };
 
-const TicketsListGlobalFilter = () => {
-    return (
-        <React.Fragment>
-            <Col xxl={3} sm={4}>
-                <Flatpickr
-                    className="form-control"
-                    placeholder="Select date range"
-                    options={{
-                        mode: "range",
-                        dateFormat: "d M, Y"
-                    }}
-                />
-            </Col>
-            <Col xxl={3} sm={4}>
-                <div className="input-light">
-                    <select className="form-control" data-choices data-choices-search-false name="choices-single-default" id="idStatus">
-                        <option value="">Status</option>
-                        <option defaultValue="all">All</option>
-                        <option value="Open">Open</option>
-                        <option value="Inprogress">Inprogress</option>
-                        <option value="Closed">Closed</option>
-                        <option value="New">New</option>
-                    </select>
-                </div>
-            </Col>
-            <Col xxl={1} sm={4}>
-                <button type="button" className="btn btn-primary w-100"> <i className="ri-equalizer-fill me-1 align-bottom"></i>
-                    Filters
-                </button>
-            </Col>
-        </React.Fragment>
-    );
-};
 
 const NFTRankingGlobalFilter = () => {
     return (
@@ -422,119 +300,16 @@ const NFTRankingGlobalFilter = () => {
     );
 };
 
-const TaskListGlobalFilter = () => {
-    return (
-        <React.Fragment>
-            <div className="col-xxl-3 col-sm-4">
-                <Flatpickr
-                    placeholder="Select date range"
-                    className="form-control bg-light border-light"
-                    options={{
-                        mode: "range",
-                        dateFormat: "d M, Y"
-                    }}
-                />
-            </div>
 
-            <div className="col-xxl-3 col-sm-4">
-                <div className="input-light">
-                    <select className="form-control" data-choices data-choices-search-false name="status" id="idStatus">
-                        <option value="">Status</option>
-                        <option defaultValue="all"  >All</option>
-                        <option value="New">New</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Inprogress">Inprogress</option>
-                        <option value="Completed">Completed</option>
-                    </select>
-                </div>
-            </div>
-            <div className="col-xxl-1 col-sm-4">
-                <button type="button" className="btn btn-primary w-100"> <i className="ri-equalizer-fill me-1 align-bottom"></i>
-                    Filters
-                </button>
-            </div>
-        </React.Fragment>
-    );
-};
-
-
-const LeadsGlobalFilter = ({ onClickDelete }) => {
-    return (
-        <React.Fragment>
-            <div className="col-sm-auto ms-auto">
-                <div className="hstack gap-2">
-                    <button className="btn btn-soft-danger" onClick={onClickDelete}
-                    ><i className="ri-delete-bin-2-line"></i></button>
-                    <button type="button" className="btn btn-info"
-                    //  onClick={toggleInfo}
-                    >
-                        <i className="ri-filter-3-line align-bottom me-1"></i>{" "}
-                        Fliters
-                    </button>
-                    <button
-                        type="button"
-                        className="btn btn-success add-btn"
-                        id="create-btn"
-                    // onClick={() => { setIsEdit(false); toggle(); }}
-                    >
-                        <i className="ri-add-line align-bottom me-1"></i> Add
-                        Leads
-                    </button>
-                    <UncontrolledDropdown>
-                        <DropdownToggle
-                            className="btn btn-soft-info btn-icon fs-14"
-                            type="button"
-                            id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                        >
-                            <i className="ri-settings-4-line"></i>
-                        </DropdownToggle>
-                        <DropdownMenu
-                        >
-                            <li>
-                                <DropdownItem>
-                                    Copy
-                                </DropdownItem>
-                            </li>
-                            <li>
-                                <DropdownItem>
-                                    Move to pipline
-                                </DropdownItem>
-                            </li>
-                            <li>
-                                <DropdownItem>
-                                    Add to exceptions
-                                </DropdownItem>
-                            </li>
-                            <li>
-                                <DropdownItem>
-                                    Switch to common form view
-                                </DropdownItem>
-                            </li>
-                            <li>
-                                <DropdownItem>
-                                    Reset form view to default
-                                </DropdownItem>
-                            </li>
-                        </DropdownMenu>
-                    </UncontrolledDropdown>
-                </div>
-            </div>
-        </React.Fragment>
-    );
-};
 
 export {
-    ProductsGlobalFilter,
+   
     CustomersGlobalFilter,
     OrderGlobalFilter,
     ContactsGlobalFilter,
-    CompaniesGlobalFilter,
-    CryptoOrdersGlobalFilter,
+    
     InvoiceListGlobalSearch,
-    TicketsListGlobalFilter,
-    NFTRankingGlobalFilter,
-    TaskListGlobalFilter,
-    LeadsGlobalFilter
+    
+    NFTRankingGlobalFilter
+   
 };

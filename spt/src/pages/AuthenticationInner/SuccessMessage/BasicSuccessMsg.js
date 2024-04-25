@@ -7,7 +7,7 @@ import ParticlesAuth from "../ParticlesAuth";
 import logoLight from "../../../assets/images/logo-light.png";
 
 const BasicSuccessMsg = () => {
-document.title ="Success Message | Velzon - React Admin & Dashboard Template";
+document.title ="Success Message | SPT";
     return (
         <React.Fragment>
             <div className="auth-page-wrapper">
@@ -22,7 +22,6 @@ document.title ="Success Message | Velzon - React Admin & Dashboard Template";
                                                 <img src={logoLight} alt="" height="20" />
                                             </Link>
                                         </div>
-                                        <p className="mt-3 fs-15 fw-medium">Premium Admin & Dashboard Template</p>
                                     </div>
                                 </Col>
                             </Row>
@@ -37,10 +36,10 @@ document.title ="Success Message | Velzon - React Admin & Dashboard Template";
                                                 </div>
                                             </div>
                                             <div className="mt-4 pt-2">
-                                                <h4>Well done !</h4>
-                                                <p className="text-muted mx-4">Aww yeah, you successfully read this important message.</p>
+                                                <h4>Bien fait !</h4>
+                                                <p className="text-muted mx-4">Aww oui, vous avez bien lu ce message important.</p>
                                                 <div className="mt-4">
-                                                    <Link to="/auth-signin-basic" className="btn btn-success w-100">Back to Dashboard</Link>
+                                                    <Link to="/auth-signin-basic" className="btn btn-success w-100">Retour </Link>
                                                 </div>
                                             </div>
                                         </CardBody>

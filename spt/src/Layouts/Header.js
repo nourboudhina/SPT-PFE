@@ -10,8 +10,6 @@ import logoLight from "../assets/images/logo-light.png";
 //import Components
 import SearchOption from '../Components/Common/SearchOption';
 import LanguageDropdown from '../Components/Common/LanguageDropdown';
-import WebAppsDropdown from '../Components/Common/WebAppsDropdown';
-import MyCartDropdown from '../Components/Common/MyCartDropdown';
 import FullScreenDropdown from '../Components/Common/FullScreenDropdown';
 import NotificationDropdown from '../Components/Common/NotificationDropdown';
 import ProfileDropdown from '../Components/Common/ProfileDropdown';
@@ -106,7 +104,7 @@ const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }) => {
                                     <Form className="p-3">
                                         <div className="form-group m-0">
                                             <div className="input-group">
-                                                <input type="text" className="form-control" placeholder="Search ..."
+                                                <input type="text" className="form-control" placeholder="Chercher ..."
                                                     aria-label="Recipient's username" />
                                                 <button className="btn btn-primary" type="submit"><i
                                                     className="mdi mdi-magnify"></i></button>
@@ -119,11 +117,7 @@ const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }) => {
                             {/* LanguageDropdown */}
                             <LanguageDropdown />
 
-                            {/* WebAppsDropdown */}
-                            <WebAppsDropdown />
-
-                            {/* MyCartDropdwon */}
-                            <MyCartDropdown />
+                           
 
                             {/* FullScreenDropdown */}
                             <FullScreenDropdown />

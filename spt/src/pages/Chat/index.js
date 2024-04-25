@@ -98,9 +98,7 @@ const Chat = () => {
     dispatch(getMessages(currentRoomId));
   }, [dispatch, currentRoomId]);
 
-  // useEffect(() => {
-  //   ref.current.recalculate();
-  // });
+  
 
 
   //Use For Chat Box
@@ -216,7 +214,7 @@ const Chat = () => {
                   </div>
                   <div className="flex-shrink-0">
                     <UncontrolledTooltip placement="bottom" target="addcontact">
-                      Add Contact
+                      Ajouter un Room
                     </UncontrolledTooltip>
 
                     <Button
@@ -234,7 +232,7 @@ const Chat = () => {
                     id="search-user"
                     type="text"
                     className="form-control bg-light border-light"
-                    placeholder="Search here..."
+                    placeholder="Chercher ici..."
                   />
                   <i className="ri-search-2-line search-icon"></i>
                 </div>
@@ -280,26 +278,6 @@ const Chat = () => {
                     className="chat-room-list pt-3"
                     style={{ margin: "-16px 0px 0px" }}
                   >
-                    <div className="d-flex align-items-center px-4 mb-2">
-                      <div className="flex-grow-1">
-                        <h4 className="mb-0 fs-11 text-muted text-uppercase">
-                          Direct Messages
-                        </h4>
-                      </div>
-                      <div className="flex-shrink-0">
-                        <UncontrolledTooltip placement="bottom" target="addnewmsg">
-                          New Message
-                        </UncontrolledTooltip>
-
-                        <button
-                          type="button"
-                          id="addnewmsg"
-                          className="btn btn-soft-success btn-sm"
-                        >
-                          <i className="ri-add-line align-bottom"></i>
-                        </button>
-                      </div>
-                    </div>
 
                     <div className="chat-message-list">
                       <ul
@@ -361,7 +339,7 @@ const Chat = () => {
                     <div className="d-flex align-items-center px-4 mt-4 pt-2 mb-2">
                       <div className="flex-grow-1">
                         <h4 className="mb-0 fs-11 text-muted text-uppercase">
-                          Channels
+                          Rooms
                         </h4>
                       </div>
                       <div className="flex-shrink-0">
@@ -369,7 +347,7 @@ const Chat = () => {
                           placement="bottom"
                           target="createnewmsg"
                         >
-                          Create group
+                          Create Room
                         </UncontrolledTooltip>
                         <Button
                           color=""

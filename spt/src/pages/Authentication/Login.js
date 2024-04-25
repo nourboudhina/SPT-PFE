@@ -49,8 +49,8 @@ const Login = (props) => {
             password: userLogin.password || "123456" || '',
         },
         validationSchema: Yup.object({
-            email: Yup.string().required("Please Enter Your Email"),
-            password: Yup.string().required("Please Enter Your Password"),
+            email: Yup.string().required("Veuillez saisir votre email"),
+            password: Yup.string().required("Veuillez saisir votre mot de passe"),
         }),
         onSubmit: (values) => {
             dispatch(loginUser(values, props.history));
@@ -103,7 +103,7 @@ const Login = (props) => {
         }, 3000);
     }, [dispatch, error]);
 
-    document.title = "Basic SignIn | Velzon - React Admin & Dashboard Template";
+    document.title = "login | SPT";
     return (
         <React.Fragment>
             <ParticlesAuth>
@@ -117,7 +117,7 @@ const Login = (props) => {
                                             <img src={logoLight} alt="" height="20" />
                                         </Link>
                                     </div>
-                                    <p className="mt-3 fs-15 fw-medium">Premium Admin & Dashboard Template</p>
+                                
                                 </div>
                             </Col>
                         </Row>
@@ -127,8 +127,8 @@ const Login = (props) => {
                                 <Card className="mt-4">
                                     <CardBody className="p-4">
                                         <div className="text-center mt-2">
-                                            <h5 className="text-primary">Welcome Back !</h5>
-                                            <p className="text-muted">Sign in to continue to Velzon.</p>
+                                            <h5 className="text-primary">Bienvenue  !</h5>
+                                            <p className="text-muted">Inscrivez-vous pour continuer à SPT.</p>
                                         </div>
                                         {error && error ? (<Alert color="danger"> {error} </Alert>) : null}
                                         <div className="p-2 mt-4">
@@ -145,7 +145,7 @@ const Login = (props) => {
                                                     <Input
                                                         name="email"
                                                         className="form-control"
-                                                        placeholder="Enter email"
+                                                        placeholder="Saisiez votre email ..."
                                                         type="email"
                                                         onChange={validation.handleChange}
                                                         onBlur={validation.handleBlur}
@@ -161,16 +161,16 @@ const Login = (props) => {
 
                                                 <div className="mb-3">
                                                     <div className="float-end">
-                                                        <Link to="/forgot-password" className="text-muted">Forgot password?</Link>
+                                                        <Link to="/forgot-password" className="text-muted">Vous avez oublié votre mot de passe?</Link>
                                                     </div>
-                                                    <Label className="form-label" htmlFor="password-input">Password</Label>
+                                                    <Label className="form-label" htmlFor="password-input">Mot de passe</Label>
                                                     <div className="position-relative auth-pass-inputgroup mb-3">
                                                         <Input
                                                             name="password"
                                                             value={validation.values.password || ""}
                                                             type="password"
                                                             className="form-control pe-5"
-                                                            placeholder="Enter Password"
+                                                            placeholder="Saisiez votre mot de passe ..."
                                                             onChange={validation.handleChange}
                                                             onBlur={validation.handleBlur}
                                                             invalid={
@@ -190,12 +190,12 @@ const Login = (props) => {
                                                 </div>
 
                                                 <div className="mt-4">
-                                                    <Button color="success" className="btn btn-success w-100" type="submit">Sign In</Button>
+                                                    <Button color="success" className="btn btn-success w-100" type="submit">Se connecter</Button>
                                                 </div>
 
                                                 <div className="mt-4 text-center">
                                                     <div className="signin-other-title">
-                                                        <h5 className="fs-13 mb-4 title">Sign In with</h5>
+                                                        <h5 className="fs-13 mb-4 title">Inscrivez-vous avec</h5>
                                                     </div>
                                                     <div>
                                                         <FacebookLogin
@@ -239,7 +239,7 @@ const Login = (props) => {
                                 </Card>
 
                                 <div className="mt-4 text-center">
-                                    <p className="mb-0">Don't have an account ? <Link to="/register" className="fw-semibold text-primary text-decoration-underline"> Signup </Link> </p>
+                                    <p className="mb-0">Vous n'avez pas de compte? <Link to="/register" className="fw-semibold text-primary text-decoration-underline"> Créer </Link> </p>
                                 </div>
 
                             </Col>

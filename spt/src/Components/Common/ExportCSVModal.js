@@ -17,9 +17,9 @@ const ExportCSVModal = ({ show, onCloseClick, data }) => {
               >
               </lord-icon>
               <div className="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
-                  <h4>Are you sure ?</h4>
+                  <h4>Êtes-vous sûr?</h4>
                   <p className="text-muted mx-4 mb-0">
-                      Are you sure you want to export CSV file?
+                  Êtes-vous sûr de vouloir exporter un fichier CSV?
                   </p>
                   </div>
               </div>
@@ -30,7 +30,7 @@ const ExportCSVModal = ({ show, onCloseClick, data }) => {
                   data-bs-dismiss="modal"
                   onClick={onCloseClick}
               >
-                  Close
+                  Fermer
               </button>
               <CSVLink
                   data={data}
@@ -39,7 +39,7 @@ const ExportCSVModal = ({ show, onCloseClick, data }) => {
                   className="btn w-sm btn-success "
                   id="delete-record"
               >
-              Download
+              Téléchargement
               </CSVLink>
               </div>
       </ModalBody>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 
 const Alt404 = () => {
-document.title ="404 Error Alt | Velzon - React Admin & Dashboard Template";
+document.title ="404 Error Alt | SPT";
     return (
         <React.Fragment>
             
@@ -24,9 +24,9 @@ document.title ="404 Error Alt | Velzon - React Admin & Dashboard Template";
                                                 style={{ width: "120px", height: "120px" }}>
                                             </lord-icon>
                                             <h1 className="text-primary mb-4">Oops !</h1>
-                                            <h4 className="text-uppercase">Sorry, Page not Found 😭</h4>
-                                            <p className="text-muted mb-4">The page you are looking for not available!</p>
-                                            <Link to="/dashboard" className="btn btn-success"><i className="mdi mdi-home me-1"></i>Back to home</Link>
+                                            <h4 className="text-uppercase">Désolé, la page n'a pas été trouvée 😭</h4>
+                                            <p className="text-muted mb-4">La page que vous recherchez n'est pas disponible!</p>
+                                            <Link to="/dashboard" className="btn btn-success"><i className="mdi mdi-home me-1"></i>Retour</Link>
                                         </div>
                                     </CardBody>
                                 </Card>

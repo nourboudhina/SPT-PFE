@@ -19,7 +19,7 @@ const Logout = (props) => {
   }, [dispatch]);
 
   if (isUserLogout) {
-    return <Redirect to="/login" />;
+    return <Redirect to="/landing" />;
   }
 
   return <></>;

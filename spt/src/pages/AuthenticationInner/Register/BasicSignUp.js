@@ -11,7 +11,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 const BasicSignUp = () => {
-    document.title = "Basic SignUp | Velzon - React Admin & Dashboard Template";
+    document.title = " SignUp | SPT";
 
     const [passwordShow, setPasswordShow] = useState(false);
 
@@ -23,11 +23,11 @@ const BasicSignUp = () => {
         },
         validationSchema: Yup.object({
             password: Yup.string()
-                .min(8, 'Password must be at least 8 characters')
-                .matches(RegExp('(.*[a-z].*)'), 'At least lowercase letter')
-                .matches(RegExp('(.*[A-Z].*)'), 'At least uppercase letter')
-                .matches(RegExp('(.*[0-9].*)'), 'At least one number')
-                .required("This field is required"),
+            .min(8, 'Le mot de passe doit être au moins 8 caractères')
+            .matches(RegExp('(.*[a-z].*)'), 'Au moins une lettre Miniscule')
+            .matches(RegExp('(.*[A-Z].*)'), 'Au moins une lettre Majuscule')
+            .matches(RegExp('(.*[0-9].*)'), 'Au moins un numéro')
+            .required("Ce champ est requis"),
         }),
         onSubmit: (values) => {
             // console.log(values);
@@ -48,7 +48,6 @@ const BasicSignUp = () => {
                                             <img src={logoLight} alt="" height="20" />
                                         </Link>
                                     </div>
-                                    <p className="mt-3 fs-15 fw-medium">Premium Admin & Dashboard Template</p>
                                 </div>
                             </Col>
                         </Row>
@@ -59,34 +58,34 @@ const BasicSignUp = () => {
 
                                     <CardBody className="p-4">
                                         <div className="text-center mt-2">
-                                            <h5 className="text-primary">Create New Account</h5>
-                                            <p className="text-muted">Get your free velzon account now</p>
+                                            <h5 className="text-primary">Créer un nouveau compte</h5>
+                                            <p className="text-muted">Obtenez votre compte SPT maintenant</p>
                                         </div>
                                         <div className="p-2 mt-4">
                                             <Form onSubmit={validation.handleSubmit} className="needs-validation" action="#">
 
                                                 <div className="mb-3">
                                                     <label htmlFor="useremail" className="form-label">Email <span className="text-danger">*</span></label>
-                                                    <input type="email" className="form-control" id="useremail" placeholder="Enter email address" required />
+                                                    <input type="email" className="form-control" id="useremail" placeholder="Saisiez votre email" required />
                                                     <div className="invalid-feedback">
-                                                        Please enter email
+                                                    Veuillez saisir votre email
                                                     </div>
                                                 </div>
                                                 <div className="mb-3">
                                                     <label htmlFor="username" className="form-label">Username <span className="text-danger">*</span></label>
-                                                    <input type="text" className="form-control" id="username" placeholder="Enter username" required />
+                                                    <input type="text" className="form-control" id="username" placeholder="Saisiez username" required />
                                                     <div className="invalid-feedback">
-                                                        Please enter username
+                                                    Veuillez saisir votre username
                                                     </div>
                                                 </div>
 
                                                 <div className="mb-3">
-                                                    <label className="form-label" htmlFor="password-input">Password</label>
+                                                    <label className="form-label" htmlFor="password-input">Mot de passe</label>
                                                     <div className="position-relative auth-pass-inputgroup">
                                                         <Input
                                                             type={passwordShow ? "text" : "password"}
                                                             className="form-control pe-5 password-input"
-                                                            placeholder="Enter password"
+                                                            placeholder="Saisiez votre Mot de passe"
                                                             id="password-input"
                                                             name="password"
                                                             value={validation.values.password}
@@ -103,41 +102,30 @@ const BasicSignUp = () => {
                                                 </div>
 
                                                 <div className="mb-4">
-                                                    <p className="mb-0 fs-12 text-muted fst-italic">By registering you agree to the Velzon
-                                                        <Link to="#" className="text-primary text-decoration-underline fst-normal fw-medium">Terms of Use</Link></p>
+                                                    <p className="mb-0 fs-12 text-muted fst-italic">En vous inscrivant, vous acceptez le SPT
+                                                        <Link to="#" className="text-primary text-decoration-underline fst-normal fw-medium">Conditions d'utilisation</Link></p>
                                                 </div>
 
                                                 <div id="password-contain" className="p-3 bg-light mb-2 rounded">
-                                                    <h5 className="fs-13">Password must contain:</h5>
-                                                    <p id="pass-length" className="invalid fs-12 mb-2">Minimum <b>8 characters</b></p>
-                                                    <p id="pass-lower" className="invalid fs-12 mb-2">At <b>lowercase</b> letter (a-z)</p>
-                                                    <p id="pass-upper" className="invalid fs-12 mb-2">At least <b>uppercase</b> letter (A-Z)</p>
-                                                    <p id="pass-number" className="invalid fs-12 mb-0">A least <b>number</b> (0-9)</p>
-                                                </div>
+                                                <h5 className="fs-13">Le mot de passe doit contenir:</h5>
+                                                <p id="pass-length" className="invalid fs-12 mb-2"><b>8 caractères minimum</b></p>
+                                                <p id="pass-lower" className="invalid fs-12 mb-2">Au <b> moins </b> un lettre de (a-z)</p>
+                                                <p id="pass-upper" className="invalid fs-12 mb-2">Au <b> moins </b> un lettre de (A-Z)</p>
+                                                <p id="pass-number" className="invalid fs-12 mb-0">Au <b> moins </b> un nombre de (0-9)</p>
+                                            </div>
 
                                                 <div className="mt-4">
-                                                    <button className="btn btn-success w-100" type="submit">Sign Up</button>
+                                                    <button className="btn btn-success w-100" type="submit">Créer</button>
                                                 </div>
 
-                                                <div className="mt-4 text-center">
-                                                    <div className="signin-other-title">
-                                                        <h5 className="fs-13 mb-4 title text-muted">Create account with</h5>
-                                                    </div>
-
-                                                    <div>
-                                                        <button type="button" className="btn btn-primary btn-icon waves-effect waves-light"><i className="ri-facebook-fill fs-16"></i></button>{" "}
-                                                        <button type="button" className="btn btn-danger btn-icon waves-effect waves-light"><i className="ri-google-fill fs-16"></i></button>{" "}
-                                                        <button type="button" className="btn btn-dark btn-icon waves-effect waves-light"><i className="ri-github-fill fs-16"></i></button>{" "}
-                                                        <button type="button" className="btn btn-info btn-icon waves-effect waves-light"><i className="ri-twitter-fill fs-16"></i></button>
-                                                    </div>
-                                                </div>
+                                                
                                             </Form>
                                         </div>
                                     </CardBody>
                                 </Card>
 
                                 <div className="mt-4 text-center">
-                                    <p className="mb-0">Already have an account ? <Link to="/auth-signin-basic" className="fw-semibold text-primary text-decoration-underline"> Signin </Link> </p>
+                                    <p className="mb-0">Vous avez déjà un compte? <Link to="/auth-signin-basic" className="fw-semibold text-primary text-decoration-underline"> Se connecter </Link> </p>
                                 </div>
 
                             </Col>

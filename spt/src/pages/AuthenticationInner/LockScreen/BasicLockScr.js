@@ -9,7 +9,7 @@ import avatar1 from "../../../assets/images/users/avatar-1.jpg";
 
 
 const BasicLockScreen = () => {
-document.title="Lock Screen | Velzon - React Admin & Dashboard Template";
+document.title="Lock Screen | SPT";
     return (
         <React.Fragment>
             <div className="auth-page-content">
@@ -25,7 +25,6 @@ document.title="Lock Screen | Velzon - React Admin & Dashboard Template";
                                                     <img src={logoLight} alt="" height="20" />
                                                 </Link>
                                             </div>
-                                            <p className="mt-3 fs-15 fw-medium">Premium Admin & Dashboard Template</p>
                                         </div>
                                     </Col>
                                 </Row>
@@ -35,28 +34,25 @@ document.title="Lock Screen | Velzon - React Admin & Dashboard Template";
                                         <Card className="mt-4">
                                             <CardBody className="p-4">
                                                 <div className="text-center mt-2">
-                                                    <h5 className="text-primary">Lock Screen</h5>
-                                                    <p className="text-muted">Enter your password to unlock the screen!</p>
+                                                    <h5 className="text-primary">Écran de verrouillage</h5>
+                                                    <p className="text-muted">Saisissez votre mot de passe pour débloquer l'écran!</p>
                                                 </div>
-                                                <div className="user-thumb text-center">
-                                                    <img src={avatar1} className="rounded-circle img-thumbnail avatar-lg" alt="thumbnail" />
-                                                    <h5 className="font-size-15 mt-3">Anna Adame</h5>
-                                                </div>
+                                                
                                                 <div className="p-2 mt-4">
                                                     <form>
                                                         <div className="mb-3">
-                                                            <label className="form-label" htmlFor="userpassword">Password</label>
+                                                            <label className="form-label" htmlFor="userpassword">Mot de passe</label>
                                                             <input type="password" className="form-control" id="userpassword" placeholder="Enter password" required />
                                                         </div>
                                                         <div className="mb-2 mt-4">
-                                                            <Button color="success" className="w-100" type="submit">Unlock</Button>
+                                                            <Button color="success" className="w-100" type="submit">Déverrouiller</Button>
                                                         </div>
                                                     </form>
                                                 </div>
                                             </CardBody>
                                         </Card>
                                         <div className="mt-4 text-center">
-                                            <p className="mb-0">Not you ? return <Link to="/auth-signin-basic" className="fw-semibold text-primary text-decoration-underline"> Signin </Link> </p>
+                                            <p className="mb-0">Not you ? return <Link to="/auth-signin-basic" className="fw-semibold text-primary text-decoration-underline"> Se connecter </Link> </p>
                                         </div>
                                     </Col>
                                 </Row>

@@ -6,7 +6,7 @@ import { Col, Container, Row } from 'reactstrap';
 import error500 from "../../../assets/images/error500.png";
 
 const Error500 = () => {
-document.title ="500 Error | Velzon - React Admin & Dashboard Template";
+document.title ="500 Error | SPT";
     return (
         <React.Fragment>
             
@@ -21,9 +21,9 @@ document.title ="500 Error | Velzon - React Admin & Dashboard Template";
                                     <h1 className="title text-muted">500</h1>
                                 </div>
                                 <div>
-                                    <h4>Internal Server Error!</h4>
-                                    <p className="text-muted w-75 mx-auto">Server Error 500. We're not exactly sure what happened, but our servers say something is wrong.</p>
-                                    <Link to="/dashboard" className="btn btn-success"><i className="mdi mdi-home me-1"></i>Back to home</Link>
+                                    <h4>Erreur de serveur interne!</h4>
+                                    <p className="text-muted w-75 mx-auto">Erreur 500 du serveur. Nous ne savons pas exactement ce qui s'est passé, mais nos serveurs disent que quelque chose ne va pas.</p>
+                                    <Link to="/dashboard" className="btn btn-success"><i className="mdi mdi-home me-1"></i>Retour</Link>
                                 </div>
                             </Col>
                         </Row>

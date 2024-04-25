@@ -7,7 +7,7 @@ import ParticlesAuth from "../ParticlesAuth";
 import logoLight from "../../../assets/images/logo-light.png";
 
 const BasicLogout = () => {
-    document.title="Log Out | Velzon - React Admin & Dashboard Template";
+    document.title="Log Out | SPT";
     return (
         <React.Fragment>
             <div className="auth-page-content">
@@ -23,7 +23,7 @@ const BasicLogout = () => {
                                                     <img src={logoLight} alt="" height="20" />
                                                 </Link>
                                             </div>
-                                            <p className="mt-3 fs-15 fw-medium">Premium Admin & Dashboard Template</p>
+                                            
                                         </div>
                                     </Col>
                                 </Row>
@@ -40,10 +40,10 @@ const BasicLogout = () => {
                                                 </lord-icon>
 
                                                 <div className="mt-4 pt-2">
-                                                    <h5>You are Logged Out</h5>
-                                                    <p className="text-muted">Thank you for using <span className="fw-semibold">velzon</span> admin template</p>
+                                                    <h5>Vous êtes déconnecté</h5>
+                                                    <p className="text-muted">Merci d'utiliser <span className="fw-semibold">SPT</span> </p>
                                                     <div className="mt-4">
-                                                        <Link to="/auth-signin-basic" className="btn btn-success w-100">Sign In</Link>
+                                                        <Link to="/landing" className="btn btn-success w-100">Retour</Link>
                                                     </div>
                                                 </div>
                                             </CardBody>

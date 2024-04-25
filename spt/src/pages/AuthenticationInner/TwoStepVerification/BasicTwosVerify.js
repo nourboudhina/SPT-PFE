@@ -8,7 +8,7 @@ import logoLight from "../../../assets/images/logo-light.png";
 
 
 const BasicTwosVerify = () => {
-    document.title = "Two Step Verification | Velzon - React Admin & Dashboard Template";
+    document.title = " Verification | SPT";
 
     const getInputElement = (index) => {
         return document.getElementById('digit' + index + '-input');
@@ -16,12 +16,12 @@ const BasicTwosVerify = () => {
 
     const moveToNext = (index) => {
         if (getInputElement(index).value.length === 1) {
-            if (index !== 4) {
+            if (index !== 6) {
                 getInputElement(index + 1).focus();
             } else {
                 getInputElement(index).blur();
                 // Submit code
-                console.log('submit code');
+                console.log('soumettre le code');
             }
         }
     }
@@ -40,7 +40,6 @@ const BasicTwosVerify = () => {
                                                 <img src={logoLight} alt="" height="20" />
                                             </Link>
                                         </div>
-                                        <p className="mt-3 fs-15 fw-medium">Premium Admin & Dashboard Template</p>
                                     </div>
                                 </Col>
                             </Row>
@@ -59,8 +58,8 @@ const BasicTwosVerify = () => {
 
                                             <div className="p-2 mt-4">
                                                 <div className="text-muted text-center mb-4 mx-lg-3">
-                                                    <h4 className="">Verify Your Email</h4>
-                                                    <p>Please enter the 4 digit code sent to <span className="fw-semibold">example@abc.com</span></p>
+                                                    <h4 className="">Vérifiez votre téléphone</h4>
+                                                    <p>Veuillez saisir le code envoyé </p>
                                                 </div>
 
                                                 <form>
@@ -104,16 +103,34 @@ const BasicTwosVerify = () => {
                                                                     id="digit4-input" onKeyUp={() => moveToNext(4)} />
                                                             </div>
                                                         </Col>
+                                                        <Col className="col-3">
+                                                            <div className="mb-3">
+                                                                <label htmlFor="digit1-input" className="visually-hidden">Digit 5</label>
+                                                                <input type="text"
+                                                                    className="form-control form-control-lg bg-light border-light text-center"
+                                                                    maxLength="1"
+                                                                    id="digit1-input" onKeyUp={() => moveToNext(1)} />
+                                                            </div>
+                                                        </Col>
+                                                        <Col className="col-3">
+                                                            <div className="mb-3">
+                                                                <label htmlFor="digit1-input" className="visually-hidden">Digit 6</label>
+                                                                <input type="text"
+                                                                    className="form-control form-control-lg bg-light border-light text-center"
+                                                                    maxLength="1"
+                                                                    id="digit1-input" onKeyUp={() => moveToNext(1)} />
+                                                            </div>
+                                                        </Col>
                                                     </Row>
                                                 </form>
                                                 <div className="mt-3">
-                                                    <Button color="success" className="w-100">Confirm</Button>
+                                                    <Button color="success" className="w-100">Confirmer</Button>
                                                 </div>
                                             </div>
                                         </CardBody>
                                     </Card>
                                     <div className="mt-4 text-center">
-                                        <p className="mb-0">Didn't receive a code ? <Link to="/auth-pass-reset-basic" className="fw-semibold text-primary text-decoration-underline">Resend</Link> </p>
+                                        <p className="mb-0">Vous n'avez pas reçu de code? <Link to="/auth-pass-reset-basic" className="fw-semibold text-primary text-decoration-underline">Envoyer à nouveau</Link> </p>
                                     </div>
                                 </Col>
                             </Row>

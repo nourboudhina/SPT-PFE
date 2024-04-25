@@ -30,7 +30,7 @@ const ForgetPasswordPage = props => {
       email: '',
     },
     validationSchema: Yup.object({
-      email: Yup.string().required("Please Enter Your Email"),
+      email: Yup.string().required("Veuillez saisir votre Email"),
     }),
     onSubmit: (values) => {
       dispatch(userForgetPassword(values, props.history));
@@ -42,7 +42,7 @@ const ForgetPasswordPage = props => {
     forgetSuccessMsg: state.ForgetPassword.forgetSuccessMsg,
   }));
 
-document.title ="Reset Password | Velzon - React Admin & Dashboard Template";
+document.title ="Réinitialiser le mot de passe | SPT";
   return (
     <ParticlesAuth>
       <div className="auth-page-content">
@@ -56,7 +56,7 @@ document.title ="Reset Password | Velzon - React Admin & Dashboard Template";
                     <img src={logoLight} alt="" height="20" />
                   </Link>
                 </div>
-                <p className="mt-3 fs-15 fw-medium">Premium Admin & Dashboard Template</p>
+      
               </div>
             </Col>
           </Row>
@@ -67,8 +67,8 @@ document.title ="Reset Password | Velzon - React Admin & Dashboard Template";
 
                 <CardBody className="p-4">
                   <div className="text-center mt-2">
-                    <h5 className="text-primary">Forgot Password?</h5>
-                    <p className="text-muted">Reset password with velzon</p>
+                    <h5 className="text-primary">Vous avez oublié votre mot de passe?</h5>
+                    <p className="text-muted">Rétablir le mot de passe avec SPT</p>
 
                     <lord-icon
                       src="https://cdn.lordicon.com/rhvddzym.json"
@@ -82,7 +82,7 @@ document.title ="Reset Password | Velzon - React Admin & Dashboard Template";
                   </div>
 
                   <Alert className="alert-borderless alert-warning text-center mb-2 mx-2" role="alert">
-                    Enter your email and instructions will be sent to you!
+                  Saisissez votre Email et les instructions vous seront envoyées!
                   </Alert>
                   <div className="p-2">
                     {forgetError && forgetError ? (
@@ -122,7 +122,7 @@ document.title ="Reset Password | Velzon - React Admin & Dashboard Template";
                       </div>
 
                       <div className="text-center mt-4">
-                        <button className="btn btn-success w-100" type="submit">Send Reset Link</button>
+                        <button className="btn btn-success w-100" type="submit">Envoyer le lien </button>
                       </div>
                     </Form>
                   </div>
@@ -130,7 +130,7 @@ document.title ="Reset Password | Velzon - React Admin & Dashboard Template";
               </Card>
 
               <div className="mt-4 text-center">
-                <p className="mb-0">Wait, I remember my password... <Link to="/login" className="fw-semibold text-primary text-decoration-underline"> Click here </Link> </p>
+                <p className="mb-0">Attendez, je me souviens de mon mot de passe... <Link to="/login" className="fw-semibold text-primary text-decoration-underline"> Cliquez ici </Link> </p>
               </div>
 
             </Col>

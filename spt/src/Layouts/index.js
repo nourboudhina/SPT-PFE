@@ -7,20 +7,8 @@ import { withRouter } from "react-router-dom";
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
-import RightSidebar from '../Components/Common/RightSidebar';
 
-//import actions
-import {
-    changeLayout,
-    changeSidebarTheme,
-    changeLayoutMode,
-    changeLayoutWidth,
-    changeLayoutPosition,
-    changeTopbarTheme,
-    changeLeftsidebarSizeType,
-    changeLeftsidebarViewType,
-    changeSidebarImageType
-} from "../store/actions";
+
 
 //redux
 import { useSelector, useDispatch } from "react-redux";

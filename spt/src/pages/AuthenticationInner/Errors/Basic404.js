@@ -7,7 +7,7 @@ import ParticlesAuth from "../ParticlesAuth";
 import error from "../../../assets/images/error.svg";
 
 const Basic404 = () => {
-document.title ="404 Error Basic | Velzon - React Admin & Dashboard Template";
+document.title ="404 Error Basic | SPT";
     return (
         <React.Fragment>
             
@@ -24,9 +24,9 @@ document.title ="404 Error Basic | Velzon - React Admin & Dashboard Template";
                                         </div>
                                         <div className="mt-n4">
                                             <h1 className="display-1 fw-medium">404</h1>
-                                            <h3 className="text-uppercase">Sorry, Page not Found 😭</h3>
-                                            <p className="text-muted mb-4">The page you are looking for not available!</p>
-                                            <Link to="/dashboard" className="btn btn-success"><i className="mdi mdi-home me-1"></i>Back to home</Link>
+                                            <h3 className="text-uppercase">Désolé, la page n'a pas été trouvée 😭</h3>
+                                            <p className="text-muted mb-4">La page que vous recherchez n'est pas disponible!</p>
+                                            <Link to="/dashboard" className="btn btn-success"><i className="mdi mdi-home me-1"></i>Retour</Link>
                                         </div>
                                     </div>
                                 </Col>

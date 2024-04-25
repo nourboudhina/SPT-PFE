@@ -347,7 +347,7 @@ const Calender = () => {
     }
   };
 
-  document.title = "Calendar | Velzon - React Admin & Dashboard Template";
+  document.title = "Planning | SPT";
   return (
     <React.Fragment>
       <DeleteModal
@@ -357,46 +357,14 @@ const Calender = () => {
       />
       <div className="page-content">
         <Container fluid>
-          <BreadCrumb title="Calendar" pageTitle="Apps" />
+          <BreadCrumb title="Planning" />
           <Row>
             <Col xs={12}>
               <Row>
                 <Col xl={3}>
-                  <Card className="card-h-100">
-                    <CardBody>
-                      <button
-                        className="btn btn-primary w-100"
-                        id="btn-new-event"
-                        onClick={toggle}
-                      >
-                        <i className="mdi mdi-plus"></i> Create New Event
-                      </button>
-
-                      <div id="external-events">
-                        <br />
-                        <p className="text-muted">
-                          Drag and drop your event or click in the calendar
-                        </p>
-                        {categories &&
-                          categories.map((category) => (
-                            <div
-                              className={`bg-soft-${category.type} external-event fc-event text-${category.type}`}
-                              key={"cat-" + category.id}
-                              draggable
-                              onDrag={(event) => {
-                                onDrag(event, category);
-                              }}
-                            >
-                              <i className="mdi mdi-checkbox-blank-circle font-size-11 me-2" />
-                              {category.title}
-                            </div>
-                          ))}
-                      </div>
-                    </CardBody>
-                  </Card>
                   <div>
-                    <h5 className="mb-1">Upcoming Events</h5>
-                    <p className="text-muted">Don't miss scheduled events</p>
+                    <h5 className="mb-1">Événements à venir</h5>
+                    <p className="text-muted">Ne manquez pas les événements prévus</p>
                     <SimpleBar
                       className="pe-2 me-n1 mb-3"
                       style={{ height: "400px" }}
@@ -422,12 +390,8 @@ const Calender = () => {
                           />
                         </div>
                         <div className="flex-grow-1 ms-3">
-                          <h6 className="fs-15">Welcome to your Calendar!</h6>
-                          <p className="text-muted mb-0">
-                            Event that applications book will appear here. Click
-                            on an event to see the details and manage applicants
-                            event.
-                          </p>
+                          <h6 className="fs-15">Bienvenue sur votre Planning!</h6>
+                          
                         </div>
                       </div>
                     </CardBody>

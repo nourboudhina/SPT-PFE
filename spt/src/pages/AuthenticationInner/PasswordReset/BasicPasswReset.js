@@ -9,7 +9,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 const BasicPasswReset = () => {
-    document.title="Reset Password | Velzon - React Admin & Dashboard Template";
+    document.title="Reset Password | SPT";
 
     const validation = useFormik({
         enableReinitialize: true,
@@ -18,8 +18,8 @@ const BasicPasswReset = () => {
             email: "",
         },
         validationSchema: Yup.object({
-            email: Yup.string().required("Please Enter Your Email")
-            .matches("Please include an @ in the email address"),
+            email: Yup.string().required("Veuillez saisir votre Email")
+            .matches("Veuillez inclure un @ dans l'adresse email"),
         }),
         onSubmit: (values) => {
             // console.log(values);
@@ -38,7 +38,6 @@ const BasicPasswReset = () => {
                                         <img src={logoLight} alt="" height="20" />
                                     </Link>
                                 </div>
-                                <p className="mt-3 fs-16 fw-semibold">Premium Admin & Dashboard Template</p>
                             </div>
                         </Col>
                     </Row>
@@ -48,8 +47,8 @@ const BasicPasswReset = () => {
                             <Card className="mt-4">
                                 <CardBody className="p-4">
                                     <div className="text-center mt-2">
-                                        <h5 className="text-primary">Forgot Password?</h5>
-                                        <p className="text-muted">Reset password with velzon</p>
+                                        <h5 className="text-primary">Vous avez oublié votre mot de passe?</h5>
+                                        <p className="text-muted">Réinitialiser le mot de passe avec SPT</p>
 
                                         <lord-icon
                                             src="https://cdn.lordicon.com/rhvddzym.json"
@@ -61,7 +60,7 @@ const BasicPasswReset = () => {
                                     </div>
 
                                     <Alert className="alert-borderless alert-warning text-center mb-2 mx-2" role="alert">
-                                        Enter your email and instructions will be sent to you!
+                                    Saisissez votre courriel et les instructions vous seront envoyées!
                                     </Alert>
                                     <div className="p-2">
                                         <Form onSubmit={validation.handleSubmit}>
@@ -71,7 +70,7 @@ const BasicPasswReset = () => {
                                                 type="email" 
                                                 className="form-control" 
                                                 id="email"
-                                                placeholder="Enter Email" 
+                                                placeholder="Saisiez votre Email" 
                                                 name="email"
                                                 value={validation.values.email}
                                                 onBlur={validation.handleBlur}
@@ -84,7 +83,7 @@ const BasicPasswReset = () => {
                                             </div>
 
                                             <div className="text-center mt-4">
-                                                <button className="btn btn-success w-100" type="submit">Send Reset Link</button>
+                                                <button className="btn btn-success w-100" type="submit">Envoyer le lien </button>
                                             </div>
                                         </Form>
                                     </div>
@@ -92,7 +91,7 @@ const BasicPasswReset = () => {
                             </Card>
 
                             <div className="mt-4 text-center">
-                                <p className="mb-0">Wait, I remember my password... <Link to="/auth-signin-basic" className="fw-bold text-primary text-decoration-underline"> Click here </Link> </p>
+                                <p className="mb-0">Attendez, je me souviens de mon mot de passe...  <Link to="/auth-signin-basic" className="fw-bold text-primary text-decoration-underline"> Cliquez ici </Link> </p>
                             </div>
 
                         </Col>
