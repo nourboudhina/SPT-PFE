@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from django.template.loader import get_template
 from django.utils.html import strip_tags
 from django.template import Context
-from account.models import Otp, PasswordResetToken, Token, TokenForAgent, TokenForDoctor
+from .models import Otp, PasswordResetToken, Token, TokenForAgent, TokenForDoctor
 from SoinsPourTous.settings import TEMPLATES_BASE_URL
 from rest_framework.permissions import BasePermission
 from django.utils import timezone
@@ -28,10 +28,10 @@ def send_otp(phone):
     # Envoi de l'OTP par SMS via Twilio
     try:
         # Remplacez 'TWILIO_ACCOUNT_SID', 'TWILIO_AUTH_TOKEN', 'TWILIO_PHONE_NUMBER' par vos informations Twilio
-        client = Client('AC464d7d24b2008670153c4bf483e8be10', 'dd2fb47121741b1d0d17fc267009c4a5')
+        client = Client('ACf4c36e8d499a2bcdd4fa2a9e34c7d642', 'be330ae24f67a533ff54695e537c43e6')
         message = client.messages.create(
             body=f"Votre code OTP est : {otp}",
-            from_='+12513129402',
+            from_='+12052368057',
             to=phone
         )
         print("OTP sent successfully:", message.sid)
@@ -54,14 +54,14 @@ def token_response(user):
     response_data = {
         'message': 'login successful',
         'token': token,
-        'email' : user.email,
-        'fullname' : user.fullname,
-        'phone' : user.phone
-
+        'username' : user.username,
+        
     }
     print(token)
 
     return JsonResponse(response_data)
+
+
 def token_response_doctor(user):
     token = new_token()
     TokenForDoctor.objects.create(token=token, user=user) 
@@ -87,7 +87,6 @@ def token_response_Agent(user):
     print(token)
 
     return JsonResponse(response_data)
-
 from django.core.mail import send_mail
 
 def send_password_reset_email(user):

@@ -117,10 +117,11 @@ def create_account(request):
         try:
             data = json.loads(request.body.decode('utf-8'))
 
+            fullname = data.get('fullname')
             email = data.get('email')
             phone = data.get('phone')
             password = data.get('password')
-            fullname = data.get('fullname')
+            
 
             print(f"Received data - Email: {email}, Phone: {phone}, Password: {password}, Fullname: {fullname}")
 

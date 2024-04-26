@@ -8,11 +8,10 @@ from chat.models import  Message,Room
 
     
     
-@register(Message)
-class MessageAdmin(admin.ModelAdmin):
-    list_display = ['value','date','user','room']
-    
-
-@register(Room)
+@admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
     list_display = ['code']
+
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ['value', 'date', 'user', 'room']

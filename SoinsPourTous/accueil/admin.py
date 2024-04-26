@@ -5,7 +5,7 @@ from django.contrib.admin import register
 from .models import PageAcceuil
 
 
-@register(PageAcceuil)
+@admin.register(PageAcceuil)
 class PageAcceuilAdmin(admin.ModelAdmin):
-    list_display = ['postwithimage','postwithtet']
+    list_display = ['postwithimage', 'postwithtet']
 
