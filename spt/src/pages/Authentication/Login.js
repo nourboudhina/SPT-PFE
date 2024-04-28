@@ -193,46 +193,7 @@ const Login = (props) => {
                                                     <Button color="success" className="btn btn-success w-100" type="submit">Se connecter</Button>
                                                 </div>
 
-                                                <div className="mt-4 text-center">
-                                                    <div className="signin-other-title">
-                                                        <h5 className="fs-13 mb-4 title">Inscrivez-vous avec</h5>
-                                                    </div>
-                                                    <div>
-                                                        <FacebookLogin
-                                                            appId={facebook.APP_ID}
-                                                            autoLoad={false}
-                                                            callback={facebookResponse}
-                                                            render={renderProps => (
-                                                                <Button color="primary"
-                                                                    className="btn-icon me-1"
-                                                                    onClick={renderProps.onClick}
-                                                                >
-                                                                    <i className="ri-facebook-fill fs-16" />
-                                                                </Button>
-                                                            )}
-                                                        />
-                                                        <GoogleLogin
-                                                            clientId={
-                                                                google.CLIENT_ID ? google.CLIENT_ID : ""
-                                                            }
-                                                            render={renderProps => (
-                                                                <Button color="danger"
-                                                                    to="#"
-                                                                    className="btn-icon me-1"
-                                                                    onClick={renderProps.onClick}
-                                                                >
-                                                                    <i className="ri-google-fill fs-16" />
-                                                                </Button>
-                                                            )}
-                                                            onSuccess={googleResponse}
-                                                            onFailure={(error) => {
-                                                                console.log("fail", error)
-                                                            }}
-                                                        />
-                                                        <Button color="dark" className="btn-icon"><i className="ri-github-fill fs-16"></i></Button>{" "}
-                                                        <Button color="info" className="btn-icon"><i className="ri-twitter-fill fs-16"></i></Button>
-                                                    </div>
-                                                </div>
+                                                
                                             </Form>
                                         </div>
                                     </CardBody>
