@@ -42,7 +42,6 @@ def getProfilePatient(request, token):
             email_patient = user_obj.email
             phone_patient = user_obj.phone
             fullname_patient = user_obj.fullname
-            address_patient = user_obj.address
             image_path = user_obj.image.path
             with open(image_path, "rb") as image_file:
                 encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
@@ -51,7 +50,6 @@ def getProfilePatient(request, token):
                 'email': email_patient,
                 'phone': phone_patient,
                 'fullname': fullname_patient,
-                'address':address_patient,
                 'image': encoded_string
             }
 

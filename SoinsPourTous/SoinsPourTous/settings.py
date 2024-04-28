@@ -64,7 +64,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -167,6 +167,12 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.TemplateHTMLRenderer',  # Assurez-vous que ce renderer est inclus pour les templates DRF
     ],
 }
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:43679",
+    "http://10.0.2.2:8080", 
+    "http://127.0.0.1:9000", # URL où l'application patient s'exécute localement
+]
+TEMPLATES_BASE_URL = 'http://127.0.0.1:8000','http://192.168.1.17:8000/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST='smtp-relay.brevo.com'

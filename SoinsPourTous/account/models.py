@@ -21,7 +21,7 @@ class Service(models.Model) :
 
 class Grade(models.Model) : 
     id = models.CharField(max_length=1000,unique=True,primary_key=True)
-    gradee = models.CharField(max_length=100)
+    grade = models.CharField(max_length=100)
     def __str__(self) : 
         return self.grade
 class Groupe(models.Model) : 
@@ -34,17 +34,7 @@ class Specialite(models.Model) :
     id = models.CharField(max_length=1000,unique= True,primary_key=True)
     specialite = models.CharField(max_length=100)
     service = models.ForeignKey(Service,on_delete= models.CASCADE,related_name="serv")
-class Medecin(models.Model):
-    id = models.CharField(max_length=50,unique=True,primary_key=True)
-    groupe = models.ForeignKey(Groupe, on_delete= models.CASCADE,related_name="group")
-    grade = models.ForeignKey(Grade, on_delete= models.CASCADE,related_name="grade")
-    username = models.CharField(max_length=50)
-    password = models.CharField(max_length=5000)
-    sepcialite = models.ForeignKey(Specialite,on_delete= models.CASCADE,related_name="spec")
-    service = models.ForeignKey(Service,on_delete= models.CASCADE,related_name="servic")
-    hopitale = models.ForeignKey(Hopital,on_delete= models.CASCADE,related_name="hopp")
-    def __str__(self) : 
-        return self.username
+
 class Gouvernorat(models.Model):
     id = models.CharField(unique=True,max_length=1000000,primary_key=True)
     options = models.CharField(max_length=255, choices=[
@@ -73,21 +63,42 @@ class Gouvernorat(models.Model):
         ('Tunis', 'Tunis'),
         ('Zaghouan', 'Zaghouan'),
     ])
-class Nationality(models.Model) : 
+class Nationalite(models.Model) : 
     id = models.CharField(unique=True,max_length=1000,primary_key=True)
-    nationality = models.CharField(max_length=40)
+    nationalite = models.CharField(max_length=40)
 
+class Medecin(models.Model):
+    id = models.CharField(max_length=50,unique=True,primary_key=True)
+    email = models.EmailField(unique=True)
+    groupe = models.ForeignKey(Groupe, on_delete= models.CASCADE,related_name="group")
+    grade = models.ForeignKey(Grade, on_delete= models.CASCADE,related_name="grade")
+    username = models.CharField(max_length=50)
+    password = models.CharField(max_length=5000)
+    sepcialite = models.ForeignKey(Specialite,on_delete= models.CASCADE,related_name="spec")
+    service = models.ForeignKey(Service,on_delete= models.CASCADE,related_name="servic")
+    hopitale = models.ForeignKey(Hopital,on_delete= models.CASCADE,related_name="hopp")
+    phone = models.CharField(max_length = 10)
+    fullname = models.CharField(max_length = 50)
+    adresse = models.CharField(max_length=1000)
+    created_at = models.DateTimeField(auto_now_add = True)
+    gouvernorat = models.ForeignKey(Gouvernorat, on_delete= models.CASCADE,related_name="gouv")
+    nationalite = models.ForeignKey(Nationalite, on_delete= models.CASCADE,related_name="nat")
+    sexe = models.CharField(max_length=5)
+    image = models.ImageField(upload_to='categories/')
+    date_naiss = models.DateField()
+    def __str__(self) : 
+        return self.username
 class User( models.Model) : 
     id = models.CharField(unique=True,max_length=1000000,primary_key=True)
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=50)
-    phone = models.CharField(max_length = 10)
+    phone = models.CharField(unique=True,max_length = 10)
     fullname = models.CharField(max_length = 50)
     password = models.CharField(max_length = 5000)
     adresse = models.CharField(max_length=1000)
     created_at = models.DateTimeField(auto_now_add = True)
     gouvernorat = models.ForeignKey(Gouvernorat, on_delete= models.CASCADE,related_name="gouv")
-    nationalite = models.ForeignKey(Nationality, on_delete= models.CASCADE,related_name="nat")
+    nationalite = models.ForeignKey(Nationalite, on_delete= models.CASCADE,related_name="nat")
     sexe = models.CharField(max_length=5)
     image = models.ImageField(upload_to='categories/')
     date_naiss = models.DateField()
@@ -130,7 +141,17 @@ class Agent(models.Model) :
     id_agent =  models.CharField(max_length=1000,unique=True)
     username = models.CharField(max_length=50)
     password = models.CharField(max_length=1000)
+    phone = models.CharField(max_length = 10)
+    email = models.EmailField(unique=True)
     hopitale = models.ForeignKey(Hopital,on_delete= models.CASCADE,related_name="hopp")
+    fullname = models.CharField(max_length = 50)
+    adresse = models.CharField(max_length=1000)
+    created_at = models.DateTimeField(auto_now_add = True)
+    gouvernorat = models.ForeignKey(Gouvernorat, on_delete= models.CASCADE,related_name="gouv")
+    nationalite = models.ForeignKey(Nationalite, on_delete= models.CASCADE,related_name="nat")
+    sexe = models.CharField(max_length=5)
+    image = models.ImageField(upload_to='categories/')
+    date_naiss = models.DateField()
 
 class TokenForAgent(models.Model) : 
     token = models.CharField(max_length = 5000)

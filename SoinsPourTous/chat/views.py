@@ -33,7 +33,7 @@ def checkview(request,token,username):
                 new_room.save()
                 return JsonResponse({'message': 'Un nouveau chat créé'}, status=200)
             else : 
-                return JsonResponse({'erreurre': 'docteur nexiste pas'}, status=200)
+                return JsonResponse({'erreurre': 'Médecin nexiste pas'}, status=200)
 
         else:
             return JsonResponse({'message': 'Code de salle non fourni'}, status=400)
