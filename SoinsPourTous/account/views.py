@@ -333,3 +333,50 @@ def userData(request):
         return JsonResponse(data)
     else:
         return JsonResponse({'detail': 'User not authenticated'}, status=401)
+
+
+        
+@api_view(['POST'])
+def logout_patient(request,token):
+    # Extract the token from the request
+    token = request.data.get('token')
+
+    # Check if the token is valid
+    try:
+        token_obj = Token.objects.get(token=token)
+    except Token.DoesNotExist:
+        return JsonResponse({"error": "Token invalide"}, status=400)
+
+    # Invalidate the token
+    token_obj.delete()
+
+    # Send a success response
+    return JsonResponse({"message": "Déconnexion réussie"})
+
+
+@api_view(['POST'])
+def logout_medecin(request,token):
+    token = request.data.get('token')
+
+    try:
+        token_obj = TokenForDoctor.objects.get(token=token)
+    except TokenForDoctor.DoesNotExist:
+        return JsonResponse({"error": "Token invalide"}, status=400)
+
+    token_obj.delete()
+
+    return JsonResponse({"message": "Déconnexion réussie"})
+
+
+@api_view(['POST'])
+def logout_Agent(request,token):
+    token = request.data.get('token')
+
+    try:
+        token_obj = TokenForAgent.objects.get(token=token)
+    except TokenForAgent.DoesNotExist:
+        return JsonResponse({"error": "Token invalide"}, status=400)
+
+    token_obj.delete()
+
+    return JsonResponse({"message": "Déconnexion réussie"})

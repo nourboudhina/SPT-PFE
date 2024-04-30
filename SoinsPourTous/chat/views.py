@@ -1,7 +1,6 @@
 from random import randint
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404,redirect
-from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from .models import  Message,Room
 from account.models import TokenForDoctor,Medecin,Token, User
@@ -50,12 +49,10 @@ def send(request,token,username,room_code):
         message = request.data.get('message')
         
         if message and username and room_code and token:
-            # Vérifier si le username appartient à un utilisateur ou à un médecin
+      
             if (User.objects.filter(username=username).exists() or Medecin.objects.filter(username=username).exists()) and Room.objects.filter(code = room_code).exists():
-                # Créez un nouvel objet Message avec les données fournies
+               
                 user_type = 'patient' if User.objects.filter(username=username).exists() else 'medecin'
-                
-                # Créer un nouvel objet Message avec les données fournies
                 new_message = Message.objects.create(value=message, user=f'{username}-{user_type}', room=room_code)
                 new_message.save()
                 
@@ -80,3 +77,46 @@ def getmessage(request, room,token):
         return JsonResponse({'messages': list(messages.values())}, status=200)
     except Room.DoesNotExist:
         return JsonResponse({'error': 'La salle spécifiée n\'existe pas'}, status=404)
+    
+
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def getChatPatient(request, token):
+    token_obj = Token.objects.filter(token=token).first()
+
+    if request.method == 'POST':
+        if token_obj:
+            patient_obj = token_obj.user
+
+            rooms = Room.objects.filter(patient=patient_obj)
+
+            # Extract room codes
+            room_codes = [room.code for room in rooms]
+
+            return JsonResponse({"room_codes": room_codes})
+        else:
+            return JsonResponse({"error": "Token invalide"}, status=400)
+
+    return JsonResponse({"error": "Requête POST requise"}, status=400)
+
+
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def getChatMedecin(request, token):
+    token_obj = TokenForDoctor.objects.filter(token=token).first()
+
+    if request.method == 'POST':
+        if token_obj:
+            patient_obj = token_obj.user
+
+            rooms = Room.objects.filter(medecin=patient_obj)
+
+            # Extract room codes
+            room_codes = [room.code for room in rooms]
+
+            return JsonResponse({"room_codes": room_codes})
+        else:
+            return JsonResponse({"error": "Token invalide"}, status=400)
+
+    return JsonResponse({"error": "Requête POST requise"}, status=400)
+

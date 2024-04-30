@@ -2,7 +2,7 @@ from typing import __all__
 from django.contrib import admin
 from django.contrib.admin import register
 
-from .models import Hopital, Service, Grade, Groupe, Specialite, Medecin, Gouvernorat, Nationality, User, Otp, Token, TokenForDoctor, PasswordResetToken, Agent, TokenForAgent
+from .models import Hopital, Service, Grade, Groupe, Specialite, Medecin, Gouvernorat, Nationalite, User, Otp, Token, TokenForDoctor, PasswordResetToken, Agent, TokenForAgent
 
 
 
@@ -17,7 +17,7 @@ class ServiceAdmin(admin.ModelAdmin):
 
 @admin.register(Grade)
 class GradeAdmin(admin.ModelAdmin):
-    list_display = ['id', 'gradee']
+    list_display = ['id', 'grade']
 
 @admin.register(Groupe)
 class GroupeAdmin(admin.ModelAdmin):
@@ -29,19 +29,19 @@ class SpecialiteAdmin(admin.ModelAdmin):
 
 @admin.register(Medecin)
 class MedecinAdmin(admin.ModelAdmin):
-    list_display = ['id', 'username', 'groupe', 'grade', 'sepcialite', 'service']
+    list_display = ['id', 'username', 'password', 'groupe', 'grade', 'sepcialite', 'service', 'hopitale', 'email', 'phone', 'fullname', 'addresse', 'gouvernorat', 'nationalite', 'sexe', 'image', 'date_nais']
 
 @admin.register(Gouvernorat)
 class GouvernoratAdmin(admin.ModelAdmin):
     list_display = ['id', 'options']
 
-@admin.register(Nationality)
+@admin.register(Nationalite)
 class NationalityAdmin(admin.ModelAdmin):
-    list_display = ['id', 'nationality']
+    list_display = ['id', 'nationalite']
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['id', 'email', 'username', 'phone', 'fullname', 'adresse', 'created_at', 'gouvernorat', 'nationalite', 'sexe', 'image', 'date_naiss']
+    list_display = ['id', 'email', 'username', 'phone', 'fullname', 'addresse', 'created_at', 'gouvernorat', 'nationalite', 'sexe', 'image', 'date_naiss']
 
 @admin.register(Otp)
 class OtpAdmin(admin.ModelAdmin):
@@ -57,7 +57,7 @@ class TokenForDoctorAdmin(admin.ModelAdmin):
 
 @admin.register(Agent)
 class AgentAdmin(admin.ModelAdmin):
-    list_display = ['id_agent', 'username', 'password']
+    list_display = ['id_agent', 'username', 'password', 'hopitale', 'email', 'phone', 'fullname', 'addresse', 'gouvernorat', 'nationalite', 'sexe', 'image', 'date_naiss']
 
 @admin.register(TokenForAgent)
 class TokenForAgentAdmin(admin.ModelAdmin):

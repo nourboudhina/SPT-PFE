@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
+import multiprocessing
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -45,11 +46,23 @@ INSTALLED_APPS = [
     'planning',
     'django_browser_reload',
     'corsheaders',
+    'channels',
+    'channels.layers',
+    'channels.routing',
 ]
+
+BACKGROUND_TASK_RUN_ASYNC = True
+BACKGROUND_TASK_ASYNC_THREADS = multiprocessing.cpu_count()
+
+
+CELERY_TIMEZONE = "Australia/Tasmania"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -129,11 +142,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
-# we whitelist localhost:3000 because that's where frontend will be served
-CORS_ORIGIN_WHITELIST = (
-     'localhost:3000/'
- )
 MEDIA_URL = '/media/'
 
 
@@ -170,8 +178,8 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:43679",
     "http://10.0.2.2:8080", 
-    "http://127.0.0.1:9000", # URL où l'application patient s'exécute localement
-]
+    "http://127.0.0.1:9000", ]
+
 TEMPLATES_BASE_URL = 'http://127.0.0.1:8000','http://192.168.1.17:8000/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -182,4 +190,16 @@ EMAIL_HOST_USER='nourboudhina19@gmail.com'
 EMAIL_HOST_PASSWORD ='9qICvKV76mzRFsSr'
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES' : {
+        'rest_framework.authentication.SessionAuthentication'
+        'rest_framework.authentication.BasicAuthentication',
+        'account.authentication.TokenAuthentication'
+        
+    }
+}
 
+# we whitelist localhost:3000 because that's where frontend will be served
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+]
