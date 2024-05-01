@@ -79,27 +79,58 @@ def ajout_rendez_vous_par_agent(request , token) :
                 return JsonResponse({'Donnee erreur ': 'Il y a quelque donnees manquante'}, status=400)
         else : 
             return JsonResponse({"error": "Invalid request method"}, status=405)
-        
+
+
+@csrf_exempt 
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def ajout_APC_par_agent(request , token) : 
+        token = TokenForAgent.objects.filter(token=token).first()
+        if request.method == 'POST':
+            date_de_apc = request.data.get('date_de_apc')
+            medecin = request.data.get('medecin')
+            patient = request.data.get('patient')
+            dateExist = Apc.objects.filter(date_rendez_vous = date_de_apc)
+            medecinExist = Medecin.objects.filter(username = medecin).exists()
+            patientExist = User.objects.filter(username = patient)
+            
+            if not(dateExist) and patientExist and medecinExist : 
+               apc =  Apc.objects.create(date_rendez_vous = date_de_apc,patient = patient , medecin = medecin)
+               apc.save()
+               return JsonResponse({'success': 'Consultation APC ajouté avec succès'}, status=201)
+
+            elif dateExist and patientExist and medecinExist : 
+                return JsonResponse({'erreur APC': 'Consultation APC avec ce medecin et ce patient existe déja'}, status=400)
+            else : 
+                return JsonResponse({'Donnee erreur ': 'Il y a quelque donnees manquante'}, status=400)
+        else : 
+            return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-def getRendezVousDoctor(request, token):
+def get_Planning_Doctor(request, token):
     token_obj = TokenForDoctor.objects.filter(token=token).first()
 
     if request.method == 'GET':
         if token_obj:
             user_obj = token_obj.user
-            username_patient = user_obj.username
+            username_medecin = user_obj.username
 
             upcoming_rendez_vous = RendezVous.objects.filter(
-                medecin=username_patient,
+                medecin=username_medecin,
+                date__gt=timezone.now().date()  
+            )
+
+            upcoming_apc = Apc.objects.filter(
+                medecin=username_medecin,
                 date__gt=timezone.now().date()  
             )
 
             user_data = {
-                'username': username_patient,
-                'rendez_vous': list(upcoming_rendez_vous.values())  
+                'username': username_medecin,
+                'rendez_vous': list(upcoming_rendez_vous.values()),
+                'apc': list(upcoming_apc.values())  
             }
 
             return JsonResponse(user_data)
@@ -109,22 +140,22 @@ def getRendezVousDoctor(request, token):
         
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-def getRendezVousHDoctor(request, token):
+def get_RendezVousH_Doctor(request, token):
     token_obj = TokenForDoctor.objects.filter(token=token).first()
 
     if request.method == 'GET':
         if token_obj:
             user_obj = token_obj.user
-            username_patient = user_obj.username
+            username_medecin = user_obj.username
 
             past_rendez_vous = RendezVous.objects.filter(
-                medecin=username_patient,
+                medecin=username_medecin,
                 date__lt=timezone.now().date() 
             )
 
             user_data = {
-                'username': username_patient,
-                'rendez_vous': list(past_rendez_vous.values())  # Optimized for efficiency
+                'username': username_medecin,
+                'rendez_vous': list(past_rendez_vous.values())
             }
 
             return JsonResponse(user_data)
@@ -132,10 +163,33 @@ def getRendezVousHDoctor(request, token):
             return JsonResponse({"error": "Token invalide"}, status=400)
         
         
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def get_APCH_Doctor(request, token):
+    token_obj = TokenForDoctor.objects.filter(token=token).first()
+
+    if request.method == 'GET':
+        if token_obj:
+            user_obj = token_obj.user
+            username_medecin = user_obj.username
+
+            past_apc = Apc.objects.filter(
+               medecin=username_medecin,
+                date__gt=timezone.now().date()  
+            )
+
+            user_data = {
+                'username': username_medecin,  
+                'apc' : list(past_apc.values())
+            }
+
+            return JsonResponse(user_data)
+        else:
+            return JsonResponse({"error": "Token invalide"}, status=400)   
         
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-def getRendezVousHPatient(request, token):
+def get_RendezVousH_Patient(request, token):
     token_obj = Token.objects.filter(token=token).first()
 
     if request.method == 'GET':
@@ -147,6 +201,29 @@ def getRendezVousHPatient(request, token):
                 patient__username=username_patient,
                 date__lt=timezone.now().date() 
             )
+            
+
+            user_data = {
+                'username': username_patient,
+                'rendez_vous': list(past_rendez_vous.values()) ,
+                
+            }
+
+            return JsonResponse(user_data)
+        else:
+            return JsonResponse({"error": "Token invalide"}, status=400)
+
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def get_APCH_Patient(request, token):
+    token_obj = Token.objects.filter(token=token).first()
+
+    if request.method == 'GET':
+        if token_obj:
+            user_obj = token_obj.user
+            username_patient = user_obj.username
+
             past_apc = Apc.objects.filter(
                 patient__username=username_patient,
                 date__gt=timezone.now().date()  
@@ -154,7 +231,6 @@ def getRendezVousHPatient(request, token):
 
             user_data = {
                 'username': username_patient,
-                'rendez_vous': list(past_rendez_vous.values()) ,
                 'apc' : list(past_apc.values())
             }
 
@@ -162,9 +238,10 @@ def getRendezVousHPatient(request, token):
         else:
             return JsonResponse({"error": "Token invalide"}, status=400)
         
+
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-def getRendezVousPatient(request, token):
+def get_Planning_Patient(request, token):
     token_obj = Token.objects.filter(token=token).first()
 
     if request.method == 'GET':
@@ -195,7 +272,7 @@ def getRendezVousPatient(request, token):
         
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-def getPaiementHistorique(request, token):
+def get_PaiementHistorique(request, token):
     token_obj = Token.objects.filter(token=token).first()
     if request.method == 'GET':
         if token_obj:
@@ -210,7 +287,7 @@ def getPaiementHistorique(request, token):
                 }
                 paiements_data.append(paiement_data)
             
-            # Renvoyer la liste des paiements sous forme de réponse JSON
+           
             return JsonResponse(paiements_data, safe=False)
         else:
             return JsonResponse({"error": "Token invalide"}, status=400)
@@ -225,20 +302,16 @@ def suivi_apc(request, token):
             month = request.data.get("month")
             month_date = datetime.strptime(month, "%Y-%m")
             
-            rendez_vous = RendezVous.objects.filter(date_rendez_vous__year=month_date.year,
-                                                     date_rendez_vous__month=month_date.month)
             apc = Apc.objects.filter(date__year=month_date.year,
                                      date__month=month_date.month)
             
-            total_patients = rendez_vous.aggregate(num_patients=Count('patient'))['num_patients'] + \
-                             apc.aggregate(num_patients=Count('patient'))['num_patients']
+            total_patients = apc.aggregate(num_patients=Count('patient'))['num_patients']
             
            
-            rendez_vous_list = [rv.id for rv in rendez_vous]
+            
             apc_list = [a.id for a in apc]
             
             return Response({
-                'rendez_vous': rendez_vous_list,
                 'apc': apc_list,
                 'total_patients': total_patients
             })
@@ -262,18 +335,18 @@ def get_agent_rendezvous_apc(request, token):
             for rv in rendez_vous:
                 rendez_vous_data.append({
                     "id": rv.id,
-                    "date_rendez_vous": rv.date_rendez_vous.strftime("%Y-%m-%d"),  # Format date
-                    "patient": rv.patient.username,  # Assuming username for patient identification
-                    "medecin": rv.medecin.username,  # Assuming username for doctor identification
+                    "date_rendez_vous": rv.date_rendez_vous.strftime("%Y-%m-%d"),  
+                    "patient": rv.patient.username,  
+                    "medecin": rv.medecin.username,  
                 })
 
             apc_data = []
             for a in apc:
                 apc_data.append({
                     "id": a.id,
-                    "date": a.date.strftime("%Y-%m-%d %H:%M:%S"),  # Format date and time
-                    "patient": a.patient.username,  # Assuming username for patient identification
-                    "medecin": a.medecin.username,  # Assuming username for doctor identification
+                    "date": a.date.strftime("%Y-%m-%d %H:%M:%S"),  
+                    "patient": a.patient.username,  
+                    "medecin": a.medecin.username, 
                 })
 
             return Response({
@@ -286,16 +359,21 @@ def get_agent_rendezvous_apc(request, token):
 
 @api_view(['PUT'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-def updateRendezVousDateD(request, token, rendez_vous_id):
+def update_D(request, token, type, id):
     token_obj = TokenForDoctor.objects.filter(token=token).first()
 
     if request.method == 'PUT':
         if token_obj:
             try:
-                rendez_vous = RendezVous.objects.get(pk=rendez_vous_id)
-                print(rendez_vous)
-            except RendezVous.DoesNotExist:
-                return JsonResponse({"error": "Rendez-vous inexistant"}, status=404)
+                if type == 'RendezVous':
+                    rendez_vous = RendezVous.objects.get(pk=id)
+                elif type == 'Apc':
+                    apc = Apc.objects.get(pk=id)
+                else:
+                    return JsonResponse({"error": "Type invalide"}, status=400)
+            except (RendezVous.DoesNotExist, Apc.DoesNotExist):
+                return JsonResponse({"error": "Objet inexistant"}, status=404)
+
             new_date = request.data.get('new_date')
             if not new_date:
                 return JsonResponse({"error": "Date de rendez-vous requise"}, status=400)
@@ -305,17 +383,22 @@ def updateRendezVousDateD(request, token, rendez_vous_id):
             except ValueError:
                 return JsonResponse({"error": "Format de date invalide"}, status=400)
 
-            rendez_vous.date_rendez_vous = new_date
-            rendez_vous.save()
-
-            return JsonResponse({"message": "Date de rendez-vous mise à jour avec succès"})
+            if type == 'RendezVous':
+                rendez_vous.date_rendez_vous = new_date
+                rendez_vous.save()
+                return JsonResponse({"message": "Date de rendez-vous mise à jour avec succès"})
+            elif type == 'Apc':
+                apc.date = new_date
+                apc.save()
+                return JsonResponse({"message": "Date de APC mise à jour avec succès"})
+                pass
         else:
             return JsonResponse({"error": "Token invalide"}, status=400)
         
         
 @api_view(['PUT'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-def updateRendezVousDateA(request, token, rendez_vous_id):
+def update_RendezVous_Date_A(request, token, rendez_vous_id):
     token_obj = TokenForAgent.objects.filter(token=token).first()
     if request.method == 'PUT':
         if token_obj:
@@ -338,27 +421,62 @@ def updateRendezVousDateA(request, token, rendez_vous_id):
             return JsonResponse({"error": "Token invalide"}, status=400)
         
         
+@api_view(['PUT'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def update_APC_Date_A(request, token, apc_id):
+    token_obj = TokenForAgent.objects.filter(token=token).first()
+    if request.method == 'PUT':
+        if token_obj:
+            try:
+                apc = Apc.objects.get(pk=apc_id)
+                print(apc)
+            except Apc.DoesNotExist:
+                return JsonResponse({"error": "APC inexistant"}, status=404)
+            new_date = request.data.get('new_date')
+            if not new_date:
+                return JsonResponse({"error": "Date de APC requise"}, status=400)
+            try:
+                new_date = datetime.datetime.strptime(new_date, '%Y-%m-%d').date()
+            except ValueError:
+                return JsonResponse({"error": "Format de date invalide"}, status=400)
+            apc.date = new_date
+            apc.save()
+            return JsonResponse({"message": "Date de APC mise à jour avec succès"})
+        else:
+            return JsonResponse({"error": "Token invalide"}, status=400)
+        
+
 @api_view(['DELETE'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-def deleteRendezVousD(request, token, rendez_vous_id):
+def delete_D(request, token, type, id):
     token_obj = TokenForDoctor.objects.filter(token=token).first()
 
     if request.method == 'DELETE':
         if token_obj:
             try:
-                rendez_vous = RendezVous.objects.get(pk=rendez_vous_id)
-            except RendezVous.DoesNotExist:
-                return JsonResponse({"error": "Rendez-vous inexistant"}, status=404)
-            rendez_vous.delete()
+                if type == 'RendezVous':
+                    rendez_vous = RendezVous.objects.get(pk=id)
+                elif type == 'Apc':
+                    apc = Apc.objects.get(pk=id)
+                else:
+                    return JsonResponse({"error": "Type invalide"}, status=400)
+            except (RendezVous.DoesNotExist, Apc.DoesNotExist):
+                return JsonResponse({"error": " inexistant"}, status=404)
 
-            return JsonResponse({"message": "Rendez-vous supprimé avec succès"})
+            if type == 'RendezVous':
+                rendez_vous.delete()
+                return JsonResponse({"message": "Rendez-vous supprimé avec succès"})
+            elif type == 'Apc':
+                apc.delete()
+                return JsonResponse({"message": "APC supprimé avec succès"})
         else:
             return JsonResponse({"error": "Token invalide"}, status=400)
         
         
+        
 @api_view(['DELETE'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
-def deleteRendezVousA(request, token, rendez_vous_id):
+def delete_RendezVous_A(request, token, rendez_vous_id):
     token_obj = TokenForAgent.objects.filter(token=token).first()
 
     if request.method == 'DELETE':
@@ -372,6 +490,25 @@ def deleteRendezVousA(request, token, rendez_vous_id):
             rendez_vous.delete()
 
             return JsonResponse({"message": "Rendez-vous supprimé avec succès"})
+        else:
+            return JsonResponse({"error": "Token invalide"}, status=400)
+        
+@api_view(['DELETE'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def delete_APC_A(request, token, apc_id):
+    token_obj = TokenForAgent.objects.filter(token=token).first()
+
+    if request.method == 'DELETE':
+        if token_obj:
+            try:
+                apc = Apc.objects.get(pk=apc_id)
+            except apc.DoesNotExist:
+                return JsonResponse({"error": "APC inexistant"}, status=404)
+
+            
+            apc.delete()
+
+            return JsonResponse({"message": "APC supprimé avec succès"})
         else:
             return JsonResponse({"error": "Token invalide"}, status=400)
         
