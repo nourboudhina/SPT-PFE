@@ -73,7 +73,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'SoinsPourTous.urls'
-CORS_ORIGIN_ALLOW_ALL = True
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
