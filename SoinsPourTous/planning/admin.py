@@ -2,13 +2,13 @@ from typing import __all__
 from django.contrib import admin
 from django.contrib.admin import register
 
-from .models import RendezVous, payment
+from .models import RendezVous, Payment
 @admin.register(RendezVous)
 class RendezVousAdmin(admin.ModelAdmin):
     list_display = ['date_rendez_vous', 'patient', 'medecin']
 
 
-@admin.register(payment)
+@admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
     list_display = ['id', 'patient', 'date']
 

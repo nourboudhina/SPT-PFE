@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, authentication_classes
 from account.models import Token, TokenForDoctor
 from django.utils import timezone
-from .models import RendezVous, Apc, payment
+from .models import RendezVous, Apc, Payment
 from django.core.mail import send_mail
 from celery import shared_task
 from django.db.models import Count
@@ -278,7 +278,7 @@ def get_PaiementHistorique(request, token):
         if token_obj:
             user_obj = token_obj.user
             username_email = user_obj.email
-            paiements = payment.objects.filter(patient__email = username_email )
+            paiements = Payment.objects.filter(patient__email = username_email )
             paiements_data = []
             for paiement in paiements:
                 paiement_data = {
@@ -324,7 +324,7 @@ def get_agent_rendezvous_apc(request, token):
         token_agent = TokenForAgent.objects.filter(token=token).first()
         agent = token_agent.user
         if agent:
-            hopital = agent.hopital
+            hopital = agent.hopitale
 
             # Get all appointments for the agent's hospital
             rendez_vous = RendezVous.objects.filter(medecin__hopitale=hopital)
@@ -521,7 +521,7 @@ def getApcForAgent(request, token):
     if request.method == 'POST':
         if token_obj:
             agent = token_obj.user
-            hopital_agent = agent.hopital
+            hopital_agent = agent.hopitale
 
             # Filter APC based on agent's hospital and matching doctor's hospital
             apc_list = Apc.objects.filter(
@@ -557,7 +557,7 @@ def add_payment(request, token):
                     patient = token_obj.user
                     payé = request.data.get('payé')  
 
-                    payment = payment.objects.create(patient=patient, payé=payé)
+                    payment = Payment.objects.create(patient=patient, payé=payé)
                     return JsonResponse({"message": "Paiement ajouté avec succès", "id": payment.id})
                 except Exception as e:
                     return JsonResponse({"error": str(e)}, status=400)
@@ -577,7 +577,7 @@ def delete_payment(request, token, payment_id):
     if request.method == 'DELETE':
         if token_obj:
             try:
-                payment = payment.objects.get(pk=payment_id)
+                payment = Payment.objects.get(pk=payment_id)
                 payment.delete()
                 return JsonResponse({"message": "Paiement supprimé"})
             except payment.DoesNotExist:
@@ -599,7 +599,7 @@ def update_payment(request, token, payment_id):
         if token_obj:
             if request.data:
                 try:
-                    payment = payment.objects.get(pk=payment_id)
+                    payment = Payment.objects.get(pk=payment_id)
                     payé = request.data.get('payé') 
                     payment.payé = payé
                     payment.save()

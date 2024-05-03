@@ -42,7 +42,7 @@ def getProfilePatient(request, token):
             phone_patient = user_obj.phone
             fullname_patient = user_obj.fullname
             date_naiss_patient = user_obj.date_naiss
-            adresse_patient = user_obj.adresse
+            adresse_patient = user_obj.addresse
             gouvernorat_patient = user_obj.gouvernorat
             nationalite_patient = user_obj.nationalite
             image_path = user_obj.image.path
@@ -122,7 +122,7 @@ def getProfileAgent(request, token):
             phone_agent = user_obj.phone
             fullname_agent = user_obj.fullname
             date_naiss_agent = user_obj.date_naiss
-            adresse_agent= user_obj.adresse
+            adresse_agent= user_obj.addresse
             gouvernorat_agent = user_obj.gouvernorat
             nationalite_agent = user_obj.nationalite
             hopitale_agent = user_obj.hopitale
@@ -155,7 +155,7 @@ def gestion_agent(request, token):
         token_agent = TokenForAgent.objects.filter(token=token).first()
         agent = token_agent.user
         if agent:
-            hopital = agent.hopital
+            hopital = agent.hopitale
             services = Service.objects.filter(hopitale=hopital)
 
             specialites = Specialite.objects.filter(service__in=services)
@@ -168,7 +168,7 @@ def gestion_agent(request, token):
             return Response({
                 'services': [service.service for service in services],
                 'specialites': [specialite.specialite for specialite in specialites],
-                'grades': [medecin.grade.gradee for medecin in medecins],  # Access gradee field
+                'grades': [medecin.grade.grade for medecin in medecins],  # Access gradee field
                 'groupes': groupes
             })
         else:
@@ -181,7 +181,7 @@ def delete_service(request, token,id):
         service = get_object_or_404(Service,pk=id)
         token_agent = TokenForAgent.objects.filter(token = token).first()
         agent = token_agent.user
-        if service.hopitale.id == agent.hopital.id:  # Check if agent belongs to the same hospital
+        if service.hopitale.id == agent.hopitale.id:  # Check if agent belongs to the same hospital
             service.delete()
             return Response({'message': 'Service supprimé avec succès'})
         else:
@@ -195,7 +195,7 @@ def delete_specialite(request, token,id):
         specialite = get_object_or_404(Specialite, pk=id)
         token_agent = TokenForAgent.objects.filter(token = token).first()
         agent = token_agent.user
-        if specialite.service.hopitale.id == agent.hopital.id:
+        if specialite.service.hopitale.id == agent.hopitale.id:
             specialite.delete()
             return Response({'message': 'Spécialité supprimée avec succès'})
         else:
@@ -208,7 +208,7 @@ def delete_medecin(request, token,id):
         medecin = get_object_or_404(Medecin, pk=id)
         token_agent = TokenForAgent.objects.filter(token = token).first()
         agent = token_agent.user
-        if medecin.hopitale.id == agent.hopital.id:
+        if medecin.hopitale.id == agent.hopitale.id:
             medecin.delete()
             return Response({'message': 'Médecin supprimé avec succès'})
         else:
@@ -221,7 +221,7 @@ def add_service(request, token):
         token_agent = TokenForAgent.objects.filter(token=token).first()
         agent = token_agent.user
         if agent:
-            hopital = agent.hopital
+            hopital = agent.hopitale
             data = request.data
 
             service_name = data.get('service')
@@ -246,7 +246,7 @@ def add_specialite(request, token):
         token_agent = TokenForAgent.objects.filter(token=token).first()
         agent = token_agent.user
         if agent:
-            hopital = agent.hopital
+            hopital = agent.hopitale
             data = request.data
 
             service_id = data.get('service')
@@ -276,7 +276,7 @@ def add_medecin(request, token):
         token_agent = TokenForAgent.objects.filter(token=token).first()
         agent = token_agent.user
         if agent:
-            hopital = agent.hopital
+            hopital = agent.hopitale
             data = request.data
 
             groupe_id = data.get('groupe')
@@ -327,7 +327,7 @@ def modify_medecin(request, token):
         token_agent = TokenForAgent.objects.filter(token=token).first()
         agent = token_agent.user
         if agent:
-            hopital = agent.hopital
+            hopital = agent.hopitale
             data = request.data
 
             medecin_id = data.get('medecin')
@@ -348,9 +348,9 @@ def modify_medecin(request, token):
 
                 # Update fields based on provided values
                 if garde_id:
-                    medecin.garde_id = garde_id
+                    medecin.grade = garde_id
                 if groupe_id:
-                    medecin.groupe_id = groupe_id
+                    medecin.groupe = groupe_id
                 if username:
                     medecin.username = username
 
