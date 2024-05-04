@@ -1,9 +1,13 @@
 from django.contrib import admin
 from django.urls import path, include 
-from .views import create_account, login, password_reset_confirm, password_reset_form, password_updated, request_otp, resend_otp, userData, verify_otp, password_reset_email, login_pour_medecin, login_pour_agent, logout_Agent, logout_medecin, logout_patient
+from .views import create_account, login, password_reset_confirm, password_reset_form, password_updated, request_otp, resend_otp, userData, verify_otp, password_reset_email, login_pour_medecin, login_pour_agent, logout_Agent, logout_medecin, logout_patient, landing, about, contact
 
 
 urlpatterns = [
+    path('landing/',landing, name='landing'),
+    path('about/',about, name='about'),
+    path('contact/',contact, name='contact'),
+
     path('request_otp/',request_otp, name = 'request_otp'),
     path('resend_otp/',resend_otp,name='resend_otp'),
     path('verify_otp/', verify_otp),
@@ -14,8 +18,8 @@ urlpatterns = [
     path('password_reset_confirm/<email>/<token>',password_reset_confirm,name='password_reset_confirm'),
     path('password_updated/', password_updated, name='password_updated'),
     path('userdata/',userData,name='userdata'),
-    path('medecinlogin/',login_pour_medecin),
-    path('agentlogin/',login_pour_agent),
+    path('medecinlogin/',login_pour_medecin,name='medecinlogin'),
+    path('agentlogin/',login_pour_agent, name='agentlogin'),
     path("logoutAgent/<token>/",logout_Agent),
     path("logoutMedecin/<token>/",logout_medecin),
     path("logoutPatient/<token>/",logout_patient),

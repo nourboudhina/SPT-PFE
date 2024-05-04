@@ -28,7 +28,22 @@ from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth.decorators import login_required, permission_required
 from rest_framework import permissions
 
-        
+from django.shortcuts import render
+
+
+def landing(request):
+    return render(request, 'landing/Landing.html')
+
+def about(request):
+    return render(request, 'Landing/About.html')
+
+def contact(request):
+    return render(request, 'Landing/Contact.html')
+
+@csrf_exempt
+def loginP(request):
+    return render(request, 'Login/loginPatient.html')
+
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def request_otp(request):

@@ -1,0 +1,943 @@
+{% load static %}
+<!doctype html>
+<html lang="en" data-layout="horizontal" data-topbar="dark" data-sidebar-size="lg" data-sidebar="light" data-sidebar-image="none" data-preloader="disable">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Bienvenue | SPT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}">
+
+    <!--Swiper slider css-->
+    <link href="{% static 'assets/libs/swiper/swiper-bundle.min.css' %}" rel="stylesheet" type="text/css" />
+
+    <!-- Layout config Js -->
+    <script src="{% static 'assets/js/layout.js' %}"></script>
+    <!-- Bootstrap Css -->
+    <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="{% static 'assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="{% static 'assets/css/app.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- custom Css-->
+    <link href="{% static 'assets/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
+
+
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#navbar-example">
+
+    <!-- Begin page -->
+    <div class="layout-wrapper landing">
+        <nav class="navbar navbar-expand-lg navbar-landing fixed-top" id="navbar">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'landing' %}">
+                    <img src="assets/images/logo-dark.png" class="card-logo card-logo-dark" alt="logo dark" height="17">
+                    <img src="assets/images/logo-light.png" class="card-logo card-logo-light" alt="logo light" height="17">
+                </a>
+                <button class="navbar-toggler py-0 fs-20 text-body" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="mdi mdi-menu"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto mt-2 mt-lg-0" id="navbar-example">
+                        <li class="nav-item">
+                            <a class="nav-link fs-15 fw-semibold active" href="{% url 'landing' %}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fs-15 fw-semibold" href="{% url 'about' %}">À propos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fs-15 fw-semibold" href="{% url 'services' %}">Services</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fs-15 fw-semibold" href="{% url 'contact' %}">Contact</a>
+                        </li>
+                    </ul>
+
+                    <div class="">
+                        <a href="{% url 'agentlogin' %}" class="btn btn-link fw-medium text-decoration-none text-dark">Agent</a>
+                        <a href="{% url 'medecinlogin' %}" class="btn btn-primary">Médecin</a>
+                        <a href="{% url 'login' %}" class="btn btn-link fw-medium text-decoration-none text-dark">Patient</a>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+        <!-- end navbar -->
+
+        <!-- start hero section -->
+        <section class="section pb-0 hero-section" id="hero">
+            <div class="bg-overlay bg-overlay-pattern"></div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-sm-10">
+                        <div class="text-center mt-lg-5 pt-5">
+                            <h1 class="display-6 fw-bold mb-3 lh-base">Bienvenue sur <span class="text-success">SPT</span>, votre plateforme de santé ! </h1>
+                            <p class="lead text-muted lh-base">Nous sommes constamment engagés envers le bien-être et la santé de nos patients. 
+                            </br>En nous engageant constamment à l'excellence et à l'innovation, notre objectif est de vous offrir les soins de santé les plus performants.
+                          </br>Notre équipe s'engage à fournir une assistance personnalisée et attentive à chaque patient, en mettant l'accent sur la qualité, la sécurité et le confort.
+                        </br> Nous faisons tout notre possible pour satisfaire les besoins spécifiques de chaque patient, que ce soit pour une intervention médicale complexe ou pour des soins préventifs de routine. 
+                      </br>Notre équipe dispose d'installations de pointe, de professionnels hautement qualifiés et d'une approche globale de la santé, afin d'accompagner nos patients à chaque étape de leur cheminement vers le bien-être et la guérison. 
+                    </br>Chez nous, la santé dépasse le simple traitement des maladies ; elle incarne une mission profonde de compassion et de soutien, garantissant que nos patients se sentent appréciés, respectés et pris en charge à tout moment.
+                            </p>
+
+                           
+                        </div>
+
+                        <div class="mt-4 mt-sm-5 pt-sm-5 mb-sm-n5 demo-carousel">
+                            <div class="demo-img-patten-top d-none d-sm-block">
+                                <img src="{% static 'assets/images/landing/img-pattern.png'%}" class="d-block img-fluid" alt="...">
+                            </div>
+                            <div class="demo-img-patten-bottom d-none d-sm-block">
+                                <img src="{% static 'assets/images/landing/img-pattern.png'%}" class="d-block img-fluid" alt="...">
+                            </div>
+                            <div class="carousel slide carousel-fade" data-bs-ride="carousel">
+                                <div class="carousel-inner shadow-lg p-2 bg-white rounded">
+                                    <div class="carousel-item active" data-bs-interval="2000">
+                                        <img src="{% static 'assets/images/demos/default.png'%}" class="d-block w-100" alt="...">
+                                    </div>
+                                    <div class="carousel-item" data-bs-interval="2000">
+                                        <img src="{% static 'assets/images/demos/saas.png'%}" class="d-block w-100" alt="...">
+                                    </div>
+                                    <div class="carousel-item" data-bs-interval="2000">
+                                        <img src="{% static 'assets/images/demos/material.png'%}" class="d-block w-100" alt="...">
+                                    </div>
+                                    <div class="carousel-item" data-bs-interval="2000">
+                                        <img src="{% static 'assets/images/demos/minimal.png'%}" class="d-block w-100" alt="...">
+                                    </div>
+                                    <div class="carousel-item" data-bs-interval="2000">
+                                        <img src="{% static 'assets/images/demos/creative.png'%}" class="d-block w-100" alt="...">
+                                    </div>
+                                    <div class="carousel-item" data-bs-interval="2000">
+                                        <img src="{% static 'assets/images/demos/modern.png'%}" class="d-block w-100" alt="...">
+                                    </div>
+                                    <div class="carousel-item" data-bs-interval="2000">
+                                        <img src="{% static 'assets/images/demos/interactive.png'%}" class="d-block w-100" alt="...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+            <div class="position-absolute start-0 end-0 bottom-0 hero-shape-svg">
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1440 120">
+                    <g mask="url(&quot;#SvgjsMask1003&quot;)" fill="none">
+                        <path d="M 0,118 C 288,98.6 1152,40.4 1440,21L1440 140L0 140z">
+                        </path>
+                    </g>
+                </svg>
+            </div>
+            <!-- end shape -->
+        </section>
+        <!-- end hero section -->
+
+        
+
+        <!-- start services -->
+        <section class="section" id="services">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="text-center mb-5">
+                            <h1 class="mb-3 ff-secondary fw-bold lh-base">À votre service</h1>
+                            <p class="text-muted">SPT met à votre disposition une gamme complète de services pour vous accompagner tout au long de votre parcours de santé. Que vous soyez à la recherche d'un suivi médical régulier, d'une aide ponctuelle ou d'un soutien spécialisé, nos équipes d'experts sont là pour vous guider et vous offrir une prise en charge de qualité.</p>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+
+                <div class="row g-3">
+                    <div class="col-lg-4">
+                        <div class="d-flex p-3">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar-sm icon-effect">
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-pencil-ruler-2-line fs-36"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="fs-18">Accès à des ressources éducatives et de bien-être</h5>
+                                <p class="text-muted my-3">Grâce à notre collection de ressources éducatives, vous pouvez approfondir votre compréhension de la santé et du bien-être.
+                                </br> Des écrits éclairés et des recommandations concrètes vous accompagnent dans votre chemin vers une meilleure santé, vous offrant ainsi la possibilité de prendre des décisions éclairées pour vous-même et votre clan.
+                                </p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <!-- end col -->
+                    
+                   
+                    <div class="col-lg-4">
+                        <div class="d-flex p-3">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar-sm icon-effect">
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-customer-service-line fs-36"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="fs-18">Rappels de rendez-vous</h5>
+                                <p class="text-muted my-3"> N'oubliez jamais de prendre un rendez-vous médical ou de prendre un médicament grâce à nos fonctionnalités de rappel automatisées.
+                                </br> Recevez des alertes sur mesure concernant vos rendez-vous chez le médecin, vos examens médicaux ou vos prises de médicaments, ce qui vous permet de rester sur la bonne voie pour une meilleure santé.             
+                                </p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="col-lg-4">
+                        <div class="d-flex p-3">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar-sm icon-effect">
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-stack-line fs-36"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="fs-18">Consultations médicales</h5>
+                                <p class="text-muted my-3">Des consultations générales et spécialisées pour tous les âges et toutes les pathologies.</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="col-lg-4">
+                        <div class="d-flex p-3">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar-sm icon-effect">
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-settings-2-line fs-36"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="fs-18">Communiquez avec vos médecins</h5>
+                                <p class="text-muted my-3">via une messagerie instantanée sécurisée.</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="col-lg-4">
+                        <div class="d-flex p-3">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar-sm icon-effect">
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-slideshow-line fs-36"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="fs-18">Accessible 24/7</h5>
+                                <p class="text-muted my-3"> La communication avec des professionnels de la santé qualifiés est simplifiée grâce à notre plateforme, qui est accessible à tout moment, 24 heures sur 24 et 7 jours sur 7. 
+                                </br>Que ce soit pour obtenir des recommandations médicales, des ordonnances de médicaments ou des conseils de traitement, nos services offrent aux patients la possibilité de consulter un médecin depuis leur domicile.
+              
+                                </p>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="col-lg-4">
+                        <div class="d-flex p-3">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar-sm icon-effect">
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-google-fill fs-36"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="fs-18">Google Font Collection</h5>
+                                <p class="text-muted my-3">Google Fonts is a collection of 915 fonts, all available to use for free on your website.</p>
+                                <div>
+                                    <a href="#" class="fs-13 fw-medium">Learn More <i class="ri-arrow-right-s-line align-bottom"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="col-lg-4">
+                        <div class="d-flex p-3">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar-sm icon-effect">
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-briefcase-5-line fs-36"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="fs-18">Sécurité des données de santé renforcée </h5>
+                                <p class="text-muted my-3">Nous sommes conscients de l'importance de préserver la confidentialité des données médicales. C'est la raison pour laquelle nous instaurons des mesures de sécurité solides afin de préserver vos informations de santé.  
+                                </br>Nous accordons une grande importance à votre vie privée, et nous nous efforçons de garantir un environnement en ligne sécurisé et protégé à tous nos utilisateurs.
+              
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end services -->
+
+        
+        <!-- start cta -->
+        <section class="py-5 bg-primary position-relative">
+            <div class="bg-overlay bg-overlay-pattern opacity-50"></div>
+            <div class="container">
+                <div class="row align-items-center gy-4">
+                    <div class="col-sm">
+                        <div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="col-sm-auto">
+                        <div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end cta -->
+
+        <!-- start features -->
+        <section class="section">
+            <div class="container">
+                <div class="row align-items-center gy-4">
+                    <div class="col-lg-6 order-2 order-lg-1">
+                        <div class="text-muted">
+                            <h5 class="fs-12 text-uppercase text-success">À propos <span>Nous</span></h5>
+                            <h4 class="mb-3">Bienvenu à SPT! Votre plateforme exceptionnelle pour des soins de santé sans problème.</h4>
+                            <p class="mb-4">SPT vous donne la possibilité de prendre le contrôle de votre parcours de santé en connectant les patients et les médecins afin d'améliorer la prise en charge de la santé. 
+                            </br>
+                            
+                            Que ce soit un patient en quête de soins ou un médecin cherchant à simplifier sa pratique, nous proposons une série de fonctionnalités conçues pour rendre votre expérience en soins de santé plus facile et plus améliorer.
+                    </p>
+
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="vstack gap-2">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-shrink-0 me-2">
+                                                <div class="avatar-xs icon-effect">
+                                                    <div class="avatar-title bg-transparent text-success rounded-circle h2">
+                                                        <i class="ri-check-fill"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h5 class="fs-14 mb-0">Planning</h5>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-shrink-0 me-2">
+                                                <div class="avatar-xs icon-effect">
+                                                    <div class="avatar-title bg-transparent text-success rounded-circle h2">
+                                                        <i class="ri-check-fill"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h5 class="fs-14 mb-0">Historique</h5>
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="vstack gap-2">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-shrink-0 me-2">
+                                                <div class="avatar-xs icon-effect">
+                                                    <div class="avatar-title bg-transparent text-success rounded-circle h2">
+                                                        <i class="ri-check-fill"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h5 class="fs-14 mb-0">Messagerie</h5>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-shrink-0 me-2">
+                                                <div class="avatar-xs icon-effect">
+                                                    <div class="avatar-title bg-transparent text-success rounded-circle h2">
+                                                        <i class="ri-check-fill"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h5 class="fs-14 mb-0">Actualités</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <a href="{% url 'about' %}" class="btn btn-primary">En savoir plus <i class="ri-arrow-right-line align-middle ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="col-lg-6 col-sm-7 col-10 ms-auto order-1 order-lg-2">
+                        <div>
+                            <img src="{% static 'assets/images/landing/features/img-2.png' %}" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+
+                <div class="row align-items-center mt-5 pt-lg-5 gy-4">
+                    <div class="col-lg-6 col-sm-7 col-10 mx-auto">
+                        <div>
+                            <img src="{% static 'assets/images/landing/features/img-3.png' %}" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="text-muted ps-lg-5">
+                            <h5 class="fs-12 text-uppercase text-success">Nos Missions</h5>
+                            <h4 class="mb-3">Simplifier et centraliser votre parcours de soins</h4>
+                            <p class="mb-4">L'objectif principal de SPT est de transformer votre expérience de santé en vous offrant une plateforme conviviale et centralisée. Nous mettons l'accent sur trois axes principaux afin de vous accompagner de manière efficace :</p>
+
+                            <div class="vstack gap-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0 me-2">
+                                        <div class="avatar-xs icon-effect">
+                                            <div class="avatar-title bg-transparent text-success rounded-circle h2">
+                                                <i class="ri-check-fill"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <p class="mb-0">Faciliter l'accès à l'information
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0 me-2">
+                                        <div class="avatar-xs icon-effect">
+                                            <div class="avatar-title bg-transparent text-success rounded-circle h2">
+                                                <i class="ri-check-fill"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <p class="mb-0">Offrir une messagerie sécurisée</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0 me-2">
+                                        <div class="avatar-xs icon-effect">
+                                            <div class="avatar-title bg-transparent text-success rounded-circle h2">
+                                                <i class="ri-check-fill"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <p class="mb-0">Gérer vos Planning</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end features -->
+
+        <!-- start plan -->
+        <section class="section bg-light" id="plans">
+            <div class="bg-overlay bg-overlay-pattern"></div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    
+                              
+                </div>
+                <!--end row-->
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end plan -->
+
+        <!-- start faqs -->
+        <section class="section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="text-center mb-5">
+                            <h3 class="mb-3 fw-bold">Des questions? Regardez ici</h3>
+                            <p class="text-muted mb-4">Si vous ne trouvez pas la réponse à votre question dans notre FAQ, vous pouvez toujours nous contacter ou nous envoyer un email. Nous vous répondrons bientôt!</p>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+
+                <div class="row g-lg-5 g-4">
+                    <div class="col-lg-6">
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="flex-shrink-0 me-1">
+                                <i class="ri-question-line fs-24 align-middle text-success me-1"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="mb-0 fw-bold">Questions générales</h5>
+                            </div>
+                        </div>
+                        <div class="accordion custom-accordionwithicon custom-accordion-border accordion-border-box" id="genques-accordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="genques-headingOne">
+                                    <button class="accordion-button fw-semibold fs-14" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseOne" aria-expanded="true" aria-controls="genques-collapseOne">
+                                        Qu'est-ce que SPT ?
+                                    </button>
+                                </h2>
+                                <div id="genques-collapseOne" class="accordion-collapse collapse show" aria-labelledby="genques-headingOne" data-bs-parent="#genques-accordion">
+                                    <div class="accordion-body">
+                                        SPT offre une solution de santé complète qui facilite et rassemble votre expérience de soins. Son utilité réside dans sa capacité à approfondir votre compréhension de la santé, à suivre votre planning de rendez-vous en ligne, à communiquer avec vos médecins et bien d'autres encore.
+ 
+                    
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="genques-headingTwo">
+                                    <button class="accordion-button fw-semibold fs-14 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseTwo" aria-expanded="false" aria-controls="genques-collapseTwo">
+                                        Comment puis-je consulter les articles ou les actualités sur des sujets de santé  ?
+                                    </button>
+                                </h2>
+                                <div id="genques-collapseTwo" class="accordion-collapse collapse" aria-labelledby="genques-headingTwo" data-bs-parent="#genques-accordion">
+                                    <div class="accordion-body">
+                                        Pour consulter les articles ou les actualités sur des sujets de santé , vous pouvez accéder à la section "Actualités" de la plateforme. </br>
+                        Vous y trouverez une variété de ressources informatives sur différents sujets de santé.
+                    
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="genques-headingThree">
+                                    <button class="accordion-button fw-semibold fs-14 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseThree" aria-expanded="false" aria-controls="genques-collapseThree">
+                                        Est-ce que je peux discuter en ligne avec mon médecin pour poser des questions sur mon traitement ?
+                                    </button>
+                                </h2>
+                                <div id="genques-collapseThree" class="accordion-collapse collapse" aria-labelledby="genques-headingThree" data-bs-parent="#genques-accordion">
+                                    <div class="accordion-body">
+                                        Oui, vous pouvez discuter en ligne avec votre médecin en utilisant la fonctionnalité de chat intégrée à la plateforme.</br>
+                    Vous pourrez poser des questions sur votre traitement, discuter de vos symptômes et recevoir des conseils médicaux en temps réel.
+               
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="genques-headingFour">
+                                    <button class="accordion-button fw-semibold fs-14 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseFour" aria-expanded="false" aria-controls="genques-collapseFour">
+                                        Y a-t-il des fonctionnalités pour suivre mes rendez-vous passés et à venir ?
+                                    </button>
+                                </h2>
+                                <div id="genques-collapseFour" class="accordion-collapse collapse" aria-labelledby="genques-headingFour" data-bs-parent="#genques-accordion">
+                                    <div class="accordion-body">
+                                        Oui, la plateforme offre la possibilité de consulter votre historique de rendez-vous.</br> 
+                        Vous pouvez accéder à une liste de vos rendez-vous passés et à venir, ainsi que les détails associés à chaque rendez-vous, tels que la date, l'heure et le médecin concerné.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end accordion-->
+
+                    </div>
+                    <!-- end col -->
+                    <div class="col-lg-6">
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="flex-shrink-0 me-1">
+                                <i class="ri-shield-keyhole-line fs-24 align-middle text-success me-1"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="mb-0 fw-bold">Confidentialité  &amp; Sécurité</h5>
+                            </div>
+                        </div>
+
+                        <div class="accordion custom-accordionwithicon custom-accordion-border accordion-border-box" id="privacy-accordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="privacy-headingOne">
+                                    <button class="accordion-button fw-semibold fs-14 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#privacy-collapseOne" aria-expanded="false" aria-controls="privacy-collapseOne">
+                                        SPT est-il hébergé sur une infrastructure sécurisée ?
+                                    </button>
+                                </h2>
+                                <div id="privacy-collapseOne" class="accordion-collapse collapse" aria-labelledby="privacy-headingOne" data-bs-parent="#privacy-accordion">
+                                    <div class="accordion-body">
+                                        La sécurité des données de nos clients est une priorité absolue pour SPT. Nous mettons tout en œuvre pour protéger vos informations personnelles et médicales contre tout accès non autorisé, utilisation abusive, divulgation, altération ou destruction.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="privacy-headingTwo">
+                                    <button class="accordion-button fw-semibold fs-14" type="button" data-bs-toggle="collapse" data-bs-target="#privacy-collapseTwo" aria-expanded="true" aria-controls="privacy-collapseTwo">
+                                        Quelles informations personnelles SPT collecte-t-il ?
+                                    </button>
+                                </h2>
+                                <div id="privacy-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="privacy-headingTwo" data-bs-parent="#privacy-accordion">
+                                    <div class="accordion-body">
+                                        SPT collecte un certain nombre d'informations personnelles vous concernant afin de vous offrir nos services. Ces informations incluent :
+
+                                        </br>Vos nom et prénom
+                                    </br>Votre date de naissance
+                                </br>Votre sexe
+                            </br>Votre adresse e-mail
+                        </br>Votre numéro de téléphone
+                    </br>Votre adresse postale</div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="privacy-headingThree">
+                                    <button class="accordion-button fw-semibold fs-14 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#privacy-collapseThree" aria-expanded="false" aria-controls="privacy-collapseThree">
+                                        Comment SPT utilise-t-il mes informations personnelles ?
+                                    </button>
+                                </h2>
+                                <div id="privacy-collapseThree" class="accordion-collapse collapse" aria-labelledby="privacy-headingThree" data-bs-parent="#privacy-accordion">
+                                    <div class="accordion-body">
+                                        SPT utilise vos informations personnelles pour :
+
+                                    </br>Vous fournir nos services, tels que la gestion de rendez-vous et la communication avec vos médecins.
+                                </br>Améliorer nos services et développer de nouveaux produits et fonctionnalités.
+                            </br>Vous contacter pour vous tenir informé des rappels de rendez-vous ou d'annulation qui pourraient vous intéresser.
+                        </br>Respecter nos obligations légales.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="privacy-headingFour">
+                                    <button class="accordion-button fw-semibold fs-14 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#privacy-collapseFour" aria-expanded="false" aria-controls="privacy-collapseFour">
+                                        Avec qui SPT partage-t-il mes informations personnelles ?
+                                    </button>
+                                </h2>
+                                <div id="privacy-collapseFour" class="accordion-collapse collapse" aria-labelledby="privacy-headingFour" data-bs-parent="#privacy-accordion">
+                                    <div class="accordion-body">
+                                        SPT ne partage vos informations personnelles avec des tiers qu'en cas de nécessité légale ou pour vous fournir nos services. Par exemple, nous pouvons partager vos informations personnelles avec vos médecins, vos compagnies d'assurance ou d'autres prestataires de soins de santé.
+                                     Nous ne vendons ni ne louons jamais vos informations personnelles à des tiers.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end accordion-->
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end faqs -->
+
+        <!-- start review -->
+        <section class="section bg-primary" id="reviews">
+            <div class="bg-overlay bg-overlay-pattern"></div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="text-center">
+                            <div>
+                                <i class="ri-double-quotes-l text-success display-3"></i>
+                            </div>                                            
+                                <div class="swiper-button-next bg-white rounded-circle"></div>
+                                <div class="swiper-button-prev bg-white rounded-circle"></div>
+                                <div class="swiper-button-prev bg-white rounded-circle"></div>
+                            </div>
+                            <!-- end slider -->
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end review -->
+
+        <!-- start counter -->
+        <section class="py-5 position-relative bg-light">
+            <div class="container">
+                <div class="row text-center gy-4">
+                   
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end counter -->
+
+        <!-- start Work Process -->
+        <section class="section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="text-center mb-5">
+                            <h3 class="mb-3 fw-bold">Notre processus de travail</h3>
+                            <p class="text-muted mb-4">SPT est conçu pour simplifier et centraliser votre parcours de soins, en vous offrant une expérience utilisateur fluide et intuitive. Voici comment SPT vous accompagne tout au long de votre parcours de santé :
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+
+                <div class="row text-center">
+                    <div class="col-lg-4">
+                        <div class="process-card mt-4">
+                            <div class="process-arrow-img d-none d-lg-block">
+                                <img src="assets/images/landing/process-arrow-img.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="avatar-sm icon-effect mx-auto mb-4">
+                                <div class="avatar-title bg-transparent text-success rounded-circle h1">
+                                    <i class="ri-quill-pen-line"></i>
+                                </div>
+                            </div>
+
+                            <h5>Créez votre compte SPT</h5>
+                            <p class="text-muted">En quelques clics, en renseignant vos informations personnelles et en définissant un mot de passe sécurisé.</p>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="col-lg-4">
+                        <div class="process-card mt-4">
+                            <div class="process-arrow-img d-none d-lg-block">
+                                <img src="assets/images/landing/process-arrow-img.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="avatar-sm icon-effect mx-auto mb-4">
+                                <div class="avatar-title bg-transparent text-success rounded-circle h1">
+                                    <i class="ri-user-follow-line"></i>
+                                </div>
+                            </div>
+
+                            <h5>Vérifiez votre téléphone.
+                            </h5>
+                            <p class="text-muted">En saisissant le code envoyer à votre numéro de téléphone. 
+                            </p>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="col-lg-4">
+                        <div class="process-card mt-4">
+                            <div class="avatar-sm icon-effect mx-auto mb-4">
+                                <div class="avatar-title bg-transparent text-success rounded-circle h1">
+                                    <i class="ri-book-mark-line"></i>
+                                </div>
+                            </div>
+
+                            <h5>Connectez et Consultez votre Plateforme</h5>
+                            <p class="text-muted">En vous connectant pour accéder à votre page d'actualités, d'historiques et de planning  à votre compte. 
+                            </p>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end Work Process -->
+
+        <!-- start team -->
+        <section class="section bg-light" id="team">
+            <div class="container">
+                <div class="row justify-content-center">
+                   
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end team -->
+
+        <!-- start contact -->
+        <section class="section" id="contact">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="text-center mb-5">
+                            <h3 class="mb-3 fw-bold">Contactez-nous</h3>
+                            
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+
+                <div class="row gy-4">
+                    <div class="col-lg-4">
+                        <div>
+                            <div class="mt-4">
+                                <h5 class="fs-13 text-muted text-uppercase">Adresse de bureau :</h5>
+                                <div class="fw-semibold">1 Rue de libérai 1002, Tunis, Le belvédère </div>
+                            </div>
+                            <div class="mt-4">
+                                <h5 class="fs-13 text-muted text-uppercase">Email :</h5>
+                                <div class="fw-semibold">SPT@rns.tn</div>
+                            </div>
+                            <div class="mt-4">
+                                <h5 class="fs-13 text-muted text-uppercase">Heures de travail:</h5>
+                                <div class="fw-semibold">9h00 à 17h00</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="col-lg-8">
+                        <div>
+                            <form>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-4">
+                                            <label for="name" class="form-label fs-13">Nom et Prénom</label>
+                                            <input name="name" id="name" type="text" class="form-control bg-light border-light" placeholder="Votre nom et prénom*">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-4">
+                                            <label for="email" class="form-label fs-13">Email</label>
+                                            <input name="email" id="email" type="email" class="form-control bg-light border-light" placeholder="votre email*">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mb-4">
+                                            <label for="subject" class="form-label fs-13">sujet</label>
+                                            <input type="text" class="form-control bg-light border-light" id="subject" name="subject" placeholder="votre sujet.." />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <label for="comments" class="form-label fs-13">Message</label>
+                                            <textarea name="comments" id="comments" rows="3" class="form-control bg-light border-light" placeholder="votre message..."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 text-end">
+                                        <input type="submit" id="submit" name="send" class="submitBnt btn btn-primary" value="Envoyer">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end contact -->
+
+        <!-- start cta -->
+        <section class="py-5 bg-primary position-relative">
+            <div class="bg-overlay bg-overlay-pattern opacity-50"></div>
+            <div class="container">
+                <div class="row align-items-center gy-4">
+                   
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end cta -->
+
+        <!-- Start footer -->
+        <footer class="custom-footer bg-dark py-5 position-relative">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 mt-4">
+                        <div>
+                            <div>
+                                <img src="{% static 'assets/images/logo-light.png' %}" alt="logo light" height="17">
+                            </div>
+                            <div class="mt-4 fs-13">
+                                <p>SPT vous donne la possibilité de prendre le contrôle de votre parcours de santé en connectant les patients et les médecins afin d'améliorer la prise en charge de la santé.  </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-7 ms-lg-auto">
+                        <div class="row">
+                            <div class="col-sm-4 mt-4">
+                                <h5 class="text-white mb-0">Liens</h5>
+                                <div class="text-muted mt-3">
+                                    <ul class="list-unstyled ff-secondary footer-list fs-14">
+                                        <li><a href="{% url 'about'%}">À propos</a></li>
+                                        <li><a href="{% url 'services'%}">Services</a></li>
+                                        <li><a href="{% url 'contact'%}">Contact </a></li>
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row text-center text-sm-start align-items-center mt-5">
+                    <div class="col-sm-6">
+
+                        <div>
+                            <p class="copy-rights mb-0">
+                                <script>
+                                    document.write(new Date().getFullYear())
+                                </script> © SPT - CIMS
+                            </p>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </footer>
+        <!-- end footer -->
+
+        <!--start back-to-top-->
+        <button onclick="topFunction()" class="btn btn-danger btn-icon landing-back-top" id="back-to-top">
+            <i class="ri-arrow-up-line"></i>
+        </button>
+        <!--end back-to-top-->
+
+    </div>
+    <!-- end layout wrapper -->
+
+
+    <!-- JAVASCRIPT -->
+    <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    <script src="{% static 'assets/libs/simplebar/simplebar.min.js'%}"></script>
+    <script src="{% static 'assets/libs/node-waves/waves.min.js'%}"></script>
+    <script src="{% static 'assets/libs/feather-icons/feather.min.js'%}"></script>
+    <script src="{% static 'assets/js/pages/plugins/lord-icon-2.1.0.js'%}"></script>
+    <script src="{% static 'assets/js/plugins.js'%}"></script>
+
+    <!--Swiper slider js-->
+    <script src="{% static 'assets/libs/swiper/swiper-bundle.min.js'%}"></script>
+
+    <!-- landing init -->
+    <script src="{% static 'assets/js/pages/landing.init.js'%}"></script>
+</body>
+
+</html>
