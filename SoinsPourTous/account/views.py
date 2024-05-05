@@ -67,12 +67,12 @@ def Verif(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def request_otp(request):
-    email = request.data.get('email')
+    username = request.data.get('username')
     phone = request.data.get('phone')
 
-    if email and phone:
-        if not User.objects.filter(email=email).exists():
-            return JsonResponse({'error': 'Email does not exist'}, status=400)
+    if username and phone:
+        if not User.objects.filter(username=username).exists():
+            return JsonResponse({'error': 'username does not exist'}, status=400)
 
         if not User.objects.filter(phone=phone).exists():
             return JsonResponse({'error': 'Phone does not exist'}, status=400)
