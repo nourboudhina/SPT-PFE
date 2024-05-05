@@ -27,12 +27,13 @@ from datetime import timedelta
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth.decorators import login_required, permission_required
 from rest_framework import permissions
-
+from django.views.generic import TemplateView
 from django.shortcuts import render
 
 
-def landing(request):
-    return render(request, 'landing/Landing.html')
+class landing (TemplateView):
+    template_name = 'landing/landingPage.html'
+
 
 def about(request):
     return render(request, 'Landing/About.html')
@@ -40,9 +41,28 @@ def about(request):
 def contact(request):
     return render(request, 'Landing/Contact.html')
 
+def services(request):
+    return render(request, 'Landing/Services.html')
+
 @csrf_exempt
 def loginP(request):
-    return render(request, 'Login/loginPatient.html')
+    return render(request, 'Login/LoginPatient.html')
+
+@csrf_exempt
+def loginM(request):
+    return render(request, 'Login/LoginMédecin.html')
+
+@csrf_exempt
+def loginA(request):
+    return render(request, 'Login/LoginAgent.html')
+
+@csrf_exempt
+def Registration(request):
+    return render(request, 'Registration/Registration.html')
+
+@csrf_exempt
+def Verif(request):
+    return render(request, 'Verif/VerificationForm.html')
 
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
@@ -172,12 +192,12 @@ def create_account(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def login(request):
-    email = request.data.get('email')
+    username = request.data.get('username')
     phone = request.data.get('phone')
     password = request.data.get('password')
 
-    if email:
-        user = User.objects.filter(email=email).first()
+    if username:
+        user = User.objects.filter(username=username).first()
         
         password1 = user.password if user else None
     elif phone:
@@ -199,7 +219,6 @@ def login(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def login_pour_medecin(request):
-    print("bfab5c9efb8011eea494845cf3a65946")
     username = request.data.get('username')
     password = request.data.get('password')
 

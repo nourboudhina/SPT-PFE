@@ -10,7 +10,7 @@
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico'%}">
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.png'%}">
 
     <!-- Layout config Js -->
     <script src="{% static 'assets/js/layout.js'%}"></script>
@@ -44,7 +44,7 @@
                                         <div class="position-relative h-100 d-flex flex-column">
                                             <div class="mb-4">
                                                 <a href="{% url 'landing'%}" class="d-block">
-                                                    <img src="{% static 'assets/images/logo-light.png'%}" alt="" height="18">
+                                                    <img src="{% static 'assets/images/favicon.png'%}" alt="" height="35">
                                                 </a>
                                             </div>
                                             
@@ -64,10 +64,10 @@
                                             <form id="LoginAgent">
                                                 {% csrf_token %}
                                                 <div class="mb-3">
-                                                    <label for="username" class="form-label">Email</label>
-                                                    <input type="email" class="form-control" id="username" placeholder="Entrer votre email">
+                                                    <label for="username" class="form-label">Username</label>
+                                                    <input type="text" class="form-control" id="username" placeholder="Entrer votre username">
                                                 </div>
-
+                                        
                                                 <div class="mb-3">
                                                     <div class="float-end">
                                                         <a href="{% url 'password_reset_email' %}" class="text-muted">Mot de passe oublié?</a>
@@ -78,18 +78,68 @@
                                                         <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                                     </div>
                                                 </div>
-
-                                               
-
+                                        
                                                 <div class="mt-4">
                                                     <button class="btn btn-success w-100" type="submit">Connexion</button>
                                                 </div>
-
-                                                
-
                                             </form>
                                         </div>
-
+                                        
+                                        <script>
+                                            document.getElementById("LoginAgent").addEventListener("submit", function(event) {
+                                                event.preventDefault();
+                                        
+                                                // Get username and password values from the form
+                                                var username = document.getElementById("username").value;
+                                                var password = document.getElementById("password-input").value;
+                                        
+                                                // Create a JavaScript object to hold the data
+                                                var data = {
+                                                    username: username,
+                                                    password: password
+                                                };
+                                        
+                                                // Convert data to JSON string (assuming Django expects JSON)
+                                                var jsonData = JSON.stringify(data);
+                                        
+                                                var xhr = new XMLHttpRequest();
+                                                xhr.open("POST", "/agentlogin/", true); // Ensure correct URL
+                                                xhr.setRequestHeader("Content-Type", "application/json"); // Set content type
+                                                xhr.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
+                                                xhr.onload = function() {
+                                                    if (xhr.status === 200) {
+                                                        var response = JSON.parse(xhr.responseText);
+                                                        if (response.token) {
+                                                            console.log(response);
+                                                            // Redirect to /dashboard/<token> if token is present
+                                                            window.location.href = '/gestionAgent/' + response.token + '/';
+                                                        } else {
+                                                            alert("An error occurred. Please try again.");
+                                                        }
+                                                    } else {
+                                                        alert("An error occurred. Please try again.");
+                                                    }
+                                                };
+                                                xhr.send(jsonData);
+                                            });
+                                        
+                                            // Function to get CSRF cookie value
+                                            function getCookie(name) {
+                                                var cookieValue = null;
+                                                if (document.cookie && document.cookie !== "") {
+                                                    var cookies = document.cookie.split(";");
+                                                    for (var i = 0; i < cookies.length; i++) {
+                                                        var cookie = cookies[i].trim();
+                                                        if (cookie.substring(0, name.length + 1) === (name + "=")) {
+                                                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                return cookieValue;
+                                            }
+                                        </script>
+                                        
                                        
                                     </div>
                                 </div>
@@ -107,8 +157,7 @@
             <!-- end container -->
         </div>
         <!-- end auth page content -->
-
-        <!-- footer -->
+                <!-- footer -->
         <footer class="footer">
             <div class="container">
                 <div class="row">

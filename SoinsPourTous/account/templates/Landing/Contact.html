@@ -10,7 +10,7 @@
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}">
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.png' %}">
 
     <!--Swiper slider css-->
     <link href="{% static 'assets/libs/swiper/swiper-bundle.min.css' %}" rel="stylesheet" type="text/css" />
@@ -36,8 +36,8 @@
         <nav class="navbar navbar-expand-lg navbar-landing fixed-top" id="navbar">
             <div class="container">
                 <a class="navbar-brand" href="{% url 'landing' %}">
-                    <img src="assets/images/logo-dark.png" class="card-logo card-logo-dark" alt="logo dark" height="17">
-                    <img src="assets/images/logo-light.png" class="card-logo card-logo-light" alt="logo light" height="17">
+                    <img src="{% static 'assets/images/favicon.png' %}" class="card-logo card-logo-dark" alt="logo dark" height="30">
+                    <img src="{% static 'assets/images/favicon.png' %}" class="card-logo card-logo-light" alt="logo light" height="30">
                 </a>
                 <button class="navbar-toggler py-0 fs-20 text-body" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="mdi mdi-menu"></i>
@@ -194,79 +194,94 @@
 
 
         
-      <!-- Start footer -->
-        <footer class="custom-footer bg-dark py-5 position-relative">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 mt-4">
+       <!-- Start footer -->
+       <footer class="custom-footer bg-dark py-5 position-relative">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mt-4">
+                    <div>
                         <div>
+                            <img src="{% static 'assets/images/favicon.png' %}" alt="logo light" height="35">
+                        </div>
+                        <div class="mt-4 fs-13">
+                            <p>SPT vous donne la possibilité de prendre le contrôle de votre parcours de santé en connectant les patients et les médecins afin d'améliorer la prise en charge de la santé.  </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-7 ms-lg-auto">
+                    <div class="row">
+                        <div class="col-sm-4 mt-4">
+                            <h5 class="text-white mb-0">Liens</h5>
+                            <div class="text-muted mt-3">
+                                <ul class="list-unstyled ff-secondary footer-list fs-14">
+                                    <li><a href="{% url 'about'%}">À propos</a></li>
+                                    <li><a href="{% url 'services'%}">Services</a></li>
+                                    <li><a href="{% url 'contact'%}">Contact </a></li>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 mt-4">
                             <div>
-                                <img src="{% static 'assets/images/logo-light.png' %}" alt="logo light" height="17">
+                            <div class="mt-4">
+                                <h5 class="fs-13 text-muted text-uppercase">Adresse de bureau :</h5>
+                                <div class="fw-semibold">1 Rue de libérai 1002, Tunis, Le belvédère </div>
                             </div>
-                            <div class="mt-4 fs-13">
-                                <p>SPT vous donne la possibilité de prendre le contrôle de votre parcours de santé en connectant les patients et les médecins afin d'améliorer la prise en charge de la santé.  </p>
+                            <div class="mt-4">
+                                <h5 class="fs-13 text-muted text-uppercase">Email :</h5>
+                                <div class="fw-semibold">SPT@rns.tn</div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-7 ms-lg-auto">
-                        <div class="row">
-                            <div class="col-sm-4 mt-4">
-                                <h5 class="text-white mb-0">Liens</h5>
-                                <div class="text-muted mt-3">
-                                    <ul class="list-unstyled ff-secondary footer-list fs-14">
-                                        <li><a href="{% url 'about'%}">À propos</a></li>
-                                        <li><a href="{% url 'services'%}">Services</a></li>
-                                        <li><a href="{% url 'contact'%}">Contact </a></li>
-                                        
-                                    </ul>
-                                </div>
+                            <div class="mt-4">
+                                <h5 class="fs-13 text-muted text-uppercase">Heures de travail:</h5>
+                                <div class="fw-semibold">9h00 à 17h00</div>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
-                <div class="row text-center text-sm-start align-items-center mt-5">
-                    <div class="col-sm-6">
-
-                        <div>
-                            <p class="copy-rights mb-0">
-                                <script>
-                                    document.write(new Date().getFullYear())
-                                </script> © SPT - CIMS
-                            </p>
-                        </div>
-                    </div>
-                    
-                </div>
             </div>
-        </footer>
-        <!-- end footer -->
 
-        <!--start back-to-top-->
-        <button onclick="topFunction()" class="btn btn-danger btn-icon landing-back-top" id="back-to-top">
-            <i class="ri-arrow-up-line"></i>
-        </button>
-        <!--end back-to-top-->
+            <div class="row text-center text-sm-start align-items-center mt-5">
+                <div class="col-sm-6">
 
-    </div>
-    <!-- end layout wrapper -->
+                    <div>
+                        <p class="copy-rights mb-0">
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script> © SPT - CIMS
+                        </p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </footer>
+    <!-- end footer -->
+
+    <!--start back-to-top-->
+    <button onclick="topFunction()" class="btn btn-danger btn-icon landing-back-top" id="back-to-top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+    <!--end back-to-top-->
+
+</div>
+<!-- end layout wrapper -->
 
 
-    <!-- JAVASCRIPT -->
-    <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
-    <script src="{% static 'assets/libs/simplebar/simplebar.min.js'%}"></script>
-    <script src="{% static 'assets/libs/node-waves/waves.min.js'%}"></script>
-    <script src="{% static 'assets/libs/feather-icons/feather.min.js'%}"></script>
-    <script src="{% static 'assets/js/pages/plugins/lord-icon-2.1.0.js'%}"></script>
-    <script src="{% static 'assets/js/plugins.js'%}"></script>
+<!-- JAVASCRIPT -->
+<script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<script src="{% static 'assets/libs/simplebar/simplebar.min.js'%}"></script>
+<script src="{% static 'assets/libs/node-waves/waves.min.js'%}"></script>
+<script src="{% static 'assets/libs/feather-icons/feather.min.js'%}"></script>
+<script src="{% static 'assets/js/pages/plugins/lord-icon-2.1.0.js'%}"></script>
+<script src="{% static 'assets/js/plugins.js'%}"></script>
 
-    <!--Swiper slider js-->
-    <script src="{% static 'assets/libs/swiper/swiper-bundle.min.js'%}"></script>
+<!--Swiper slider js-->
+<script src="{% static 'assets/libs/swiper/swiper-bundle.min.js'%}"></script>
 
-    <!-- landing init -->
-    <script src="{% static 'assets/js/pages/landing.init.js'%}"></script>
+<!-- landing init -->
+<script src="{% static 'assets/js/pages/landing.init.js'%}"></script>
 </body>
 
 </html>
