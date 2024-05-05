@@ -11,9 +11,14 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404,redirect
 import base64
 from account.models import Medecin, Service, Specialite, Grade, Groupe
+from django.shortcuts import render
 
 
-
+def PageA(request, token):
+    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
+    if token : 
+        return render(request, 'accueil/PageAccueil.html')
+    
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def getPageAcceuil(request, token):

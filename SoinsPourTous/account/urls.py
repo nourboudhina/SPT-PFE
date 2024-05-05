@@ -8,9 +8,9 @@ urlpatterns = [
     path('about/',about, name='about'),
     path('contact/',contact, name='contact'),
     path('services/',services, name='services'),
-    path('Pa/',loginP, name='PA'),
-    path('Med/',loginM, name='MED'),
-    path('Ag/',loginA, name='AG'),
+    path('Patient/',loginP, name='Patient'),
+    path('Medcin/',loginM, name='Medcin'),
+    path('Agent/',loginA, name='Agent'),
     path('Regis/',Registration, name='Registration'),
     path('VerifF/',Verif, name='Verification'),
 
