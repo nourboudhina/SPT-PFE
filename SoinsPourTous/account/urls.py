@@ -12,7 +12,7 @@ urlpatterns = [
     path('Medcin/',loginM, name='Medcin'),
     path('Agent/',loginA, name='Agent'),
     path('Regis/',Registration, name='Registration'),
-    path('VerifF/',Verif, name='Verification'),
+    path('Verification/',Verif, name='Verification'),
 
     path('request_otp/',request_otp, name = 'request_otp'),
     path('resend_otp/',resend_otp,name='resend_otp'),
