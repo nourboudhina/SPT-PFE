@@ -67,11 +67,11 @@ def Verif(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def request_otp(request):
-    username = request.data.get('username')
+    email = request.data.get('email')
     phone = request.data.get('phone')
 
-    if username and phone:
-        if not User.objects.filter(username=username).exists():
+    if email and phone:
+        if not User.objects.filter(email=email).exists():
             return JsonResponse({'error': 'username does not exist'}, status=400)
 
         if not User.objects.filter(phone=phone).exists():
@@ -192,12 +192,12 @@ def create_account(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def login(request):
-    username = request.data.get('username')
+    email = request.data.get('email')
     phone = request.data.get('phone')
     password = request.data.get('password')
 
-    if username:
-        user = User.objects.filter(username=username).first()
+    if email:
+        user = User.objects.filter(email=email).first()
         
         password1 = user.password if user else None
     elif phone:
@@ -219,11 +219,11 @@ def login(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def login_pour_medecin(request):
-    username = request.data.get('username')
+    email = request.data.get('email')
     password = request.data.get('password')
 
-    if username:
-        user = Medecin.objects.filter(username=username).first()
+    if email:
+        user = Medecin.objects.filter(email=email).first()
         
         password1 = user.password if user else None
     
@@ -243,11 +243,11 @@ def login_pour_medecin(request):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def login_pour_agent(request):
-    username = request.data.get('username')
+    email = request.data.get('email')
     password = request.data.get('password')
 
-    if username:
-        user = Agent.objects.filter(username=username).first()
+    if email:
+        user = Agent.objects.filter(email=email).first()
         
         password1 = user.password if user else None
     

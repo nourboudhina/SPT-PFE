@@ -64,8 +64,8 @@
                                             <form id="LoginAgent">
                                                 {% csrf_token %}
                                                 <div class="mb-3">
-                                                    <label for="username" class="form-label">Username</label>
-                                                    <input type="text" class="form-control" id="username" placeholder="Entrer votre username">
+                                                    <label for="email" class="form-label">Email</label>
+                                                    <input type="email" class="form-control" id="email" placeholder="Entrer votre email">
                                                 </div>
                                         
                                                 <div class="mb-3">
@@ -83,6 +83,7 @@
                                                     <button class="btn btn-success w-100" type="submit">Connexion</button>
                                                 </div>
                                             </form>
+                                            <!--Page d'accueil-->
                                         </div>
                                         
                                         <script>
@@ -90,12 +91,12 @@
                                                 event.preventDefault();
                                         
                                                 // Get username and password values from the form
-                                                var username = document.getElementById("username").value;
+                                                var email = document.getElementById("email").value;
                                                 var password = document.getElementById("password-input").value;
                                         
                                                 // Create a JavaScript object to hold the data
                                                 var data = {
-                                                    username: username,
+                                                    email: email,
                                                     password: password
                                                 };
                                         
