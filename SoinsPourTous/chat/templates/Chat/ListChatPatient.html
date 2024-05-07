@@ -31,6 +31,16 @@
                                     <div class="flex-grow-1">
                                         <h4 class="mb-0 fs-11 text-muted text-uppercase">Messages directs</h4>
                                     </div>
+                                    <div class="flex-shrink-0">
+                                        <div data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="bottom" title="Nouveau chat">
+
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-soft-success btn-sm shadow-none" data-bs-target="#Modifier">
+                                                <i class="ri-add-line align-bottom"></i>
+                                                <!-- api pour ajouter un room -->
+                                            </button>
+                                        </div>
+                                    </div>
                                     
                                 </div>
 
@@ -119,6 +129,7 @@
                                         </div>
                                         <ul class="list-unstyled chat-conversation-list" id="users-conversation">
                                             <!-- affichage les messages correspond à cette conversation-->
+                                            <!-- api get message -->
                                         </ul>
                                         <!-- end chat-conversation-list -->
                                     </div>
@@ -155,6 +166,7 @@
                                                         <button type="submit" class="btn btn-success chat-send waves-effect waves-light">
                                                             <i class="ri-send-plane-2-fill align-bottom"></i>
                                                             <!-- button to send messages -->
+                                                            <!-- api send -->
                                                         </button>
                                                     </div>
                                                 </div>
@@ -162,6 +174,8 @@
 
                                         </div>
                                     </form>
+                                    <!-- api pour envoyer un message 
+                                    api "send" -->
                                 </div>
 
                                 <div class="replyCard">
@@ -187,7 +201,39 @@
                 </div>
             </div>
             <!-- end chat-wrapper -->
+            
+        </div>
+        <!-- container-fluid -->
+        <div class="modal fade zoomIn" id="Modifier" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+                    <form>
+                        <!-- formulaire pour ajouter un nouveau chat-->
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <div class="col-lg-12">
+                                    <div id="modal-id">
+                                        <label for="orderId" class="form-label">code</label>
+                                        <input type="text" id="orderId" class="form-control" placeholder="ID" value="#VLZ462" readonly />
+                                    </div>
+                                </div>
+                            </div>
 
+                        </div>
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
+                                <button type="submit" class="btn btn-success" id="add-btn">Ajouter</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- api pour ajouter un room par vérifier le code de room saisie-->
+                </div>
+            </div>
         </div>
 
     </div>

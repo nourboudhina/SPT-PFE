@@ -64,8 +64,8 @@
                                             <form id="LoginPatient">
                                                 {% csrf_token %}
                                                 <div class="mb-3">
-                                                    <label for="username" class="form-label">Username</label>
-                                                    <input type="text" class="form-control" id="username" placeholder="Entrer votre username">
+                                                    <label for="email" class="form-label">Email</label>
+                                                    <input type="email" class="form-control" id="email" placeholder="Entrer votre email">
                                                 </div>
 
                                                 <div class="mb-3">
@@ -88,18 +88,19 @@
                                                 
 
                                             </form>
+                                            <!--Page d'accueil-->
                                         </div>
                                         <script>
                                             document.getElementById("LoginPatient").addEventListener("submit", function(event) {
                                                 event.preventDefault();
                                         
                                                 // Get username and password values from the form
-                                                var username = document.getElementById("username").value;
+                                                var email = document.getElementById("email").value;
                                                 var password = document.getElementById("password-input").value;
                                         
                                                 // Create a JavaScript object to hold the data
                                                 var data = {
-                                                    username: username,
+                                                    email: email,
                                                     password: password
                                                 };
                                                 alert(username)
@@ -116,7 +117,7 @@
                                                         if (response.token) {
                                                             console.log(response);
                                                             // Redirect to /dashboard/<token> if token is present
-                                                            window.location.href = '/landing/' + response.token + '/';
+                                                            window.location.href = '/accueil/pageaccueil/' + response.token + '/';
                                                         } else {
                                                             alert("An error occurred. Please try again.");
                                                         }

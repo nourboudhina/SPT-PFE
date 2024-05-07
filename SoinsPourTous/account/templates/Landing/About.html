@@ -49,9 +49,7 @@
                             <a class="nav-link fs-15 fw-semibold active" href="{% url 'landing' %}">Home</a>
                         </li>
                         
-                        <li class="nav-item">
-                            <a class="nav-link fs-15 fw-semibold" href="{% url 'services' %}">Services</a>
-                        </li>
+                        
                         <li class="nav-item">
                             <a class="nav-link fs-15 fw-semibold" href="{% url 'contact' %}">Contact</a>
                         </li>
@@ -97,50 +95,79 @@
             <!-- end shape -->
         </section>
         <!-- end hero section -->
+ <!-- start features -->
+ <section class="section">
+    <div class="container">
+        <div class="row align-items-center gy-4">
+            <div class="col-lg-6 order-2 order-lg-1">
+                <div class="text-muted">
+                    <h5 class="fs-12 text-uppercase text-success">À propos <span>Nous</span></h5>
+                    <h4 class="mb-3">Nous fournissons les meilleurs soins de santé</h4>
+                    <p class="mb-4"> Bienvenue sur notre plateforme de santé tout-en-un, où l'innovation et la compassion se rencontrent pour transformer votre expérience des soins de santé. 
+                    </br>Conçue pour répondre aux besoins modernes des patients, notre plateforme offre une gamme complète de services conçus pour simplifier et améliorer votre parcours de soins. 
+                    Que vous cherchiez des consultations médicales en ligne accessibles 24/7, une gestion centralisée de vos dossiers médicaux, des rappels personnalisés pour vos rendez-vous et prises de médicaments, ou une sécurité renforcée pour vos données de santé, notre plateforme est là pour vous offrir une expérience exceptionnelle.
+                </br>
+                </br>
+                 Avec une interface conviviale, des fonctionnalités intuitives et un engagement envers l'excellence des soins, nous vous invitons à découvrir une nouvelle façon de prendre en charge votre santé. 
+                </br>Que vous soyez à la maison, au travail ou en déplacement, notre plateforme est là pour vous accompagner à chaque étape de votre parcours de santé.
+                </p>
 
-
-        <section class="section bg-light" id="plans">
-            <div class="bg-overlay bg-overlay-pattern"></div>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="text-center mb-5">
-                            <h3 class="mb-3 fw-bold">Nous fournissons les meilleurs soins de santé</h3>
-                            <p class="text-muted mb-4">  Bienvenue sur notre plateforme de santé tout-en-un, où l'innovation et la compassion se rencontrent pour transformer votre expérience des soins de santé. 
-                            </br>Conçue pour répondre aux besoins modernes des patients, notre plateforme offre une gamme complète de services conçus pour simplifier et améliorer votre parcours de soins. 
-                            Que vous cherchiez des consultations médicales en ligne accessibles 24/7, une gestion centralisée de vos dossiers médicaux, des rappels personnalisés pour vos rendez-vous et prises de médicaments, ou une sécurité renforcée pour vos données de santé, notre plateforme est là pour vous offrir une expérience exceptionnelle.
-                        </br>
-                        </br>
-                         Avec une interface conviviale, des fonctionnalités intuitives et un engagement envers l'excellence des soins, nous vous invitons à découvrir une nouvelle façon de prendre en charge votre santé. 
-                        </br>Que vous soyez à la maison, au travail ou en déplacement, notre plateforme est là pour vous accompagner à chaque étape de votre parcours de santé.
-                        </p>
-                        <p class="lead text-muted lh-base">Nous sommes constamment engagés envers le bien-être et la santé de nos patients. 
-                        </br>En nous engageant constamment à l'excellence et à l'innovation, notre objectif est de vous offrir les soins de santé les plus performants.
-                      </br>Notre équipe s'engage à fournir une assistance personnalisée et attentive à chaque patient, en mettant l'accent sur la qualité, la sécurité et le confort.
-                    </br> Nous faisons tout notre possible pour satisfaire les besoins spécifiques de chaque patient, que ce soit pour une intervention médicale complexe ou pour des soins préventifs de routine. 
-                  </br>Notre équipe dispose d'installations de pointe, de professionnels hautement qualifiés et d'une approche globale de la santé, afin d'accompagner nos patients à chaque étape de leur cheminement vers le bien-être et la guérison. 
-                </br>Chez nous, la santé dépasse le simple traitement des maladies ; elle incarne une mission profonde de compassion et de soutien, garantissant que nos patients se sentent appréciés, respectés et pris en charge à tout moment.
-                        </p>
-
-                            
-                        </div>
-                    </div>
-                    <!-- end col -->
+                    
+                           
                 </div>
-                <!-- end row -->
-
-               
             </div>
-            <!-- end container -->
-        </section>
-        <!-- end plan -->
+            <!-- end col -->
+            <div class="col-lg-6 col-sm-7 col-10 ms-auto order-1 order-lg-2">
+                <div>
+                    <img src="{% static 'assets/images/landing/features/img2.jpg' %}" alt="" class="img-fluid">
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
 
+        <div class="row align-items-center mt-5 pt-lg-5 gy-4">
+            <div class="col-lg-6 col-sm-7 col-10 mx-auto">
+                <div>
+                    <img src="{% static 'assets/images/landing/features/img1.jpg' %}" alt="" class="img-fluid">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="text-muted ps-lg-5">
+                   
+                    <h4 class="mb-3">Simplifier et centraliser votre parcours de soins</h4>
+                    <p class="mb-4">Nous sommes constamment engagés envers le bien-être et la santé de nos patients. 
+                    </br>En nous engageant constamment à l'excellence et à l'innovation, notre objectif est de vous offrir les soins de santé les plus performants.
+                  </br>Notre équipe s'engage à fournir une assistance personnalisée et attentive à chaque patient, en mettant l'accent sur la qualité, la sécurité et le confort.
+                </br> Nous faisons tout notre possible pour satisfaire les besoins spécifiques de chaque patient, que ce soit pour une intervention médicale complexe ou pour des soins préventifs de routine. 
+              </br>Notre équipe dispose d'installations de pointe, de professionnels hautement qualifiés et d'une approche globale de la santé, afin d'accompagner nos patients à chaque étape de leur cheminement vers le bien-être et la guérison. 
+            </br>Chez nous, la santé dépasse le simple traitement des maladies ; elle incarne une mission profonde de compassion et de soutien, garantissant que nos patients se sentent appréciés, respectés et pris en charge à tout moment.
+                    </p>
 
+                    
+                   
+                </div>
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
+</section>
+<!-- end features -->
 
-
-        
-
-
+<!-- start plan -->
+<section class="section bg-light" id="plans">
+    <div class="bg-overlay bg-overlay-pattern"></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            
+                      
+        </div>
+        <!--end row-->
+    </div>
+    <!-- end container -->
+</section>
+<!-- end plan -->
 
 
       <!-- Start footer -->
@@ -165,7 +192,6 @@
                                 <div class="text-muted mt-3">
                                     <ul class="list-unstyled ff-secondary footer-list fs-14">
                                         <li><a href="{% url 'about'%}">À propos</a></li>
-                                        <li><a href="{% url 'services'%}">Services</a></li>
                                         <li><a href="{% url 'contact'%}">Contact </a></li>
                                         
                                     </ul>
