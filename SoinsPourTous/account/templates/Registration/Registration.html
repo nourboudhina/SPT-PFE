@@ -3,31 +3,26 @@
 <html lang="en" data-layout="horizontal" data-topbar="dark" data-sidebar-size="lg" data-sidebar="light" data-sidebar-image="none" data-preloader="disable">
 
 <head>
-
     <meta charset="utf-8" />
     <title>Créer Un compte | SPT</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{% static 'assets/images/favicon.png'%}">
-
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.png' %}">
     <!-- Layout config Js -->
-    <script src="{% static 'assets/js/layout.js'%}"></script>
+    <script src="{% static 'assets/js/layout.js' %}"></script>
     <!-- Bootstrap Css -->
-    <link href="{% static 'assets/css/bootstrap.min.css'%}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
-    <link href="{% static 'assets/css/icons.min.css'%}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link href="{% static 'assets/css/app.min.css'%}" rel="stylesheet" type="text/css" />
-    <!-- custom Css-->
-    <link href="{% static 'assets/css/custom.min.css'%}" rel="stylesheet" type="text/css" />
-
-
+    <link href="{% static 'assets/css/app.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- Custom Css-->
+    <link href="{% static 'assets/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-
     <!-- auth-page wrapper -->
     <div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
         <div class="bg-overlay"></div>
@@ -44,95 +39,76 @@
                                         <div class="position-relative h-100 d-flex flex-column">
                                             <div class="mb-4">
                                                 <a href="{% url 'landing' %}" class="d-block">
-                                                    <img src="{% static 'assets/images/favicon.png'%}" alt="" height="35">
+                                                    <img src="{% static 'assets/images/favicon.png' %}" alt="" height="35">
                                                 </a>
                                             </div>
-                                            
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col-lg-6">
                                     <div class="p-lg-5 p-4">
                                         <div>
                                             <h5 class="text-primary">Créer un compte</h5>
-                                            
                                         </div>
-
                                         <div class="mt-4">
                                             <form class="needs-validation" novalidate id="Registration">
                                                 {% csrf_token %}
                                                 <div class="mb-3">
                                                     <label for="useremail" class="form-label">Email <span class="text-danger">*</span></label>
-                                                    <input type="email" class="form-control" id="useremail" placeholder="Entrer l'address email " required>
+                                                    <input type="email" class="form-control" id="useremail" placeholder="Entrer l'adresse email" required>
                                                     <div class="invalid-feedback">
-                                                        Veuillez saisir votre email
+                                                        Veuillez saisir votre email.
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="username" class="form-label">le nom complet <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="username" placeholder="Entrer votre nom complet" required>
+                                                    <label for="fullname" class="form-label">Nom complet <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="fullname" placeholder="Entrer votre nom complet" required>
                                                     <div class="invalid-feedback">
-                                                        Veuillez saisir le nom complet
+                                                        Veuillez saisir le nom complet.
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="username" class="form-label">Numéro de téléphone <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="username" placeholder="Entrer votre numéro" required>
+                                                    <label for="phone" class="form-label">Numéro de téléphone <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="phone" placeholder="Entrer votre numéro" required>
                                                     <div class="invalid-feedback">
-                                                        Veuillez saisir le numéro de téléphone
+                                                        Veuillez saisir le numéro de téléphone.
                                                     </div>
                                                 </div>
+                                                <div class="mb-3">
+                                                    <label for="date_naiss" class="form-label">Date of Birth</label>
+                                                    <input type="date" class="form-control" id="date_naiss" required>
+                                                    <div class="invalid-feedback">
+                                                        Please enter your date of birth.
+                                                    </div>
+                                                </div>
+                                               
                                                 
                                                 <div class="mb-3">
-                                                    <label class="form-label" for="password-input">Mot de passe</label>
+                                                    <label for="password-input" class="form-label">Mot de passe</label>
                                                     <div class="position-relative auth-pass-inputgroup">
-                                                        <input type="password" class="form-control pe-5 password-input" onpaste="return false" placeholder="Entrer votre mot de passe" id="password-input" aria-describedby="passwordInput" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
-                                                        <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                                                        <input type="password" class="form-control pe-5" id="password-input" placeholder="Entrer votre mot de passe" required>
+                                                        <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                                         <div class="invalid-feedback">
-                                                            Veuillez saisir le mot de passe
+                                                            Veuillez saisir un mot de passe valide.
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                               
-
-                                                
-
-                                                <div id="password-contain" class="p-3 bg-light mb-2 rounded">
-                                                    <h5 class="fs-13">Le mot de passe doit contenir :</h5>
-                                                    <p id="pass-length" class="invalid fs-12 mb-2">Minimum  <b>8 caractères</b></p>
-                                                    <p id="pass-lower" class="invalid fs-12 mb-2">À la lettre <b>miniscule</b> (a-z)</p>
-                                                    <p id="pass-upper" class="invalid fs-12 mb-2">À la lettre <b>majuscule</b> letter (A-Z)</p>
-                                                    <p id="pass-number" class="invalid fs-12 mb-0">Au minimum  <b> un nombre</b> (0-9)</p>
-                                                </div>
-
                                                 <div class="mt-4">
                                                     <button class="btn btn-success w-100" type="submit">Créer</button>
                                                 </div>
-
-                                                
                                             </form>
                                         </div>
-
                                         <div class="mt-5 text-center">
-                                            <p class="mb-0">Vous avez déjà un compte? <a href="{% url 'Verification'%}" class="fw-semibold text-primary text-decoration-underline"> Se connecter</a> </p>
+                                            <p class="mb-0">Vous avez déjà un compte? <a href="{% url 'Patient' %}" class="fw-semibold text-primary text-decoration-underline">Se connecter</a></p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- end card -->
                     </div>
-                    <!-- end col -->
-
                 </div>
-                <!-- end row -->
             </div>
-            <!-- end container -->
         </div>
-        <!-- end auth page content -->
-
         <!-- footer -->
         <footer class="footer">
             <div class="container">
@@ -147,22 +123,85 @@
                 </div>
             </div>
         </footer>
-        <!-- end Footer -->
     </div>
-    <!-- end auth-page-wrapper -->
-
     <!-- JAVASCRIPT -->
-    <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
-    <script src="{% static 'assets/libs/simplebar/simplebar.min.js'%}"></script>
-    <script src="{% static 'assets/libs/node-waves/waves.min.js'%}"></script>
-    <script src="{% static 'assets/libs/feather-icons/feather.min.js'%}"></script>
-    <script src="{% static 'assets/js/pages/plugins/lord-icon-2.1.0.js'%}"></script>
-    <script src="{% static 'assets/js/plugins.js'%}"></script>
+    <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/libs/simplebar/simplebar.min.js' %}"></script>
+    <script src="{% static 'assets/libs/node-waves/waves.min.js' %}"></script>
+    <script src="{% static 'assets/libs/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'assets/js/pages/plugins/lord-icon-2.1.0.js' %}"></script>
+    <script src="{% static 'assets/js/plugins.js' %}"></script>
+    <!-- Custom script to handle form submission -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.getElementById('Registration');
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                if (!form.checkValidity()) {
+                    event.stopPropagation();
+                    form.classList.add('was-validated');
+                    return;
+                }
 
-    <!-- validation init -->
-    <script src="{% static 'assets/js/pages/form-validation.init.js'%}"></script>
-    <!-- password create init -->
-    <script src="{% static 'assets/js/pages/passowrd-create.init.js'%}"></script>
+                var formData = {
+                    email: document.getElementById('useremail').value,
+                    fullname: document.getElementById('fullname').value,
+                    phone: document.getElementById('phone').value,
+                    password: document.getElementById('password-input').value,
+                    date_naiss: document.getElementById('date_naiss').value,
+                    
+                };
+
+                fetch('/create_account/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        window.location.href = '/'; // Redirect to login page or wherever appropriate
+                    } else {
+                        alert('Error: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert(error);
+                });
+            });
+
+            // Toggle password visibility
+            document.getElementById('password-addon').onclick = function () {
+                var passwordInput = document.getElementById('password-input');
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    this.innerHTML = '<i class="ri-eye-off-fill align-middle"></i>';
+                } else {
+                    passwordInput.type = 'password';
+                    this.innerHTML = '<i class="ri-eye-fill align-middle"></i>';
+                }
+            };
+
+            // Function to get CSRF token
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        });
+    </script>
 </body>
-
 </html>

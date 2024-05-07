@@ -98,11 +98,11 @@ class User( models.Model) :
     password = models.CharField(max_length = 5000)
     addresse = models.CharField(max_length=1000)
     created_at = models.DateTimeField(auto_now_add = True)
-    gouvernorat = models.ForeignKey(Gouvernorat, on_delete= models.CASCADE,related_name="gouv")
-    nationalite = models.ForeignKey(Nationalite, on_delete= models.CASCADE,related_name="nat")
+    gouvernorat = models.ForeignKey(Gouvernorat, on_delete= models.SET_NULL,related_name="gouv",null=True,blank=True )
+    nationalite = models.ForeignKey(Nationalite, on_delete= models.CASCADE,related_name="nat",null=True,blank=True )
     sexe = models.CharField(max_length=5)
     image = models.ImageField(upload_to='categories/')
-    date_naiss = models.DateField()
+    date_naiss = models.DateField(null=True,blank=True )
     def __str__(self) : 
         return self.email
     def update_password(self, new_password):

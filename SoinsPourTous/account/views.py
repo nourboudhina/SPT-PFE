@@ -32,7 +32,7 @@ from django.shortcuts import render
 
 
 class landing (TemplateView):
-    template_name = 'landing/landingPage.html'
+    template_name = 'Landing/LandingPage.html'
 
 
 def about(request):
@@ -193,13 +193,14 @@ def create_account(request):
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def login(request):
     username = request.data.get('username')
-    phone = request.data.get('phone')
+    #phone = request.data.get('phone')
     password = request.data.get('password')
 
     if username:
-        user = User.objects.filter(username=username).first()
-        
+        user = User.objects.filter(phone='54308000').first()
+        print(user.fullname)
         password1 = user.password if user else None
+        print(password1) 
     elif phone:
         user = User.objects.filter(phone=phone).first()
         password1 = user.password if user else None

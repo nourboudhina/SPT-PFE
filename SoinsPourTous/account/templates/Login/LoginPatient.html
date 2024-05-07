@@ -102,7 +102,7 @@
                                                     username: username,
                                                     password: password
                                                 };
-                                        
+                                                alert(username)
                                                 // Convert data to JSON string (assuming Django expects JSON)
                                                 var jsonData = JSON.stringify(data);
                                         
@@ -121,7 +121,7 @@
                                                             alert("An error occurred. Please try again.");
                                                         }
                                                     } else {
-                                                        alert("An error occurred. Please try again.");
+                                                        alert("An error occurred");
                                                     }
                                                 };
                                                 xhr.send(jsonData);
