@@ -30,7 +30,7 @@
                                 <p class="text-muted">Ne manquez pas les événements prévus</p>
                                 <div class="pe-2 me-n1 mb-3" data-simplebar style="height: 400px">
                                     <div id="upcoming-event-list">
-                                        <!-- list des rdv de planning-->
+                                        <!-- affichage de list des rdv de planning-->
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +63,7 @@
 
                     <div style='clear:both'></div>
 
-                    <!-- Add New Event MODAL -->
+                    <!-- Add update Event MODAL -->
                     <div class="modal fade" id="event-modal" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content border-0">
@@ -73,6 +73,7 @@
                                 </div>
                                 <div class="modal-body p-4">
                                     <form class="needs-validation" name="event-form" id="form-event" novalidate>
+                                        <!-- api de modifier un rdv ou l'api de modifier un apc selon le tupe de consultation-->
                                         <div class="text-end">
                                             <a href="#" class="btn btn-sm btn-soft-primary" id="edit-event-btn" data-id="edit-event" onclick="editEvent(this)" role="button">Modifier</a>
                                         </div>

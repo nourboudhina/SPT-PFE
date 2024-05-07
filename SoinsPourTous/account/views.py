@@ -41,8 +41,6 @@ def about(request):
 def contact(request):
     return render(request, 'Landing/Contact.html')
 
-def services(request):
-    return render(request, 'Landing/Services.html')
 
 @csrf_exempt
 def loginP(request):

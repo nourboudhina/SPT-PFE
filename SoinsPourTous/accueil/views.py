@@ -10,15 +10,16 @@ from .models import PageAcceuil
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404,redirect
 import base64
+from django.views.decorators.csrf import csrf_exempt
 from account.models import Medecin, Service, Specialite, Grade, Groupe
 from django.shortcuts import render
 
 
-def PageA(request, token):
+@csrf_exempt
+def pageA(request, token):
     token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
-    if token : 
-        return render(request, 'accueil/PageAccueil.html')
-    
+    return render(request, 'Accueil/PageAccueil.html')   
+
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def getPageAcceuil(request, token):

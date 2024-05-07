@@ -38,7 +38,7 @@ def envoyer_rappel_rendez_vous(request):
         send_mail(
             "Rappel de rendez-vous",
             message,
-            "elyesmlik307@gmail.com",
+            "nourboudhina19@gmail.com",
             [patient.email],
             fail_silently=False
         )

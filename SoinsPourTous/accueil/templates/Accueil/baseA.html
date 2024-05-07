@@ -38,43 +38,60 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-    <div class="layout-width">
-        <div class="navbar-header">
-            <div class="d-flex">
-                <!-- LOGO -->
-                <div class="navbar-brand-box horizontal-logo">
-                    <a href="{% url 'landing'%}" class="logo logo-dark">
-                        <span class="logo-sm">
-                            <img src="{% static 'assets/images/favicon.png'%}" alt="" height="30">
+            <div class="layout-width">
+                <div class="navbar-header">
+                    <div class="d-flex">
+                        <!-- LOGO -->
+                        <div class="navbar-brand-box horizontal-logo">
+                            <button class="navbar-toggler py-0 fs-20 text-body" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                
+                            </button>
+                            <a class="navbar-brand" href="{% url 'landing' %}">
+                                <img src="{% static 'assets/images/favicon.png' %}" class="card-logo card-logo-dark" alt="logo dark" height="35">
+                                <img src="{% static 'assets/images/favicon.png' %}" class="card-logo card-logo-light" alt="logo light" height="35">
+                            </a>
+                        </div>
+                           
+                    </div>
+    
+                    <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
+                        <span class="hamburger-icon">
+                            <span></span>
+                            <span></span>
+                            <span></span>
                         </span>
-                        <span class="logo-lg">
-                            <img src="{% static 'assets/images/favicon.png'%}" alt="" height="300">
-                        </span>
-                    </a>
-
-                    <a href="{% url 'landing'%}" class="logo logo-dark">
-                        <span class="logo-sm">
-                            <img src="{% static 'assets/images/favicon.png'%}" alt="" height="30">
-                        </span>
-                        <span class="logo-lg">
-                            <img src="{% static 'assets/images/favicon.png'%}" alt="" height="300">
-                        </span>
-                    </a>
-                </div>
-
-                <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
-                    <span class="hamburger-icon">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </span>
-                </button>
-
-               
+                    </button>
+    
+                    <form class="app-search d-none d-md-block">
+                        <div class="position-relative">
+                            </div>
+                        <div class="dropdown-menu dropdown-menu-lg" id="search-dropdown">
+                            <div data-simplebar style="max-height: 320px;">
+                               
+                                 
+                            </div>
+    
+                            <div class="text-center pt-3 pb-1">
+                            </div>
+                        </div>
+                    </form>
                 
-            </div>
-
-
+                    
+               
+    
+                <div class="d-flex align-items-center">
+    
+                    <div class="dropdown d-md-none topbar-head-dropdown header-item">
+                        
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-search-dropdown">
+                            <form class="p-3">
+                                <div class="form-group m-0">
+                                    
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+    
 
                 <div class="ms-1 header-item d-none d-sm-flex">
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-toggle="fullscreen">
@@ -194,9 +211,10 @@
                         <!-- item-->
                         <h6 class="dropdown-header">Welcome <!-- uername de user --></h6>
                         <a class="dropdown-item" href="pages-profile.html"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
-                        <a class="dropdown-item" href="pages-faqs.html"><i class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Help</span></a>
+                        <!-- affiche page de profil du user -->
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="auth-logout-basic.html"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
+                        <!-- logout et redirect vers landing page  -->
                     </div>
                 </div>
             </div>
@@ -240,6 +258,7 @@
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="bx bxs-dashboard"></i> <span data-key="t-dashboards">Actualité</span>
+                                <!-- affiche page d'accueil -->
                             </a>
                             
                         </li> <!-- end Dashboard Menu -->
@@ -258,21 +277,27 @@
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
                                         <a href="pages-starter.html" class="nav-link" data-key="t-starter"> Rendez-vous </a>
+                                        <!-- affiche page grstion des rdv  -->
                                     </li>
                                     <li class="nav-item">
                                         <a href="pages-team.html" class="nav-link" data-key="t-team"> APC </a>
+                                        <!-- affiche page grstion des apc  -->
                                     </li>
                                     <li class="nav-item">
                                         <a href="pages-team.html" class="nav-link" data-key="t-team"> Services </a>
+                                        <!-- affiche page grstion des services  -->
                                     </li>
                                     <li class="nav-item">
                                         <a href="pages-team.html" class="nav-link" data-key="t-team"> Spécialités </a>
+                                        <!-- affiche page grstion des spécialités  -->
                                     </li>
                                     <li class="nav-item">
                                         <a href="pages-team.html" class="nav-link" data-key="t-team"> Médecin </a>
+                                        <!-- affiche page grstion des patients  -->
                                     </li>
                                     <li class="nav-item">
                                         <a href="pages-team.html" class="nav-link" data-key="t-team"> Paiement </a>
+                                        <!-- affiche page grstion des paiements  -->
                                     </li>
                                     
                                 </ul>
@@ -284,14 +309,7 @@
 
 
 
-                        <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarAdvanceUI" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAdvanceUI">
-                                <i class="bx bx-briefcase-alt"></i> <span data-key="t-advance-ui">Suivie APC </span>
-                                <span class="badge badge-pill bg-success" data-key="t-new">New</span>
-                            </a>
-                            
-                               
-                        </li>
+                        
                     </ul>
                 </div>
                 <!-- Sidebar -->

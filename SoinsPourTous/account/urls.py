@@ -1,13 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include 
-from .views import create_account, login, password_reset_confirm, password_reset_form, password_updated, request_otp, resend_otp, services, userData, verify_otp, password_reset_email, login_pour_medecin, login_pour_agent, logout_Agent, logout_medecin, logout_patient, landing, about, contact, services, loginA, loginM, loginP, Registration, Verif
+from .views import create_account, login, password_reset_confirm, password_reset_form, password_updated, request_otp, resend_otp, userData, verify_otp, password_reset_email, login_pour_medecin, login_pour_agent, logout_Agent, logout_medecin, logout_patient, landing, about, contact, loginA, loginM, loginP, Registration, Verif
 
 
 urlpatterns = [
     path('',landing.as_view(), name='landing'),
     path('about/',about, name='about'),
     path('contact/',contact, name='contact'),
-    path('services/',services, name='services'),
     path('Patient/',loginP, name='Patient'),
     path('Medcin/',loginM, name='Medcin'),
     path('Agent/',loginA, name='Agent'),
