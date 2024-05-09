@@ -1,4 +1,4 @@
-{% extends "accueil/base.html" %}
+{% extends "Accueil/base.html" %}
 {% load static %}
 {% block title %} Planning Patient {% endblock title%}
 {% block content %}
@@ -109,7 +109,51 @@
         <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
- 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pathArray = window.location.pathname.split('/');
+            const token = pathArray[pathArray.length - 2]; // Assuming token is in the URL path
+        
+            const url = `/planning/getPatientRdvH/${token}/`; // Adjust the URL path according to your routing
+        
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Include authentication headers if necessary
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('Failed to fetch rendezvous data:', data.error);
+                    document.getElementById('upcoming-event-list').innerHTML = '<p>Error fetching data.</p>';
+                    return;
+                }
+        
+                const events = data.rendez_vous;
+                if (events.length === 0) {
+                    document.getElementById('upcoming-event-list').innerHTML = '<p>No upcoming events found.</p>';
+                    return;
+                }
+        
+                const listItems = events.map(event => `
+                    <div class="event">
+                        <h5>${event.medecin}</h5>
+                        <p>Date: ${new Date(event.date_rendez_vous).toLocaleDateString()}</p>
+                        <p>Description: ${event.description || 'No description provided.'}</p>
+                    </div>
+                `).join('');
+        
+                document.getElementById('upcoming-event-list').innerHTML = listItems;
+            })
+            .catch(error => {
+                console.error('Error fetching rendezvous data:', error);
+                document.getElementById('upcoming-event-list').innerHTML = '<p>Error loading events.</p>';
+            });
+        });
+        </script>
+        
 
      <!-- JAVASCRIPT -->
      <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>

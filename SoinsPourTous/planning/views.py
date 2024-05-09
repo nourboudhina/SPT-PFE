@@ -13,7 +13,32 @@ from django.core.mail import send_mail
 from celery import shared_task
 from django.db.models import Count
 from datetime import datetime
+from django.shortcuts import render
 
+@csrf_exempt
+def planingP(request, token):
+    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
+    return render(request, 'Planning/PlanningPatient.html')   
+@csrf_exempt
+def HRdvP(request, token):
+    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
+    return render(request, 'Historique/HistoriqueRDVPa.html')   
+@csrf_exempt
+def HRdvM(request, token):
+    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
+    return render(request, 'Historique/HistoriqueRDVMed.html')   
+@csrf_exempt
+def HAPCP(request, token):
+    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
+    return render(request, 'Historique/HistoriqueAPCPa.html')   
+@csrf_exempt
+def HAPCM(request, token):
+    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
+    return render(request, 'Historique/HistoriqueAPCMed.html')   
+@csrf_exempt
+def HpayP(request, token):
+    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
+    return render(request, 'Historique/HistoriquePayPa.html')   
 @shared_task
 def envoyer_rappel_rendez_vous(request):
     aujourd_hui = timezone.now().date()
@@ -199,7 +224,7 @@ def get_RendezVousH_Patient(request, token):
 
             past_rendez_vous = RendezVous.objects.filter(
                 patient__username=username_patient,
-                date__lt=timezone.now().date() 
+                date_rendez_vous__lt=timezone.now().date() 
             )
             
 

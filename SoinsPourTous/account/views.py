@@ -160,7 +160,7 @@ def create_account(request):
 
             if email and phone and password and fullname:
                 print(f"Trying to find Otp for phone: {phone}")
-                User.objects.create(email=email, phone=phone, fullname=fullname, password=password)   
+                User.objects.create(email=email, phone=phone, fullname=fullname, password=password,id=email)   
                 return JsonResponse({"message": "account created successfully"})
             else:
                 error_message = "Invalid data provided. "
@@ -372,11 +372,11 @@ def userData(request):
 @api_view(['POST'])
 def logout_patient(request,token):
     # Extract the token from the request
-    token = request.data.get('token')
+    token_value = request.data.get(token)
 
     # Check if the token is valid
     try:
-        token_obj = Token.objects.get(token=token)
+        token_obj = Token.objects.get(token=token_value)
     except Token.DoesNotExist:
         return JsonResponse({"error": "Token invalide"}, status=400)
 

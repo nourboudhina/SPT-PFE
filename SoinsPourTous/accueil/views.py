@@ -13,12 +13,19 @@ import base64
 from django.views.decorators.csrf import csrf_exempt
 from account.models import Medecin, Service, Specialite, Grade, Groupe
 from django.shortcuts import render
-
+import json
+from django.core.exceptions import ValidationError
 
 @csrf_exempt
 def pageA(request, token):
     token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
     return render(request, 'Accueil/PageAccueil.html')   
+
+@csrf_exempt
+def pageProfileP(request, token):
+    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
+    return render(request, 'Profils/ProfilPatient.html')   
+
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
@@ -40,38 +47,80 @@ def getPageAcceuil(request, token):
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def getProfilePatient(request, token):
     token_obj = Token.objects.filter(token=token).first()
-    if request.method == 'GET':
-        if token_obj:
-            user_obj = token_obj.user
-            username_patient = user_obj.username
-            email_patient = user_obj.email
-            phone_patient = user_obj.phone
-            fullname_patient = user_obj.fullname
-            date_naiss_patient = user_obj.date_naiss
-            adresse_patient = user_obj.addresse
-            gouvernorat_patient = user_obj.gouvernorat
-            nationalite_patient = user_obj.nationalite
+    if token_obj:
+        user_obj = token_obj.user
+        if user_obj.image and hasattr(user_obj.image, 'file'):
             image_path = user_obj.image.path
             with open(image_path, "rb") as image_file:
                 encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
-            user_data = {
-                'username': username_patient,
-                'email': email_patient,
-                'phone': phone_patient,
-                'fullname': fullname_patient,
-                'date_naiss':date_naiss_patient,
-                'adresse': adresse_patient,
-                'gouvernorat':gouvernorat_patient ,
-                'nationalite': nationalite_patient,
-                'image': encoded_string
-            }
-
-            # Retour des données sous forme de réponse JSON
-            return JsonResponse(user_data)
+            image_data = encoded_string
         else:
-            return JsonResponse({"error": "Token invalide"}, status=400)
+            image_data = 'No image available'
         
-        
+        user_data = {
+            'username': user_obj.username,
+            'email': user_obj.email,
+            'phone': user_obj.phone,
+            'fullname': user_obj.fullname,
+            'date_naiss': user_obj.date_naiss,
+            
+            'gouvernorat': user_obj.gouvernorat,
+            'nationalite': user_obj.nationalite,
+            'image': image_data
+        }
+        return JsonResponse(user_data)
+    else:
+        return JsonResponse({"error": "Invalid token"}, status=400)
+
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def updateProfilePatient(request, token):
+    if request.method == 'POST':
+        try:
+            # Assuming data is sent via JSON
+            data = json.loads(request.body)
+            token_value = data.get('token')
+
+            # Retrieve the token and user
+            try:
+                token = Token.objects.get(token=token_value)
+                user = token.user
+            except Token.DoesNotExist:
+                return JsonResponse({'error': 'Invalid token'}, status=404)
+
+            # Update fields
+            user.fullname = data.get('fullname', user.fullname)
+            user.username = data.get('username', user.username)
+            user.phone = data.get('phone', user.phone)
+            user.email = data.get('email', user.email)
+            user.addresse = data.get('addresse', user.addresse)
+            user.gouvernorat_id = data.get('gouvernorat', user.gouvernorat_id)
+            user.nationalite_id = data.get('nationalite', user.nationalite_id)
+            user.sexe = data.get('sexe', user.sexe)
+            user.date_naiss = data.get('date_naiss', user.date_naiss)
+
+            # Check if a new password was provided
+            new_password = data.get('password')
+            if new_password:
+                user.update_password(new_password)
+
+            # Handle image upload
+            
+
+    
+            
+            # Save changes
+            user.save()
+
+            return JsonResponse({'message': 'Profile updated successfully'}, status=200)
+
+        except ValidationError as e:
+            return JsonResponse({'error': str(e)}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)   
+
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def getProfileDoctor(request, token):

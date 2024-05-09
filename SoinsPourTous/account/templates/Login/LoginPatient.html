@@ -3,7 +3,6 @@
 <html lang="en" data-layout="horizontal" data-topbar="dark" data-sidebar-size="lg" data-sidebar="light" data-sidebar-image="none" data-preloader="disable">
 
 <head>
-
     <meta charset="utf-8" />
     <title>Patient | SPT</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,12 +21,9 @@
     <link href="{% static 'assets/css/app.min.css'%}" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="{% static 'assets/css/custom.min.css'%}" rel="stylesheet" type="text/css" />
-
-
 </head>
 
 <body>
-
     <!-- auth-page wrapper -->
     <div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
         <div class="bg-overlay"></div>
@@ -47,7 +43,6 @@
                                                     <img src="{% static 'assets/images/favicon.png'%}" alt="" height="35">
                                                 </a>
                                             </div>
-                                            
                                         </div>
                                     </div>
                                 </div>
@@ -55,97 +50,35 @@
 
                                 <div class="col-lg-6">
                                     <div class="p-lg-5 p-4">
-                                        <div>
-                                            <h5 class="text-primary">Bienvenue!</h5>
-                                            <p class="text-muted">Inscrivez-vous pour continuer à SPT.</p>
-                                        </div>
+                                        <h5 class="text-primary">Bienvenue!</h5>
+                                        <p class="text-muted">Inscrivez-vous pour continuer à SPT.</p>
 
-                                        <div class="mt-4">
-                                            <form id="LoginPatient">
-                                                {% csrf_token %}
-                                                <div class="mb-3">
-                                                    <label for="email" class="form-label">Email</label>
-                                                    <input type="email" class="form-control" id="email" placeholder="Entrer votre email">
+                                        <form id="LoginPatient">
+                                            {% csrf_token %}
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">Email</label>
+                                                <input type="email" class="form-control" id="email" placeholder="Entrer votre email">
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <div class="float-end">
+                                                    <a href="{% url 'password_reset_email' %}" class="text-muted">Mot de passe oublié?</a>
                                                 </div>
-
-                                                <div class="mb-3">
-                                                    <div class="float-end">
-                                                        <a href="{% url 'password_reset_email' %}" class="text-muted">Mot de passe oublié?</a>
-                                                    </div>
-                                                    <label class="form-label" for="password-input">Mot de passe</label>
-                                                    <div class="position-relative auth-pass-inputgroup mb-3">
-                                                        <input type="password" class="form-control pe-5 password-input" placeholder="Entrer votre mot de passe" id="password-input">
-                                                        <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
-                                                    </div>
+                                                <label class="form-label" for="password-input">Mot de passe</label>
+                                                <div class="position-relative auth-pass-inputgroup mb-3">
+                                                    <input type="password" class="form-control pe-5 password-input" placeholder="Entrer votre mot de passe" id="password-input">
+                                                    <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon">
+                                                        <i class="ri-eye-fill align-middle"></i>
+                                                    </button>
                                                 </div>
+                                            </div>
 
-                                               
-
-                                                <div class="mt-4">
-                                                    <button class="btn btn-success w-100" type="submit">Connexion</button>
-                                                </div>
-
-                                                
-
-                                            </form>
-                                            <!--Page d'accueil-->
-                                        </div>
-                                        <script>
-                                            document.getElementById("LoginPatient").addEventListener("submit", function(event) {
-                                                event.preventDefault();
-                                        
-                                                // Get username and password values from the form
-                                                var email = document.getElementById("email").value;
-                                                var password = document.getElementById("password-input").value;
-                                        
-                                                // Create a JavaScript object to hold the data
-                                                var data = {
-                                                    email: email,
-                                                    password: password
-                                                };
-                                                alert(username)
-                                                // Convert data to JSON string (assuming Django expects JSON)
-                                                var jsonData = JSON.stringify(data);
-                                        
-                                                var xhr = new XMLHttpRequest();
-                                                xhr.open("POST", "/login/", true); // Ensure correct URL
-                                                xhr.setRequestHeader("Content-Type", "application/json"); // Set content type
-                                                xhr.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
-                                                xhr.onload = function() {
-                                                    if (xhr.status === 200) {
-                                                        var response = JSON.parse(xhr.responseText);
-                                                        if (response.token) {
-                                                            console.log(response);
-                                                            // Redirect to /dashboard/<token> if token is present
-                                                            window.location.href = '/accueil/pageaccueil/' + response.token + '/';
-                                                        } else {
-                                                            alert("An error occurred. Please try again.");
-                                                        }
-                                                    } else {
-                                                        alert("An error occurred");
-                                                    }
-                                                };
-                                                xhr.send(jsonData);
-                                            });
-                                        
-                                            // Function to get CSRF cookie value
-                                            function getCookie(name) {
-                                                var cookieValue = null;
-                                                if (document.cookie && document.cookie !== "") {
-                                                    var cookies = document.cookie.split(";");
-                                                    for (var i = 0; i < cookies.length; i++) {
-                                                        var cookie = cookies[i].trim();
-                                                        if (cookie.substring(0, name.length + 1) === (name + "=")) {
-                                                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                                            break;
-                                                        }
-                                                    }
-                                                }
-                                                return cookieValue;
-                                            }
-                                        </script>
+                                            <div class="mt-4">
+                                                <button class="btn btn-success w-100" type="submit">Connexion</button>
+                                            </div>
+                                        </form>
                                         <div class="mt-5 text-center">
-                                            <p class="mb-0">Vous n'avez pas de compte? <a href="{% url 'Registration' %}" class="fw-semibold text-primary text-decoration-underline"> Créer</a> </p>
+                                            <p class="mb-0">Vous n'avez pas de compte? <a href="{% url 'Registration' %}" class="fw-semibold text-primary text-decoration-underline">Créer</a> </p>
                                         </div>
                                     </div>
                                 </div>
@@ -156,7 +89,6 @@
                         <!-- end card -->
                     </div>
                     <!-- end col -->
-
                 </div>
                 <!-- end row -->
             </div>
@@ -189,9 +121,61 @@
     <script src="{% static 'assets/libs/feather-icons/feather.min.js'%}"></script>
     <script src="{% static 'assets/js/pages/plugins/lord-icon-2.1.0.js'%}"></script>
     <script src="{% static 'assets/js/plugins.js'%}"></script>
-
-    <!-- password-addon init -->
     <script src="{% static 'assets/js/pages/password-addon.init.js'%}"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var loginForm = document.getElementById("LoginPatient");
+            if (loginForm) {
+                loginForm.addEventListener("submit", function(event) {
+                    event.preventDefault();
+
+                    var email = document.getElementById("email").value;
+                    var password = document.getElementById("password-input").value;
+
+                    var data = {
+                        email: email,
+                        password: password
+                    };
+
+                    var jsonData = JSON.stringify(data);
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "/login/", true); // Ensure this URL is correct
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                    xhr.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
+                    xhr.onload = function() {
+                        if (xhr.status === 200) {
+                            var response = JSON.parse(xhr.responseText);
+                            if (response.token) {
+                                window.location.href = '/accueil/pageaccueil/' + response.token + '/';
+                            } else {
+                                alert("An error occurred. Please try again.");
+                            }
+                        } else {
+                            alert("An error occurred");
+                        }
+                    };
+                    xhr.send(jsonData);
+                });
+            }
+        });
+
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                var cookies = document.cookie.split(";");
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + "=")) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
 </body>
 
 </html>
