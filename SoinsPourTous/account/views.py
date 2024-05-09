@@ -33,7 +33,8 @@ from django.shortcuts import render
 
 class landing (TemplateView):
     template_name = 'Landing/LandingPage.html'
-
+def Personnel(request):
+    return render(request, 'Landing/Personnel.html')
 
 def about(request):
     return render(request, 'Landing/About.html')

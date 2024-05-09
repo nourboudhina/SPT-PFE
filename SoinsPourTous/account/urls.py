@@ -1,10 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include 
-from .views import create_account, login, password_reset_confirm, password_reset_form, password_updated, request_otp, resend_otp, userData, verify_otp, password_reset_email, login_pour_medecin, login_pour_agent, logout_Agent, logout_medecin, logout_patient, landing, about, contact, loginA, loginM, loginP, Registration, Verif
+from .views import create_account, login, password_reset_confirm, password_reset_form, password_updated, request_otp, resend_otp, userData, verify_otp, password_reset_email, login_pour_medecin, login_pour_agent, logout_Agent, logout_medecin, logout_patient, landing, about, contact, loginA, loginM, loginP, Registration, Verif, Personnel
 
 
 urlpatterns = [
     path('',landing.as_view(), name='landing'),
+    path('Personnel/',Personnel, name='Personnel'),
     path('about/',about, name='about'),
     path('contact/',contact, name='contact'),
     path('Patient/',loginP, name='Patient'),

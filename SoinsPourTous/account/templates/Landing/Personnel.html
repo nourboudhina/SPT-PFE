@@ -1,0 +1,74 @@
+{% load static %}
+<!doctype html>
+<html lang="en" data-layout="horizontal" data-topbar="dark" data-sidebar-size="lg" data-sidebar="light" data-sidebar-image="none" data-preloader="disable">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Bienvenue | SPT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.png' %}">
+
+    <!--Swiper slider css-->
+    <link href="{% static 'assets/libs/swiper/swiper-bundle.min.css' %}" rel="stylesheet" type="text/css" />
+
+    <!-- Layout config Js -->
+    <script src="{% static 'assets/js/layout.js' %}"></script>
+    <!-- Bootstrap Css -->
+    <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="{% static 'assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="{% static 'assets/css/app.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- custom Css-->
+    <link href="{% static 'assets/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
+
+
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#navbar-example">
+    <!-- start hero section -->
+<section class="section pb-0 hero-section" id="hero">
+    <div class="bg-overlay bg-overlay-pattern"></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-sm-10">
+                <div class="text-center mt-lg-5 pt-5">
+                    <h1 class="display-6 fw-bold mb-3 lh-base">Bienvenue! 
+                        Êtes-vous un <span class="text-success">médecin</span> ou un <span class="text-success">agent</span>?
+                       </h1>
+                
+
+                    <div class="d-flex gap-2 justify-content-center mt-4">
+                        <a href="{% url 'Agent' %}" class="btn btn-primary">Agent <i class="ri-arrow-right-line align-middle ms-1"></i></a>
+                        <a href="{% url 'Medcin' %}" class="btn btn-danger">Méddecin <i class="ri-eye-line align-middle ms-1"></i></a>
+                    </div>
+                </div>
+
+
+
+
+
+
+                
+    <!-- JAVASCRIPT -->
+    <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    <script src="{% static 'assets/libs/simplebar/simplebar.min.js'%}"></script>
+    <script src="{% static 'assets/libs/node-waves/waves.min.js'%}"></script>
+    <script src="{% static 'assets/libs/feather-icons/feather.min.js'%}"></script>
+    <script src="{% static 'assets/js/pages/plugins/lord-icon-2.1.0.js'%}"></script>
+    <script src="{% static 'assets/js/plugins.js'%}"></script>
+    <script src="{% static 'assets/libs/flatpickr/flatpickr.min.js'%}"></script>
+    <script src="{% static 'assets/libs/choices.js/public/assets/scripts/choices.min.js'%}"></script>
+
+    <!--Swiper slider js-->
+    <script src="{% static 'assets/libs/swiper/swiper-bundle.min.js'%}"></script>
+    
+    <!-- landing init -->
+    <script src="{% static 'assets/js/pages/landing.init.js'%}"></script>
+</body>
+
+</html>
