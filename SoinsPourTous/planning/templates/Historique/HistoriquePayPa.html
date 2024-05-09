@@ -1,4 +1,4 @@
-{% extends "accueil/base.html" %}
+{% extends "Accueil/base.html" %}
 {% load static %}
 {% block title %} Historique Paiement {% endblock title%}
 {% block content %}
@@ -75,12 +75,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all" id="ticket-list-data">
-                                        <tr>
-                                            
-                                            <td>
-                                                <!-- affichage de list des paiements corresspond à ce patient-->
-                                            </td>
-                                        </tr>
+                                      
                                     </tbody>
                                 </table>
                                 <div class="noresult" style="display: none">
@@ -122,7 +117,41 @@
     </div>
     <!-- End Page-content -->
 
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pathArray = window.location.pathname.split('/');
+            const token = pathArray[pathArray.length - 2];  // Assumed token is second last in the URL path
+        
+            fetch(`/planning/getpaiementHistorique/${token}/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('Failed to fetch payment data:', data.error);
+                    return;
+                }
+        
+                const paymentList = document.getElementById('ticket-list-data');
+                data.forEach(payment => {
+                    const row = document.createElement('tr');
+        
+                    const dateCell = document.createElement('td');
+                    dateCell.textContent = new Date(payment.date).toLocaleDateString();  // Format date as needed
+        
+                    const amountCell = document.createElement('td');
+                    amountCell.textContent = payment.montant.toLocaleString() + ' €';  // Assuming amount is in Euro
+        
+                    row.appendChild(dateCell);
+                    row.appendChild(amountCell);
+        
+                    paymentList.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading payment data:', error);
+            });
+        });
+        </script>
+        
     <!-- JAVASCRIPT -->
     <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
     <script src="{% static 'assets/libs/simplebar/simplebar.min.js'%}"></script>

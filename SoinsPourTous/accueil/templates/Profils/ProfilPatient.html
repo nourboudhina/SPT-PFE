@@ -1,4 +1,4 @@
-{% extends "accueil/base.html" %}
+{% extends "Accueil/base.html" %}
 {% load static %}
 {% block title %} Profil {% endblock title%}
 {% block content %}
@@ -10,7 +10,7 @@
 
             <div class="position-relative mx-n4 mt-n4">
                 <div class="profile-wid-bg profile-setting-img">
-                    <img src="{% static 'assets/images/profile-bg.jpg'%}" class="profile-wid-img" alt="">
+                    <img id='userProfileImage'src="{% static 'assets/images/profile-bg.jpg'%}" class="profile-wid-img" alt="">
                     
                 </div>
             </div>
@@ -63,12 +63,12 @@
                         <div class="card-body p-4">
                             <div class="tab-content">
                                 <div class="tab-pane active" id="personalDetails" role="tabpanel">
-                                    <form action="javascript:void(0);">
+                                    <form id="updateProfileForm" enctype="multipart/form-data">
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
-                                                    <label for="firstnameInput" class="form-label">Nom complet</label>
-                                                    <input type="text" class="form-control" id="firstnameInput" placeholder="Entrez votre nom complet" value="Dave">
+                                                    <label for="firstname" class="form-label">Nom complet</label>
+                                                    <input type="text" class="form-control" id="firstnameInput" placeholder="Entrez votre nom complet" value="">
                                                 </div>
                                             </div>
                                             <!--end col-->
@@ -114,7 +114,7 @@
                                             <div class="col-lg-12">
                                                 <div class="mb-3">
                                                     <label for="skillsInput" class="form-label">Nationnalité</label>
-                                                    <select class="form-control" name="skillsInput" data-choices data-choices-removeItem multiple id="skillsInput">
+                                                    <select class="form-control" name="skillsInput" data-choices data-choices-removeItem multiple id="nasionaliter">
                                                         
                                                         <!--les options des Nationnalités présent dans la BD -->
                                                     </select>
@@ -131,12 +131,12 @@
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
                                                     <label for="websiteInput1" class="form-label">sexe</label>
-                                                    <select class="form-control" name="skillsInput" data-choices data-choices-removeItem multiple id="skillsInput">
+                                                    <select class="form-control" name="skillsInput" data-choices data-choices-removeItem multiple id="sex">
                                                         <option value="Fem" >Femme</option>
                                                         <option value="Hom" >Homme</option>
                                                     </select></div></div>
                                             </div>
-                                            <!--end col-->
+                                            <!--end col-->          
                                             
                                             <div class="col-lg-12">
                                                 <div class="mb-3 pb-2">
@@ -184,7 +184,7 @@
                                             <!--end col-->
                                             <div class="col-lg-12">
                                                 <div class="mb-3">
-                                                    <a href="javascript:void(0);" class="link-primary text-decoration-underline">Vous avez oublié votre mot de passe?</a>
+                                                    <a id='password' href="#" class="text-decoration-underline">Vous avez oublié votre mot de passe?</a>
                                                 </div>
                                             </div>
                                             <!--end col-->
@@ -221,6 +221,108 @@
 
 
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const pathArray = window.location.pathname.split('/');
+        const token = pathArray[pathArray.length - 2];
+        
+        fetch(`/accueil/getProfilePatient/${token}/`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error('Failed to fetch profile data:', data.error);
+                return;
+            }
+           
+            
+            document.getElementById('userProfileImage').src = data.image || '';
+        
+            document.getElementById('firstnameInput').value = data.fullname || '';
+            document.getElementById('lastnameInput').value = data.username || '';
+            document.getElementById('phonenumberInput').value = data.phone || '';
+            document.getElementById('emailInput').value = data.email || '';
+            document.getElementById('JoiningdatInput').value = data.date_naiss || '';
+            document.getElementById('gouvernoratInput').value = data.gouvernorat || '';
+            document.getElementById('nationaliteInput').value = data.nationalite || '';
+            document.getElementById('designationInput').value = data.adresse || '';
+            document.getElementById('sexeInput').value = data.sexe || '';
+            document.getElementById('descriptionInput').textContent = data.description || '';
+        })
+        .catch(error => {
+            console.log('Error loading user data:', error);
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+                        const pathArray = window.location.pathname.split('/');
+                        const token = pathArray[pathArray.length - 2];
+                        fetch(`/accueil/getProfilePatient/${token}/`)
+        .then(response => response.json())
+        .then(data => { 
+                        const email=document.getElementById('emailInput').value 
+                        document.getElementById('password').href = `/password_reset_form/${data.email}/${token}/`;
+
+    })}),
+    document.addEventListener('DOMContentLoaded', function() {
+    const updateForm = document.getElementById('updateProfileForm');
+    updateForm.addEventListener('submit', function(event) {
+        event.preventDefault();  // Prevent the default form submission
+
+       
+        const pathArray = window.location.pathname.split('/');
+        const token = pathArray[pathArray.length - 2]; // Ensure you have the token available in your template context, or adjust this accordingly
+        const formData = {
+                token: token,
+                fullname: document.getElementById('firstnameInput').value,
+                username: document.getElementById('lastnameInput').value,
+                phone: document.getElementById('phonenumberInput').value,
+                email: document.getElementById('emailInput').value,
+                date_naiss: document.getElementById('JoiningdatInput').value,
+                gouvernorat: document.getElementById('skillsInput').value, // Assuming this returns an ID or array of IDs
+                nationalite: document.getElementById('nasionaliter').value, // Assuming this returns an ID or array of IDs
+                adresse: document.getElementById('designationInput').value,
+                sexe: document.getElementById('sex').value, // Assuming this is the correct ID
+                description: document.getElementById('exampleFormControlTextarea').value
+            };
+        fetch(`/accueil/updateProfile/${token}/`, {  // Adjust this URL to your Django view that handles the update
+            method: 'POST',
+            body:  JSON.stringify(formData),
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')  // CSRF token for Django
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Profile updated successfully');
+                alert('Profile updated successfully');
+            } else {
+                console.error('Failed to update profile:', data.error);
+                alert('Failed to update profile: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error updating profile:', error);
+            alert('Error updating profile: ' + error);
+        });
+    });
+});
+
+// Helper function to get CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+    </script>
 <!-- JAVASCRIPT -->
 <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
 <script src="{% static 'assets/libs/simplebar/simplebar.min.js'%}"></script>

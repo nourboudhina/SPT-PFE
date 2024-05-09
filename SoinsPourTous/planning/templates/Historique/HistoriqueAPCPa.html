@@ -1,4 +1,4 @@
-{% extends "accueil/base.html" %}
+{% extends "Accueil/base.html" %}
 {% load static %}
 {% block title %} Historique APC {% endblock title%}
 {% block content %}
@@ -83,12 +83,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all" id="ticket-list-data">
-                                        <tr>
-                                            
-                                            <td>
-                                                <!-- affichage delist des APC corresspond à ce patient-->
-                                            </td>
-                                        </tr>
+                                       
                                     </tbody>
                                 </table>
                                 <div class="noresult" style="display: none">
@@ -129,7 +124,45 @@
         <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pathArray = window.location.pathname.split('/');
+            const token = pathArray[pathArray.length - 2];  // Assumed token is second last in the URL path
+        
+            fetch(`/planning/get_APCH_Patient/${token}/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('Failed to fetch APC data:', data.error);
+                    return;
+                }
+        
+                const apcList = document.getElementById('ticket-list-data');
+                data.apc.forEach(apc => {
+                    const row = document.createElement('tr');
+        
+                    const dateCell = document.createElement('td');
+                    dateCell.textContent = new Date(apc.date).toLocaleDateString();  // Format date as needed
+        
+                    const descriptionCell = document.createElement('td');
+                    descriptionCell.textContent = apc.description || 'No description provided';
+        
+                    const detailsCell = document.createElement('td');
+                    detailsCell.textContent = apc.details || 'Details not available';  // Assuming there is a 'details' field
+        
+                    row.appendChild(dateCell);
+                    row.appendChild(descriptionCell);
+                    row.appendChild(detailsCell);
+        
+                    apcList.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading APC data:', error);
+            });
+        });
+        </script>
+        
 
     <!-- JAVASCRIPT -->
     <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
