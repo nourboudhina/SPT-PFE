@@ -370,13 +370,13 @@ def userData(request):
 
         
 @api_view(['POST'])
-def logout_patient(request,token):
+def logout_patient(request, token):
     # Extract the token from the request
-    token_value = request.data.get(token)
+    token_value = token
 
     # Check if the token is valid
     try:
-        token_obj = Token.objects.get(token=token_value)
+        token_obj = Token.objects.get(key=token_value)
     except Token.DoesNotExist:
         return JsonResponse({"error": "Token invalide"}, status=400)
 
