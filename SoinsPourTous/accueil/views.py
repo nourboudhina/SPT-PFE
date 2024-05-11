@@ -23,7 +23,7 @@ def pageA(request, token):
 
 @csrf_exempt
 def pageProfileP(request, token):
-    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
+    token = Token.objects.filter(token=token).first()
     return render(request, 'Profils/ProfilPatient.html')   
 
 
@@ -94,8 +94,8 @@ def updateProfilePatient(request, token):
             user.phone = data.get('phone', user.phone)
             user.email = data.get('email', user.email)
             user.addresse = data.get('addresse', user.addresse)
-            user.gouvernorat_id = data.get('gouvernorat', user.gouvernorat_id)
-            user.nationalite_id = data.get('nationalite', user.nationalite_id)
+            user.gouvernorat = data.get('gouvernorat', user.gouvernorat)
+            user.nationalite = data.get('nationalite', user.nationalite)
             user.sexe = data.get('sexe', user.sexe)
             user.date_naiss = data.get('date_naiss', user.date_naiss)
 

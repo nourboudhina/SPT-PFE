@@ -2,6 +2,9 @@
 {% load static %}
 {% block title %} Planning Patient {% endblock title%}
 {% block content %}
+<head><!-- fullcalendar css -->
+<link href="{% static 'assets/libs/fullcalendar/main.min.css' %}" rel="stylesheet" type="text/css" />
+</head>
 
 <div class="main-content">
 
@@ -50,7 +53,7 @@
                             </div>
                             <!--end card-->
                         </div> <!-- end col-->
-
+                   
                         <div class="col-xl-9">
                             <div class="card card-h-100">
                                 <div class="card-body">
@@ -90,12 +93,12 @@
                                                     <i class="ri-time-line text-muted fs-16"></i>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <h6 class="d-block fw-semibold mb-0"><span id="event-timepicker1-tag"></span> - <span id="event-timepicker2-tag"></span></h6>
+                                                    <h6 class="d-block fw-semibold mb-0">
+                                                    <span id="event-timepicker1-tag"></span> - <span id="event-timepicker2-tag"></span></h6>
                                                 </div>
                                             </div>
                                             
                                         </div>
-                                        
                                     </form>
                                 </div>
                             </div> <!-- end modal-content-->
