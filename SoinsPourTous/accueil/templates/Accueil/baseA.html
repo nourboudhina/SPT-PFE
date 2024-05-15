@@ -211,6 +211,7 @@
                         <!-- item-->
                         <h6 id='fullname'class="dropdown-header">Welcome <!--affichage de username-->!</h6>
                         <a id='profile' class="dropdown-item" href="pages-profile.html"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
+                        <a class="dropdown-item" href="pages-faqs.html"><i class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Help</span></a>
                         <div class="dropdown-divider"></div>
                         <a id='logout' class="dropdown-item" href="auth-logout-basic.html"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
                     </div>
@@ -282,19 +283,6 @@
                                         <!-- affiche page grstion des apc  -->
                                     </li>
                                     <li class="nav-item">
-                                        <a id='GESPAY'href="pages-team.html" class="nav-link" data-key="t-team"> Paiement </a>
-                                        <!-- affiche page grstion des paiements  -->
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarPages" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarPages">
-                                <i class="bx bx-file"></i> <span data-key="t-pages">Hopitale</span>
-                            </a>
-                            <div class="collapse menu-dropdown" id="sidebarPages">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
                                         <a id='SERV' href="pages-team.html" class="nav-link" data-key="t-team"> Services </a>
                                         <!-- affiche page grstion des services  -->
                                     </li>
@@ -306,7 +294,10 @@
                                         <a id='GESMed' href="pages-team.html" class="nav-link" data-key="t-team"> Médecin </a>
                                         <!-- affiche page grstion des patients  -->
                                     </li>
-                                    
+                                    <li class="nav-item">
+                                        <a id='GESPAY'href="pages-team.html" class="nav-link" data-key="t-team"> Paiement </a>
+                                        <!-- affiche page grstion des paiements  -->
+                                    </li>
                                     
                                 </ul>
                             </div>
@@ -405,7 +396,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const pathArray = window.location.pathname.split('/');
         const token = pathArray[pathArray.length - 2];
-        document.getElementById('accueilLink').href = `/accueil/pageaccueil/${token}/`;
+        //document.getElementById('accueilLink').href = `/accueil/pageaccueil/${token}/`;
         //document.getElementById('planningLink').href = `/planning/planingM/${token}/`;
         document.getElementById('profile').href = `/accueil/pageProfileA/${token}/`;
         document.getElementById('RDV').href = `/planning/GRDV/${token}/`;
@@ -422,7 +413,7 @@
         
         const pathArray = window.location.pathname.split('/');
         const token = pathArray[pathArray.length - 2];
-        fetch(`/logoutAgent/${token}/`, {
+        fetch(`/logoutPatient/${token}/`, {
             
          method: 'POST',
              headers: {

@@ -109,7 +109,7 @@ def add_medecin(request):
         except Exception as e:
             print(e)
             #return JsonResponse({'error': 'Invalid JSON'}, status=400)
-        
+        except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Invalid HTTP method'}, status=405)
@@ -203,8 +203,8 @@ def specialite_list(request):
         serializer = SpecialiteSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
@@ -215,7 +215,7 @@ def specialite_detail(request, pk):
     try:
         specialite = Specialite.objects.get(pk=pk)
     except Specialite.DoesNotExist:
-        return Response(status=404)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
         serializer = SpecialiteSerializer(specialite)
@@ -226,11 +226,11 @@ def specialite_detail(request, pk):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=400)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         specialite.delete()
-        return Response(status=204)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 def generate_unique_id():
     return str(uuid.uuid4())

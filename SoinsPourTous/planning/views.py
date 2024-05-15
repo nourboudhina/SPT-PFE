@@ -16,28 +16,6 @@ from datetime import datetime
 from django.shortcuts import render
 
 @csrf_exempt
-def SAPCPage(request, token):
-    token = TokenForDoctor.objects.filter(token=token).exists() 
-    if token :
-        return render(request, 'Historique/SuivieAPC.html')  
-
-
-@csrf_exempt
-def GAPC(request, token):
-    token = TokenForAgent.objects.filter(token=token).exists() 
-    if token:
-        return render(request, 'Gestion/GestionAPC.html')
-@csrf_exempt
-def GPy(request, token):
-    token = TokenForAgent.objects.filter(token=token).exists() 
-    if token:
-        return render(request, 'Gestion/GestionPay.html')
-@csrf_exempt
-def GRDV(request, token):
-    token = TokenForAgent.objects.filter(token=token).exists() 
-    if token:
-        return render(request, 'Gestion/GestionRDV.html')      
-@csrf_exempt
 def planingP(request, token):
     token = Token.objects.filter(token=token).exists() 
     if token:

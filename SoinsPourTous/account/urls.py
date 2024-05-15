@@ -26,7 +26,7 @@ urlpatterns = [
     path('Agent/',loginA, name='Agent'),
     path('Regis/',Registration, name='Registration'),
     path('Verification/',Verif, name='Verification'),
-    path('gouvernorats/', get_gouvernorats, name='gouvernorats-api'),
+path('gouvernorats/', get_gouvernorats, name='gouvernorats-api'),
     path('request_otp/',request_otp, name = 'request_otp'),
     path('resend_otp/',resend_otp,name='resend_otp'),
     path('verify_otp/', verify_otp),
