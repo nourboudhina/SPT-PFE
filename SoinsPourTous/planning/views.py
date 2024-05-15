@@ -35,9 +35,8 @@ def GRDV(request, token):
     return render(request, 'Gestion/GestionRDV.html')      
 @csrf_exempt
 def planingP(request, token):
-    token = Token.objects.filter(token=token).exists() 
-    if token:
-        return render(request, 'Planning/PlanningPatient.html')
+    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
+    return render(request, 'Planning/PlanningPatient.html')   
 @csrf_exempt
 def planingM(request, token):
     token = TokenForDoctor.objects.filter(token=token).exists() 
@@ -384,7 +383,9 @@ def suivi_apc(request, token):
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def get_agent_rendezvous_apc(request, token):
     if request.method == "GET":
+        print(token)
         token_agent = TokenForAgent.objects.filter(token=token).first()
+        print(token_agent)
         agent = token_agent.user
         if agent:
             hopital = agent.hopitale
