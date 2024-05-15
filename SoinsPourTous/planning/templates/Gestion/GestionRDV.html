@@ -28,55 +28,13 @@
                             <div class="d-flex align-items-center">
                                 <h5 class="card-title mb-0 flex-grow-1">Rendez-vous</h5>
                                 <div class="flex-shrink-0">
-                                    <button class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#Modifier"><i class="ri-add-line align-bottom me-1"></i> Ajouter</button>
+                                    <button class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#Ajouter"><i class="ri-add-line align-bottom me-1"></i> Ajouter</button>
                                     <button class="btn btn-soft-secondary" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body border border-dashed border-end-0 border-start-0">
-                            <form>
-                                <div class="row g-3">
-                                    <div class="col-xxl-5 col-sm-12">
-                                        <div class="search-box">
-                                            <input type="text" class="form-control search bg-light border-light" placeholder="Chercher un rendez-vous...">
-                                            <i class="ri-search-line search-icon"></i>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-xxl-3 col-sm-4">
-                                        <input type="text" class="form-control bg-light border-light" data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true" id="demo-datepicker" placeholder="Sélectionner la date ">
-                                    </div>
-                                    <!--end col-->
-                                    
-
-                                    <div class="col-xxl-3 col-sm-4">
-                                        <div class="input-light">
-                                            <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idStatus">
-                                                <option value="">Médecin</option>
-                                                <!--les options des médecins présent dans l'hopitele de l'agent -->
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xxl-3 col-sm-4">
-                                        <div class="input-light">
-                                            <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idStatus">
-                                                <option value="">Patient</option>
-                                                <!--les options des patients présent  -->
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    
-                                    <div class="col-xxl-1 col-sm-4">
-                                        <button type="button" class="btn btn-primary w-100" onclick="SearchData();"> <i class="ri-equalizer-fill me-1 align-bottom"></i>
-                                            Filtres
-                                        </button>
-                                    </div>
-                                    <!--end col-->
-                                </div>
-                                <!--end row-->
-                            </form>
-                        </div>
+                        
+                        
                         <!--end card-body-->
                         <div class="card-body">
                             <div class="table-responsive table-card mb-4">
@@ -110,7 +68,7 @@
                                                         <i class="ri-more-fill align-middle"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a class="dropdown-item edit-item-btn" href="#Modifier" data-bs-toggle="modal"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Modifier</a></li> 
+                                                        <li><a class="dropdown-item edit-item-btn" data-bs-target="#Modifier" data-bs-toggle="modal"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Modifier</a></li> 
                                                         <li>
                                                             <a class="dropdown-item remove-item-btn" data-bs-toggle="modal" href="#delete">
                                                                 <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Supprimer
@@ -122,14 +80,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <div class="noresult" style="display: none">
-                                    <div class="text-center">
-                                        <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#121331,secondary:#08a88a" style="width:75px;height:75px">
-                                        </lord-icon>
-                                        <h5 class="mt-2">Désolé! Aucun résultat trouvé</h5>
-                                        <p class="text-muted mb-0">Nous avons cherché et nous n'avons pas trouvé ce rendez-vous pour vous recherche.</p>
-                                    </div>
-                                </div>
+                                
                             </div>
                             <div class="d-flex justify-content-end mt-2">
                                 <div class="pagination-wrap hstack gap-2">
@@ -182,6 +133,46 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                         </div>
                         <form>
+                            <div class="modal-body">
+                                <div class="row g-3">
+ 
+                                    <div class="col-lg-6">
+                                        <label for="date-field" class="form-label">Date  </label>
+                                        <input type="date" id="date-field" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Create Date" required />
+                                    </div>
+                                    
+                                    <div class="col-lg-6">
+                                        <label for="ticket-status" class="form-label">État</label>
+                                        <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status">
+                                            <option value="">État</option>
+                                            <option value="New">Nouveau</option>
+                                            <option value="Inprogress">Annuler</option>
+                                            
+                                        </select>
+                                    </div>
+                                    
+                                </div>
+
+                            </div>
+                            
+                            <div class="modal-footer">
+                                <div class="hstack gap-2 justify-content-end">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
+                                    <button type="button" class="btn btn-success" id="edit-btn">Modifier</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade zoomIn" id="Ajouter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content border-0">
+                        <div class="modal-header p-3 bg-soft-info">
+                            <h5 class="modal-title" id="exampleModalLabel"></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                        </div>
+                        <form>
                             <!-- api d'ajouter ou modifier  rdv -->
                             <div class="modal-body">
                                 <div class="row g-3">
@@ -215,7 +206,7 @@
                                     
                                     <div class="col-lg-6">
                                         <label for="date-field" class="form-label">Date  </label>
-                                        <input type="text" id="date-field" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Create Date" required />
+                                        <input type="date" id="date-field" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Create Date" required />
                                     </div>
                                     
                                     <div class="col-lg-6">
@@ -236,14 +227,12 @@
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
                                     <button type="submit" class="btn btn-success" id="add-rdv">Ajouter</button>
-                                    <button type="button" class="btn btn-success" id="edit-btn">Modifier</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-
         </div>
         <!-- container-fluid -->
     </div>
@@ -263,7 +252,7 @@
 
     <!--list pagination js-->
     <script src="{% static 'assets/libs/list.pagination.js/list.pagination.min.js'%}"></script>
-
+    <script src="{% static 'assets/json/support-tickets-list.json'%}"></script>
     <!-- titcket init js -->
     <script src="{% static 'assets/js/pages/ticketlist.init.js'%}"></script>
 
@@ -393,7 +382,7 @@ const addRendezVous = () => {
 
     console.log('Sending data:', data);  // Log the data being sent
 
-    fetch(`/planning/ajoutRendezVousParAgent/3619fe0e116a11ef8cb7c89402a799ef/`, {
+    fetch(`/planning/ajoutRendezVousParAgent/${token}/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

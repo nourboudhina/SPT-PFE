@@ -17,46 +17,61 @@ from django.shortcuts import render
 
 @csrf_exempt
 def SAPCPage(request, token):
-    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
-    return render(request, 'Historique/SuivieAPC.html')  
+    token = TokenForDoctor.objects.filter(token=token).exists() 
+    if token :
+        return render(request, 'Historique/SuivieAPC.html')  
 
 
 @csrf_exempt
 def GAPC(request, token):
-    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
-    return render(request, 'Gestion/GestionAPC.html')
+    token = TokenForAgent.objects.filter(token=token).exists() 
+    if token:
+        return render(request, 'Gestion/GestionAPC.html')
 @csrf_exempt
 def GPy(request, token):
-    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
-    return render(request, 'Gestion/GestionPay.html')
+    token = TokenForAgent.objects.filter(token=token).exists() 
+    if token:
+        return render(request, 'Gestion/GestionPay.html')
 @csrf_exempt
 def GRDV(request, token):
-    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
-    return render(request, 'Gestion/GestionRDV.html')      
+    token = TokenForAgent.objects.filter(token=token).exists() 
+    if token:
+        return render(request, 'Gestion/GestionRDV.html')      
 @csrf_exempt
 def planingP(request, token):
-    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
-    return render(request, 'Planning/PlanningPatient.html')   
+    token = Token.objects.filter(token=token).exists() 
+    if token:
+        return render(request, 'Planning/PlanningPatient.html')
+@csrf_exempt
+def planingM(request, token):
+    token = TokenForDoctor.objects.filter(token=token).exists() 
+    if token:
+        return render(request, 'Planning/PlanningMed.html')   
 @csrf_exempt
 def HRdvP(request, token):
-    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
-    return render(request, 'Historique/HistoriqueRDVPa.html')   
+    token = Token.objects.filter(token=token).exists() 
+    if token:
+        return render(request, 'Historique/HistoriqueRDVPa.html')   
 @csrf_exempt
 def HRdvM(request, token):
-    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
-    return render(request, 'Historique/HistoriqueRDVMed.html')   
+    token = TokenForDoctor.objects.filter(token=token).exists() 
+    if token:
+        return render(request, 'Historique/HistoriqueRDVMed.html')   
 @csrf_exempt
 def HAPCP(request, token):
-    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
-    return render(request, 'Historique/HistoriqueAPCPa.html')   
+    token = Token.objects.filter(token=token).exists() 
+    if token:
+        return render(request, 'Historique/HistoriqueAPCPa.html')   
 @csrf_exempt
 def HAPCM(request, token):
-    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
-    return render(request, 'Historique/HistoriqueAPCMed.html')   
+    token = TokenForDoctor.objects.filter(token=token).exists() 
+    if token:
+        return render(request, 'Historique/HistoriqueAPCMed.html')   
 @csrf_exempt
 def HpayP(request, token):
-    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
-    return render(request, 'Historique/HistoriquePayPa.html')   
+    token = Token.objects.filter(token=token).exists() 
+    if token:
+        return render(request, 'Historique/HistoriquePayPa.html')   
 @shared_task
 def envoyer_rappel_rendez_vous(request):
     aujourd_hui = timezone.now().date()
@@ -604,21 +619,23 @@ def add_payment(request, token):
 
     if request.method == 'POST':
         if token_obj:
-            if request.data:
-                try:
-                    patient = token_obj.user
-                    payé = request.data.get('payé')  
-
-                    payment = Payment.objects.create(patient=patient, payé=payé)
-                    return JsonResponse({"message": "Paiement ajouté avec succès", "id": payment.id})
-                except Exception as e:
-                    return JsonResponse({"error": str(e)}, status=400)
-            else:
-                return JsonResponse({"error": "Données de paiement requises"}, status=400)
-        else:
-            return JsonResponse({"error": "Token invalide"}, status=400)
-
-    return JsonResponse({"error": "Requête POST requise"}, status=400)
+            
+                
+            patient = request.data.get('patient')
+            payé = request.data.get('payé') 
+            date = request.data.get('date') 
+            patientExist = User.objects.filter(username = patient)
+            
+            if patientExist :
+                payment = Payment.objects.create(patient=patient, payé=payé, date=date)
+                payment.save()
+                return JsonResponse({"message": "Paiement ajouté avec succès", "id": payment.id})
+            elif patientExist : 
+                return JsonResponse({'erreur APC': ' ce patient nexiste pas'}, status=400)
+        else : 
+            return JsonResponse({'Donnee erreur ': 'Il y a quelque donnees manquante'}, status=400)
+        
+    return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
 @api_view(['DELETE'])

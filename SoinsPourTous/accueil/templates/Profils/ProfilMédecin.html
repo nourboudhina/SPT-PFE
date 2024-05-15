@@ -31,8 +31,8 @@
                                         </label>
                                     </div>
                                 </div>
-                                <h5 class="fs-16 mb-1"><!--Nom d'Agent-->></h5>
-                                <p class="text-muted mb-0">Médecin / <!--Grade de médecin-->></p>
+                                <h5 class="fs-16 mb-1"><!--username de medecin-->></h5>
+                                <p class="text-muted mb-0">Médecin / <!--Grade de médecin--></p>
                             </div>
                         </div>
                     </div>
@@ -50,14 +50,7 @@
                                         Détails personnels
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-body" data-bs-toggle="tab" href="#changePassword" role="tab">
-                                        <i class="far fa-user"></i>
-                                        Modifier le mot de passe
-                                    </a>
-                                </li>
-
-                                
+                               
                             </ul>
                         </div>
                         <div class="card-body p-4">
@@ -97,7 +90,7 @@
                                             <div class="col-lg-12">
                                                 <div class="mb-3">
                                                     <label for="JoiningdatInput" class="form-label">Date de naissance </label>
-                                                    <input type="text" class="form-control" data-provider="flatpickr" id="JoiningdatInput" data-date-format="d M, Y" data-deafult-date="" placeholder="Select date" />
+                                                    <input type="date" class="form-control" data-provider="flatpickr" id="JoiningdatInput" data-date-format="d M, Y" data-deafult-date="" placeholder="Select date" />
                                                 </div>
                                             </div>
                                             <!--end col-->
@@ -158,50 +151,7 @@
                                     <!-- api de profil médecin pour modifier les informations -->
                                 </div>
                                 <!--end tab-pane-->
-                                <div class="tab-pane" id="changePassword" role="tabpanel">
-                                    <form action="javascript:void(0);">
-                                        <div class="row g-2">
-                                            <div class="col-lg-4">
-                                                <div>
-                                                    <label for="oldpasswordInput" class="form-label">Mot de passe ancien*</label>
-                                                    <input type="password" class="form-control" id="oldpasswordInput" placeholder="Saisissez le mot de passe actuel">
-                                                </div>
-                                            </div>
-                                            <!--end col-->
-                                            <div class="col-lg-4">
-                                                <div>
-                                                    <label for="newpasswordInput" class="form-label">Nouveau mot de passe*</label>
-                                                    <input type="password" class="form-control" id="newpasswordInput" placeholder="Saisissez un nouveau mot de passe">
-                                                </div>
-                                            </div>
-                                            <!--end col-->
-                                            <div class="col-lg-4">
-                                                <div>
-                                                    <label for="confirmpasswordInput" class="form-label">Confirmer le Mot de passe</label>
-                                                    <input type="password" class="form-control" id="confirmpasswordInput" placeholder="Confirmer le mot de passe">
-                                                </div>
-                                            </div>
-                                            <!--end col-->
-                                            <div class="col-lg-12">
-                                                <div class="mb-3">
-                                                    <a href="javascript:void(0);" class="link-primary text-decoration-underline">Vous avez oublié votre mot de passe?</a>
-                                                </div>
-                                            </div>
-                                            <!--end col-->
-                                            <div class="col-lg-12">
-                                                <div class="text-end">
-                                                    <button type="submit" class="btn btn-success">Modifier</button>
-                                                </div>
-                                            </div>
-                                            <!--end col-->
-                                        </div>
-                                        <!--end row-->
-                                    </form>
-                                    <!-- api de reset password 
-                                    api "password_reset_confirm"-->
-                                    
-                                </div>
-                                <!--end tab-pane-->
+                                
                                 
                                 
                             </div>

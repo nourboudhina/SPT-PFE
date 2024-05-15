@@ -1,3 +1,4 @@
+from genericpath import exists
 from random import randint
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from account.models import TokenForDoctor,Token, TokenForAgent
@@ -17,30 +18,36 @@ import json
 from django.core.exceptions import ValidationError
 @csrf_exempt
 def GesMed(request, token):
-    token = Token.objects.filter(token=token).first()
+    token = TokenForAgent.objects.filter(token=token).first()
     return render(request, 'GestionHopitale/GestionMédecin.html') 
 @csrf_exempt
 def GesServ(request, token):
-    token = Token.objects.filter(token=token).first()
+    token = TokenForAgent.objects.filter(token=token).first()
     return render(request, 'GestionHopitale/GestionServices.html') 
 @csrf_exempt
 def GesSpec(request, token):
-    token = Token.objects.filter(token=token).first()
+    token = TokenForAgent.objects.filter(token=token).first()
     return render(request, 'GestionHopitale/GestionSpécialités.html')     
 @csrf_exempt
 def pageProfileA(request, token):
-    token = Token.objects.filter(token=token).first()
+    token = TokenForAgent.objects.filter(token=token).first()
     return render(request, 'Profils/ProfilAgent.html') 
 
 @csrf_exempt
 def pageProfileM(request, token):
-    token = Token.objects.filter(token=token).first()
+    token = TokenForDoctor.objects.filter(token=token).first()
     return render(request, 'Profils/ProfilMédecin.html') 
 
 @csrf_exempt
 def pageA(request, token):
-    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
-    return render(request, 'Accueil/PageAccueil.html')   
+    if TokenForDoctor.objects.filter(token=token).exists():
+        return render(request, 'Accueil/PageAcc_M.html')
+    elif Token.objects.filter(token=token).exists():
+        return render(request, 'Accueil/PageAccueil.html')
+    elif TokenForAgent.objects.filter(token=token).exists():
+        return render(request, 'Accueil/PageAcc_A.html')
+    else:
+        return render(request, 'Accueil/PageAccueil.html')  
 
 @csrf_exempt
 def pageProfileP(request, token):
@@ -51,7 +58,12 @@ def pageProfileP(request, token):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def getPageAcceuil(request, token):
-    token_obj = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
+    token_obj = (
+    TokenForDoctor.objects.filter(token=token).exists()
+    if token
+    else Token.objects.filter(token=token).exists()
+    if token
+    else TokenForAgent.objects.filter(token=token).exists())
     if request.method == 'GET':
         if token_obj:
             page_acceuil_data = PageAcceuil.objects.values() 
@@ -158,7 +170,7 @@ def getProfileDoctor(request, token):
             nationalite_medecin = user_obj.nationalite
             groupe_medecin = user_obj.groupe
             grade_medecin = user_obj.grade
-            sepcialite_medecin = user_obj.sepcialite
+            sepcialite_medecin = user_obj.specialite
             service_medecin = user_obj.service
             hopitale_medecin = user_obj.hopitale
             image_path = user_obj.image.path
@@ -411,9 +423,10 @@ def modify_medecin(request, token):
             medecin_id = data.get('medecin')
             garde_id = data.get('garde')
             groupe_id = data.get('groupe')
-            username = data.get('username')
+            service = data.get('service')
+            specialite = data.get('specialite')
 
-            if not (medecin_id and (garde_id or groupe_id or username)):
+            if not (medecin_id and (garde_id or groupe_id or service or specialite)):
                 return Response({'message': 'Veuillez renseigner au moins un champ à modifier'}, status=400)
 
             try:
@@ -429,8 +442,10 @@ def modify_medecin(request, token):
                     medecin.grade = garde_id
                 if groupe_id:
                     medecin.groupe = groupe_id
-                if username:
-                    medecin.username = username
+                if service:
+                    medecin.service = service
+                if specialite:
+                    medecin.specialite = specialite
 
                 medecin.save()
                 return Response({'message': 'Médecin modifié avec succès'})

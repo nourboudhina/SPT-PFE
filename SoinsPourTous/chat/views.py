@@ -14,10 +14,35 @@ from SoinsPourTous.settings import TEMPLATES_BASE_URL
 from rest_framework.decorators import permission_classes
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
     
-    
+
+@csrf_exempt
+def ChatMed(request, token):
+    token = TokenForDoctor.objects.filter(token=token).first()
+    return render(request, 'Chat/ListChatMédecin.html') 
+@csrf_exempt
+def ChatPat(request, token):
+    token = Token.objects.filter(token=token).first()
+    return render(request, 'Chat/ListChatPatient.html') 
 def room(request) : 
     pass
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def checkRoom(request,token,username):
+    token = Token.objects.filter( token=token, user__username = username ).exists()
+    if request.method == 'POST':
+        room_code = request.data.get('room_code')
+        if room_code and username and token:
+            if Room.objects.filter(code=room_code).exists() and User.objects.filter(username = username).exists():
+                return JsonResponse({'message': 'Bienvenue dans votre chat'}, status=200)
+            
+            else : 
+                return JsonResponse({'erreurre': 'chat nexiste pas'}, status=200)
 
+        else:
+            return JsonResponse({'message': 'Code de salle non fourni'}, status=400)
+    else:
+        return JsonResponse({'message': 'Méthode non autorisée'}, status=405)
+    
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def checkview(request,token,username):

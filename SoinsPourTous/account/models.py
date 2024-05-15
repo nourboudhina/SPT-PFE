@@ -74,7 +74,7 @@ class Medecin(models.Model):
     grade = models.ForeignKey(Grade, on_delete= models.CASCADE,related_name="grade_med")
     username = models.CharField(max_length=50)
     password = models.CharField(max_length=5000)
-    sepcialite = models.ForeignKey(Specialite,on_delete= models.CASCADE,related_name="spec")
+    specialite = models.ForeignKey(Specialite,on_delete= models.CASCADE,related_name="spec")
     service = models.ForeignKey(Service,on_delete= models.CASCADE,related_name="servic")
     hopitale = models.ForeignKey(Hopital,on_delete= models.CASCADE,related_name="hopitale_med")
     phone = models.CharField(max_length = 10)

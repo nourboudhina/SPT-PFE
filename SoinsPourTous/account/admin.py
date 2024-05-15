@@ -29,7 +29,7 @@ class SpecialiteAdmin(admin.ModelAdmin):
 
 @admin.register(Medecin)
 class MedecinAdmin(admin.ModelAdmin):
-    list_display = ['id', 'username', 'password', 'groupe', 'grade', 'sepcialite', 'service', 'hopitale', 'email', 'phone', 'fullname', 'addresse', 'gouvernorat', 'nationalite', 'sexe', 'image', 'date_nais']
+    list_display = ['id', 'username', 'password', 'groupe', 'grade', 'specialite', 'service', 'hopitale', 'email', 'phone', 'fullname', 'addresse', 'gouvernorat', 'nationalite', 'sexe', 'image', 'date_nais']
 
 @admin.register(Gouvernorat)
 class GouvernoratAdmin(admin.ModelAdmin):
@@ -41,7 +41,7 @@ class NationalityAdmin(admin.ModelAdmin):
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['id', 'email', 'username', 'phone', 'fullname', 'addresse', 'created_at', 'gouvernorat', 'nationalite', 'sexe', 'image', 'date_naiss']
+    list_display = ['id', 'email', 'password', 'username', 'phone', 'fullname', 'addresse', 'created_at', 'gouvernorat', 'nationalite', 'sexe', 'image', 'date_naiss']
 
 @admin.register(Otp)
 class OtpAdmin(admin.ModelAdmin):
