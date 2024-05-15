@@ -250,6 +250,7 @@
                                             <select class="form-control" data-plugin="choices" name="grade" id="grade-select1">
                                                 <option value="">Grade</option>
                                                 <!-- Dynamically filled -->
+<<<<<<< HEAD
                                             </select>
                                         </div>
                                     </div>
@@ -350,16 +351,30 @@
                                                 <option value="">Grades</option>
                                                 <!--les options des grades présent dans l'hopitele de l'agent -->
                                                 
+=======
+>>>>>>> b22faf53 (agent)
                                             </select>
                                         </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="skillsInput" class="form-label">Gouvernement</label>
+                                        <select  id='gouv' class="form-control" name="skillsInput" value="trtet">
+                                            
+                                            <!--les options des gouvernerat présent dans la BD -->
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <select id="nationalite-select" class="form-control">
+                                            <option value="">Select Nationality</option>
+                                            <!-- Options will be populated by JavaScript -->
+                                        </select>
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
                                             <label for="assignedtoName-field" class="form-label">Groupe</label>
-                                            <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status">
-                                                <option value="">Groupes</option>
-                                                <!--les options des groupes présent dans l'hopitele de l'agent -->
-                                                
+                                            <select class="form-control" data-plugin="choices" name="groupe" id="groupe-select1">
+                                                <option value="">Groupe</option>
+                                                <!-- Dynamically filled -->
                                             </select>
                                         </div>
                                     </div>
@@ -376,7 +391,7 @@
                                     <div class="col-lg-6">
                                         <div>
                                             <label for="assignedtoName-field" class="form-label">Spécialité</label>
-                                            <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status">
+                                            <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status1">
                                                 <option value="">Spécialités</option>
                                                 <!--les options des spécilités présent dans l'hopitele de l'agent -->
                                                 
@@ -386,6 +401,12 @@
                                     <div class="col-lg-6">
                                         <label for="date-field" class="form-label">Date Creation </label>
                                         <input type="date" id="date-field" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Create Date" required />
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div>
+                                            <label for="tasksTitle-field" class="form-label">addresse</label>
+                                            <input type="text" id="addresse" class="form-control" placeholder="username" required />
+                                        </div>
                                     </div>
                                     
                                     <div class="col-lg-6">
