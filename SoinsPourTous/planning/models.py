@@ -5,7 +5,7 @@ from account.models import User, Medecin
 
 class RendezVous(models.Model) : 
     id = models.CharField(unique=True,max_length=1000,primary_key=True)
-    date_rendez_vous = models.DateField()
+    date_rendez_vous = models.DateTimeField()
     patient = models.ForeignKey(User,on_delete= models.CASCADE,related_name="pat_RDV")
     medecin = models.ForeignKey(Medecin,on_delete= models.CASCADE,related_name="med_RDV")
     

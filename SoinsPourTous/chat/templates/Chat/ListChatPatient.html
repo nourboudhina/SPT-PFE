@@ -37,7 +37,8 @@
                                             <!-- Button trigger modal -->
                                             <button type="button" class="btn btn-soft-success btn-sm shadow-none" data-bs-target="#Modifier">
                                                 <i class="ri-add-line align-bottom"></i>
-                                                <!-- api pour ajouter un room -->
+                                                <!-- api pour ajouter un room
+                                                    path('<token>/<username>/checkRoom/', checkRoom, name='checkRoom'), -->
                                             </button>
                                         </div>
                                     </div>
@@ -47,7 +48,8 @@
                                 <div class="chat-message-list">
 
                                     <ul class="list-unstyled chat-list chat-user-list" id="userList">
-                                        <!-- list des rooms dans la base de données correspond à la médecin-->
+                                        <!-- list des rooms dans la base de données correspond à la médecin
+                                            path('getPatientRooms/<token>/',getChatPatient),-->
                                     </ul>
                                 </div>
                                 <div class="chat-message-list">
@@ -129,7 +131,8 @@
                                         </div>
                                         <ul class="list-unstyled chat-conversation-list" id="users-conversation">
                                             <!-- affichage les messages correspond à cette conversation-->
-                                            <!-- api get message -->
+                                            <!-- api get message
+                                                  path('<token>/getMessage/<str:room>/', getmessage), -->
                                         </ul>
                                         <!-- end chat-conversation-list -->
                                     </div>
@@ -166,7 +169,8 @@
                                                         <button type="submit" class="btn btn-success chat-send waves-effect waves-light">
                                                             <i class="ri-send-plane-2-fill align-bottom"></i>
                                                             <!-- button to send messages -->
-                                                            <!-- api send -->
+                                                            <!-- api send
+                                                                path('<token>/<username>/<room_code>/send/', send, name='send'), -->
                                                         </button>
                                                     </div>
                                                 </div>
@@ -174,8 +178,7 @@
 
                                         </div>
                                     </form>
-                                    <!-- api pour envoyer un message 
-                                    api "send" -->
+                                   
                                 </div>
 
                                 <div class="replyCard">

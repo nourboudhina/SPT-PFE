@@ -13,9 +13,20 @@ class Room (models.Model) :
     
 class Message(models.Model):
     value = models.CharField(max_length=1000000)
-    date = models.DateTimeField(default=datetime.now , blank = True)
+    date = models.DateTimeField(auto_now_add=True, blank = True)
     user = models.CharField(max_length=1000000)
-    room = models.CharField(max_length=1000000)
+    room = models.ForeignKey(Room,on_delete= models.CASCADE,related_name="Room")
+
+    class Meta:
+        ordering = ['-date']
+
+    def __str__(self):
+        return self.value[:50] + "..."
+
+    @property
+    def formatted_timestamp(self):
+        return self.date.strftime('%Y-%m-%d %H:%M:%S %Z')
+
 
     
 
