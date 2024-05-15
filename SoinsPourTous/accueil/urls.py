@@ -1,11 +1,16 @@
 
 from django.contrib import admin
 from django.urls import path, include 
-from .views import updateProfilePatient,pageProfileP,pageA, getPageAcceuil, getProfileAgent, getProfileDoctor, getProfilePatient, gestion_agent, delete_service, delete_specialite, delete_medecin, add_service, add_specialite, add_medecin, modify_medecin
+from .views import GesMed,GesServ,GesSpec,pageProfileM,pageProfileA,updateProfilePatient,pageProfileP,pageA, getPageAcceuil, getProfileAgent, getProfileDoctor, getProfilePatient, gestion_agent, delete_service, delete_specialite, delete_medecin, add_service, add_specialite, add_medecin, modify_medecin
 
 
 urlpatterns = [
-    path('updateProfile/<str:token>/', updateProfilePatient, name='update_profile_patient'),
+    path('GesMed/<token>/',GesMed),
+    path('GesServ/<token>/',GesServ),
+    path('GesSpec/<token>/',GesSpec),
+    path('pageProfileM/<token>/',pageProfileM),
+    path('pageProfileA/<token>/',pageProfileA),
+    path('updateProfile/<token>/', updateProfilePatient, name='update_profile_patient'),
     path('pageaccueil/<token>/',pageA),
     path('pageProfile/<token>/',pageProfileP),
     path('getpageacceuil/<token>/',getPageAcceuil),

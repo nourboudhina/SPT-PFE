@@ -6,7 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404,redirect
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from account.models import  Otp, PasswordResetToken, Token, User, Medecin, TokenForDoctor, Agent, TokenForAgent
+from account.models import Specialite, Otp, PasswordResetToken, Token, User, Medecin, TokenForDoctor, Agent, TokenForAgent ,Service 
 from account.utils import IsAuthenticatedUser, send_otp, send_password_reset_email, token_response, token_response_Agent, token_response_doctor
 from rest_framework.parsers import FormParser
 from rest_framework.decorators import api_view
@@ -29,8 +29,262 @@ from django.contrib.auth.decorators import login_required, permission_required
 from rest_framework import permissions
 from django.views.generic import TemplateView
 from django.shortcuts import render
+from .serializers import User_Serializer,ServiceSerializer
+import uuid
+from .serializers import MedecinSerializer, GradeSerializer ,GroupeSerializer,SpecialiteSerializer
+from .models import Grade ,Groupe ,Gouvernorat
+from .models import Nationalite
 
+def list_nationalites(request):
+    nationalites = Nationalite.objects.all()
+    data = [{'id': n.id, 'nationalite': n.nationalite} for n in nationalites]
+    return JsonResponse(data, safe=False)
 
+def get_gouvernorats(request):
+    # Extract the choices directly from the model's field choices
+    choices = Gouvernorat._meta.get_field('options').choices
+    data = [{'id': choice[0], 'name': choice[1]} for choice in choices]
+    return JsonResponse(data, safe=False)
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def add_medecin(request):
+    if request.method == 'POST':
+        try:
+
+            data = json.loads(request.body)
+            username = data.get('username')
+            email = data.get('email')
+            groupe_id = data.get('groupe')
+            grade_id = data.get('grade')
+            specialite_id = data.get('specialite')
+            service_id = data.get('service')
+            hopitale_id = data.get('hopitale')
+            phone = data.get('phone')
+            fullname = data.get('fullname')
+            print(fullname)
+            addresse = data.get('addresse')
+            token=data.get('token')
+            gouvernorat_id = data.get('gouvernerat')
+            print(gouvernorat_id)
+            nationalite_id = data.get('nationalite')
+            sexe = data.get('sexe')
+            password = data.get('password')
+            date_nais = data.get('date')
+            addresse = data.get('addresse')
+            # Retrieve related objects
+            groupe = Groupe.objects.get(id=groupe_id)
+            grade = Grade.objects.get(id=grade_id)
+            specialite = Specialite.objects.get(id=specialite_id)
+            print(specialite.id)
+            service = Service.objects.get(id=service_id)
+            #hopitale = Hopital.objects.get(id=hopitale_id)
+            gouvernorat = get_object_or_404(Gouvernorat, options=gouvernorat_id)
+            print(gouvernorat)
+            nationalite = Nationalite.objects.get(id=nationalite_id)
+            print (nationalite)
+            token_agent = TokenForAgent.objects.filter(token=token).first()
+            agent = token_agent.user
+            # Create new Medecin instance
+            medecin = Medecin(
+                id=generate_unique_id(),  # Assuming you have a function to generate unique IDs
+                username=username,
+                email=email,
+                groupe=groupe,
+                grade=grade,
+                sepcialite=specialite,
+                service=service,
+                hopitale = agent.hopitale,
+                phone=phone,
+                fullname=fullname,
+                addresse=addresse,
+                gouvernorat=gouvernorat,
+                nationalite=nationalite,
+                #sexe=sexe,
+                password=password,  # Make sure to hash the password in production
+                date_nais=date_nais
+            )
+            medecin.save()
+            return JsonResponse({'success': 'Medecin added successfully'}, status=201)
+
+        except Exception as e:
+            print(e)
+            #return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Invalid HTTP method'}, status=405)
+
+@api_view(['DELETE'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def delete_medecin(request, pk):
+    try:
+        medecin = Medecin.objects.get(pk=pk)
+        medecin.delete()
+        return Response({'message': 'Médecin deleted successfully'}, status=204)
+    except Medecin.DoesNotExist:
+        return Response({'error': 'Médecin not found'}, status=404)
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def list_medecins(request):
+    medecins = Medecin.objects.all()
+    serializer = MedecinSerializer(medecins, many=True)
+    return Response(serializer.data)
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def list_patient(request):
+    patient = User.objects.all()
+    serializer = User_Serializer(patient, many=True)
+    return Response(serializer.data)   
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def list_groupes(request):
+    groupes = Groupe.objects.all()
+    serializer = GroupeSerializer(groupes, many=True)
+    return Response(serializer.data)
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def list_grades(request):
+    grades = Grade.objects.all()
+    serializer = GradeSerializer(grades, many=True)
+    return Response(serializer.data)
+@api_view(['DELETE'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def delete_specialite(request, pk):
+    try:
+        specialite = Specialite.objects.get(pk=pk)
+        specialite.delete()
+        return Response({'message': 'Service deleted successfully'}, status=204)
+    except Specialite.DoesNotExist:
+        return Response({'error': 'Service not found'}, status=404)
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def add_specialiter(request):
+    if request.method == 'POST':
+       
+        try:
+            data = json.loads(request.body)
+            specialite_name = data.get('specialite')
+            service_id=data.get('service')
+            print(service_id)
+            try:
+                service = Service.objects.get(id=service_id)
+            except Exception as e:
+                    print(e)    
+            if specialite_name:
+                # Assuming 'hopitale_id' needs to be provided or is fixed for this example
+                 # Example: Get the first hospital
+                try:
+                    new_specialite = Specialite.objects.create(id=generate_unique_id(), specialite=specialite_name, service=service)
+                except Exception as e:
+                    print(e)   
+                print(new_specialite.service)
+                new_specialite.save()
+                return JsonResponse({'success': 'Service added successfully'}, status=201)
+            else:
+                return JsonResponse({'error': 'Missing service name'}, status=400)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Invalid HTTP method'}, status=405)
+@api_view(['GET', 'POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def specialite_list(request):
+    """
+    List all specialites, or create a new specialite.
+    """
+    if request.method == 'GET':
+        specialites = Specialite.objects.all()
+        serializer = SpecialiteSerializer(specialites, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = SpecialiteSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def specialite_detail(request, pk):
+    """
+    Retrieve, update or delete a specialite.
+    """
+    try:
+        specialite = Specialite.objects.get(pk=pk)
+    except Specialite.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = SpecialiteSerializer(specialite)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = SpecialiteSerializer(specialite, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        specialite.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+def generate_unique_id():
+    return str(uuid.uuid4())
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def add_service(request):
+    if request.method == 'POST':
+       
+        try:
+            data = json.loads(request.body)
+            service_name = data.get('service')
+            token=data.get('token')
+            token_obj = TokenForAgent.objects.filter(token=token).first()
+            user_obj = token_obj.user
+            print(user_obj.email)
+            if service_name:
+                # Assuming 'hopitale_id' needs to be provided or is fixed for this example
+                 # Example: Get the first hospital
+                try:
+                    new_service = Service.objects.create(id=generate_unique_id(), service=service_name, hopitale=user_obj.hopitale)
+                except Exception as e:
+                    print(e)   
+                print(new_service.service)
+                new_service.save()
+                return JsonResponse({'success': 'Service added successfully'}, status=201)
+            else:
+                return JsonResponse({'error': 'Missing service name'}, status=400)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Invalid HTTP method'}, status=405)
+@api_view(['DELETE'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def delete_service(request, pk):
+    try:
+        service = Service.objects.get(pk=pk)
+        service.delete()
+        return Response({'message': 'Service deleted successfully'}, status=204)
+    except Service.DoesNotExist:
+        return Response({'error': 'Service not found'}, status=404)
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def list_services(request):
+    services = Service.objects.all()
+    serializer = ServiceSerializer(services, many=True)
+    return Response(serializer.data)
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def list_Specialite(request):
+    specialite = Specialite.objects.all()
+    serializer = SpecialiteSerializer(specialite, many=True)
+    return Response(serializer.data)      
 class landing (TemplateView):
     template_name = 'Landing/LandingPage.html'
 def Personnel(request):
@@ -248,7 +502,7 @@ def login_pour_agent(request):
 
     if email:
         user = Agent.objects.filter(email=email).first()
-        
+        print(user.password)
         password1 = user.password if user else None
     
     else:
@@ -371,24 +625,18 @@ def userData(request):
 
         
 @api_view(['POST'])
-def logout_patient(request, token):
-    # Extract the token from the request
-    token_value = token
-
-    # Check if the token is valid
+def logout_patient(request):
+    token = request.POST.get('token')
     try:
-        token_obj = Token.objects.get(key=token_value)
+        token_obj = Token.objects.get(token=token)
+        print(type(token_obj))
     except Token.DoesNotExist:
         return JsonResponse({"error": "Token invalide"}, status=400)
-
-    # Invalidate the token
     token_obj.delete()
-
-    # Send a success response
     return JsonResponse({"message": "Déconnexion réussie"})
 
-
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
 def logout_medecin(request,token):
     token = request.data.get('token')
 

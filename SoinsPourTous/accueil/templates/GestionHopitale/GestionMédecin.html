@@ -1,4 +1,4 @@
-{% extends "accueil/baseA.html" %}
+{% extends "Accueil/baseA.html" %}
 {% load static %}
 {% block title %} Médecin {% endblock title%}
 {% block content %}
@@ -48,17 +48,17 @@
 
                                     <div class="col-xxl-3 col-sm-4">
                                         <div class="input-light">
-                                            <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idStatus">
+                                            <select class="form-control" data-plugin="choices" name="grade" id="grade-select2">
                                                 <option value="">Grade</option>
-                                                <!--les options des gardes présent dans l'hopitele de l'agent -->
+                                                <!-- Dynamically filled -->
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-xxl-3 col-sm-4">
                                         <div class="input-light">
-                                            <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idStatus">
+                                            <select class="form-control" data-plugin="choices" name="groupe" id="groupe-select2">
                                                 <option value="">Groupe</option>
-                                                <!--les options des groupes présent dans l'hopitele de l'agent -->
+                                                <!-- Dynamically filled -->
                                             </select>
                                         </div>
                                     </div>
@@ -73,7 +73,7 @@
                                     <!--end col-->
                                     <div class="col-xxl-3 col-sm-4">
                                         <div class="input-light">
-                                            <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idStatus">
+                                            <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idStatus1">
                                                 <option value="">Spécialité</option>
                                                 <!--les options des spécilités présent dans l'hopitele de l'agent -->
                                             </select>
@@ -129,7 +129,8 @@
                                                         <li><a class="dropdown-item edit-item-btn" href="#Modifier" data-bs-toggle="modal"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Modifier</a></li> 
                                                         <li>
                                                             <a class="dropdown-item remove-item-btn" data-bs-toggle="modal" href="#delete">
-                                                                <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Supprimer
+                                                                <button class="btn btn-danger" onclick="deleteDoctor('${doc.id}')">Supprimer</button>
+
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -210,8 +211,26 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <div>
+                                            <label for="tasksTitle-field" class="form-label">email</label>
+                                            <input type="text" id="email" class="form-control" placeholder="username" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div>
+                                            <label for="tasksTitle-field" class="form-label">phone</label>
+                                            <input type="text" id="phone" class="form-control" placeholder="phone" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div>
                                             <label for="tasksTitle-field" class="form-label">Username</label>
                                             <input type="text" id="tasksTitle-field" class="form-control" placeholder="username" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div>
+                                            <label for="tasksTitle-field" class="form-label">fullname</label>
+                                            <input type="text" id="full_name" class="form-control" placeholder="Full Name" required />
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -223,20 +242,31 @@
                                     <div class="col-lg-6">
                                         <div>
                                             <label for="assignedtoName-field" class="form-label">Grade</label>
-                                            <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status">
-                                                <option value="">Grades</option>
-                                                <!--les options des grades présent dans l'hopitele de l'agent -->
-                                                
+                                            <select class="form-control" data-plugin="choices" name="grade" id="grade-select1">
+                                                <option value="">Grade</option>
+                                                <!-- Dynamically filled -->
                                             </select>
                                         </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="skillsInput" class="form-label">Gouvernement</label>
+                                        <select  id='gouv' class="form-control" name="skillsInput" value="trtet">
+                                            
+                                            <!--les options des gouvernerat présent dans la BD -->
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <select id="nationalite-select" class="form-control">
+                                            <option value="">Select Nationality</option>
+                                            <!-- Options will be populated by JavaScript -->
+                                        </select>
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
                                             <label for="assignedtoName-field" class="form-label">Groupe</label>
-                                            <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status">
-                                                <option value="">Groupes</option>
-                                                <!--les options des groupes présent dans l'hopitele de l'agent -->
-                                                
+                                            <select class="form-control" data-plugin="choices" name="groupe" id="groupe-select1">
+                                                <option value="">Groupe</option>
+                                                <!-- Dynamically filled -->
                                             </select>
                                         </div>
                                     </div>
@@ -253,7 +283,7 @@
                                     <div class="col-lg-6">
                                         <div>
                                             <label for="assignedtoName-field" class="form-label">Spécialité</label>
-                                            <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status">
+                                            <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status1">
                                                 <option value="">Spécialités</option>
                                                 <!--les options des spécilités présent dans l'hopitele de l'agent -->
                                                 
@@ -263,6 +293,12 @@
                                     <div class="col-lg-6">
                                         <label for="date-field" class="form-label">Date Creation </label>
                                         <input type="text" id="date-field" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Create Date" required />
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div>
+                                            <label for="tasksTitle-field" class="form-label">addresse</label>
+                                            <input type="text" id="addresse" class="form-control" placeholder="username" required />
+                                        </div>
                                     </div>
                                     
                                     <div class="col-lg-6">
@@ -320,5 +356,266 @@
 
     <!-- App js -->
     <script src="{% static 'assets/js/app.js'%}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const apiUrl = '/gouvernorats/';  // Adjust if necessary to match the exact API route
+        
+            fetch(apiUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not OK');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const select = document.getElementById('gouv');
+                // Clear existing options
+               
+                data.forEach(gov => {
+                    const option = new Option(gov.name, gov.id);
+                    // Create new option element
+                    select.appendChild(option);  // Append option to select
+                });
+        
+                // Reinitialize Choices.js if used
+                if (window.Choices) {
+                    new Choices(select, {
+                        removeItemButton: true,  // Configurable options
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Failed to fetch data:', error);
+            });
+        });
+        </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch and populate Grades
+            const fetchGrades = () => {
+                fetch('/grades/')
+                    .then(response => response.json())
+                    .then(data => {
+                        const gradeSelects = [document.getElementById('grade-select1'), document.getElementById('grade-select2')];
+                        gradeSelects.forEach(select => {
+                            select.innerHTML = '<option value="">Grade</option>'; // Clear and add placeholder
+                            data.forEach(grade => {
+                                let option = new Option(grade.grade, grade.id);
+                                select.appendChild(option);
+                            });
+                        });
+                    })
+                    .catch(error => console.error('Error loading grades:', error));
+            };
+        
+            // Fetch and populate Groupes
+            const fetchGroupes = () => {
+                fetch('/groupes/')
+                    .then(response => response.json())
+                    .then(data => {
+                        const groupeSelects = [document.getElementById('groupe-select1'), document.getElementById('groupe-select2')];
+                        groupeSelects.forEach(select => {
+                            select.innerHTML = '<option value="">Groupe</option>'; // Clear and add placeholder
+                            data.forEach(groupe => {
+                                let option = new Option(groupe.groupe, groupe.id);
+                                select.appendChild(option);
+                            });
+                        });
+                    })
+                    .catch(error => console.error('Error loading groupes:', error));
+            };
+        
+            // Fetch and populate Services
+            const fetchServices = () => {
+                fetch('/services/')
+                    .then(response => response.json())
+                    .then(data => {
+                        const serviceSelects = [document.getElementById('ticket-status'), document.getElementById('idStatus')];
+                        serviceSelects.forEach(select => {
+                            select.innerHTML = '<option value="">Service</option>'; // Clear and add placeholder
+                            data.forEach(service => {
+                                let option = new Option(service.service, service.id);
+                                select.appendChild(option);
+                            });
+                        });
+                    })
+                    .catch(error => console.error('Error fetching services:', error));
+            };
+        
+            // Fetch and populate Spécialités
+            const fetchSpecialites = () => {
+                fetch('/specialites/')
+                    .then(response => response.json())
+                    .then(data => {
+                        const specialiteSelects = [document.getElementById('ticket-status1'), document.getElementById('idStatus1')];
+                        specialiteSelects.forEach(select => {
+                            select.innerHTML = '<option value="">Spécialité</option>'; // Clear and add placeholder
+                            data.forEach(specialite => {
+                                let option = new Option(specialite.specialite, specialite.id);
+                                select.appendChild(option);
+                            });
+                        });
+                    })
+                    .catch(error => console.error('Error loading spécialités:', error));
+            };
+        
+            // Initial fetch calls
+            fetchGrades();
+            fetchGroupes();
+            fetchServices();
+            fetchSpecialites();
+        });
+        </script>
+        
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Fetch and display doctors
+                const fetchDoctors = () => {
+                    fetch('/medecins/')
+                        .then(response => response.json())
+                        .then(data => {
+                            const tableBody = document.getElementById('ticket-list-data');
+                            tableBody.innerHTML = '';  // Clear the table
+                            data.forEach(doc => {
+                                const row = `<tr>
+                                    <td><input type="checkbox" value="${doc.id}"></td>
+                                    <td>${doc.id}</td>
+                                    <td>${doc.username}</td>
+                                    <td>${doc.password}</td>
+                                    <td>${doc.grade_name}</td>
+                                    <td>${doc.groupe_name}</td>
+                                    <td>${doc.service_name}</td>
+                                    <td>${doc.specialite_name}</td>
+                                    <td>${doc.date_nais}</td>
+                                    <td>${doc.status}</td>
+                                    <td>
+                                        <button onclick="deleteDoctor('${doc.id}')" class="btn btn-danger">Supprimer</button>
+                                    </td>
+                                </tr>`;
+                                tableBody.innerHTML += row;
+                            });
+                        })
+                        .catch(error => console.error('Error loading doctors:', error));
+                };
+            
+                // Add a new doctor
+                const addDoctor = () => {
+                    const username = document.getElementById('tasksTitle-field').value;
+                    const password = document.getElementById('client_nameName-field').value;
+                    const gradeId = document.getElementById('grade-select1').value;
+                    const groupeId = document.getElementById('groupe-select1').value;
+                    const serviceId = document.getElementById('ticket-status').value;
+                    const specialiteId = document.getElementById('ticket-status1').value;
+                    const datnes = document.getElementById('date-field').value;
+                    const Addresse = document.getElementById('addresse').value;
+                    const Email = document.getElementById('email').value;
+                    const Fullname = document.getElementById('full_name').value;
+                    const Phone = document.getElementById('phone').value;
+                    const Gouvernerat = document.getElementById('gouv').value;
+                    const nationaliteSelect = document.getElementById('nationalite-select').value;
+                    const pathArray = window.location.pathname.split('/');
+                    const tokenA = pathArray[pathArray.length - 2];
+                    alert(nationaliteSelect)
+                    const data = {
+                        username,
+                        password,
+                        grade: gradeId,
+                        groupe: groupeId,
+                        service: serviceId,
+                        specialite: specialiteId,
+                        date:datnes ,
+                        addresse:Addresse,
+                        email:Email,
+                        fullname:Fullname,
+                        phone:Phone,
+                        gouvernerat:Gouvernerat,
+                        token:tokenA,
+                        nationalite:nationaliteSelect,
+                    };
+            
+                    fetch('/medecins/add/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        fetchDoctors(); // Reload the list
+                        $('#Modifier').modal('hide'); // Hide the modal after save
+                    })
+                    .catch(error => console.error('Failed to add doctor:', error));
+                };
+            
+                // Delete a doctor
+                const deleteDoctor = (id) => {
+                    fetch(`/medecins/delete/${id}/`, {
+                        method: 'DELETE'
+                    })
+                    .then(response => {
+                        console.log('Doctor deleted');
+                        fetchDoctors(); // Reload the list
+                    })
+                    .catch(error => console.error('Failed to delete doctor:', error));
+                };
+            
+                // Event listener for the add button
+                document.getElementById('add-btn').addEventListener('click', addDoctor);
+            
+                // Initial fetch calls
+                fetchDoctors();
+            });
+            document.addEventListener('DOMContentLoaded', function() {
+    const nationaliteSelect = document.getElementById('nationalite-select');
 
+    fetch('/nationalites/')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(item => {
+                const option = new Option(item.nationalite, item.id);
+                nationaliteSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error loading nationalities:', error));
+});
+function deleteDoctor(doctorId) {
+    const url = `/medecins/delete/${doctorId}/`;  // URL to send the delete request
+    fetch(url, {
+        method: 'DELETE',  // Use the DELETE HTTP method
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),  // CSRF token for security, assuming you're using Django's CSRF protection
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Doctor deleted successfully');
+            window.location.reload();  // Reload the page to update the list of doctors
+        } else {
+            throw new Error('Failed to delete doctor');
+        }
+    })
+    .catch(error => {
+        console.error('Error deleting doctor:', error);
+        alert('Failed to delete doctor: ' + error.message);  // Show error message if something goes wrong
+    });
+}
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+            </script>
+            
 {% endblock content %}

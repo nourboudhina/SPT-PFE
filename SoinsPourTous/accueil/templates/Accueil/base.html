@@ -282,7 +282,7 @@ function displayReminders(message) {
                             'Content-Type': 'application/json',
                             'X-CSRFToken': getCookie('csrftoken')  // Get CSRF token from cookies
                              },
-                             body: JSON.stringify({token: token})
+                             body: JSON.stringify({'token': token})
                                      })
                             .then(response => response.json())
                             .then(data => {

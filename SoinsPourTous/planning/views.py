@@ -16,6 +16,24 @@ from datetime import datetime
 from django.shortcuts import render
 
 @csrf_exempt
+def SAPCPage(request, token):
+    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
+    return render(request, 'Historique/SuivieAPC.html')  
+
+
+@csrf_exempt
+def GAPC(request, token):
+    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
+    return render(request, 'Gestion/GestionAPC.html')
+@csrf_exempt
+def GPy(request, token):
+    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
+    return render(request, 'Gestion/GestionPay.html')
+@csrf_exempt
+def GRDV(request, token):
+    token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
+    return render(request, 'Gestion/GestionRDV.html')      
+@csrf_exempt
 def planingP(request, token):
     token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
     return render(request, 'Planning/PlanningPatient.html')   
@@ -86,22 +104,31 @@ def envoyer_rappel_rendez_vous(request):
 def ajout_rendez_vous_par_agent(request , token) : 
         token = TokenForAgent.objects.filter(token=token).first()
         if request.method == 'POST':
-            date_de_rdv = request.data.get('date_de_rdv')
-            medecin = request.data.get('medecin')
-            patient = request.data.get('patient')
-            dateExist = RendezVous.objects.filter(date_rendez_vous = date_de_rdv)
-            medecinExist = Medecin.objects.filter(username = medecin).exists()
-            patientExist = User.objects.filter(username = patient)
-            
-            if not(dateExist) and patientExist and medecinExist : 
-               rdv =  RendezVous.objects.create(date_rendez_vous = date_de_rdv,patient = patient , medecin = medecin)
-               rdv.save()
-               return JsonResponse({'success': 'Rendez-vous ajouté avec succès'}, status=201)
+            try:
+                date_de_rdv = request.data.get('date_de_rdv')
+                print(date_de_rdv)
+                medecin = request.data.get('medecin')
+                
+                patient = request.data.get('patient')
+                print(patient)
+                id=medecin+date_de_rdv+patient
+                dateExist = RendezVous.objects.filter(date_rendez_vous = date_de_rdv)
+                medecinExist = Medecin.objects.filter(id = medecin).exists()
+                patientExist = User.objects.filter(id = patient)
+                print(patientExist)
+                if not(dateExist) and patientExist and medecinExist : 
+                    patientobj=User.objects.filter(id=patient).first()
+                    medobj=Medecin.objects.filter(id=medecin).first()
+                    rdv =  RendezVous.objects.create(id=id,date_rendez_vous = date_de_rdv,patient = patientobj, medecin = medobj)
+                    rdv.save()
+                    return JsonResponse({'success': 'Rendez-vous ajouté avec succès'}, status=201)
 
-            elif dateExist and patientExist and medecinExist : 
-                return JsonResponse({'erreur rendez-vous': 'Rendez vous avec ce medecin et ce patient existe déja'}, status=400)
-            else : 
-                return JsonResponse({'Donnee erreur ': 'Il y a quelque donnees manquante'}, status=400)
+                elif dateExist and patientExist and medecinExist : 
+                    return JsonResponse({'erreur rendez-vous': 'Rendez vous avec ce medecin et ce patient existe déja'}, status=400)
+                else : 
+                    return JsonResponse({'Donnee erreur ': 'Il y a quelque donnees manquante'}, status=400)
+            except Exception as e:
+                print(e)
         else : 
             return JsonResponse({"error": "Invalid request method"}, status=405)
 

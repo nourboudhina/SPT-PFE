@@ -15,6 +15,27 @@ from account.models import Medecin, Service, Specialite, Grade, Groupe
 from django.shortcuts import render
 import json
 from django.core.exceptions import ValidationError
+@csrf_exempt
+def GesMed(request, token):
+    token = Token.objects.filter(token=token).first()
+    return render(request, 'GestionHopitale/GestionMédecin.html') 
+@csrf_exempt
+def GesServ(request, token):
+    token = Token.objects.filter(token=token).first()
+    return render(request, 'GestionHopitale/GestionServices.html') 
+@csrf_exempt
+def GesSpec(request, token):
+    token = Token.objects.filter(token=token).first()
+    return render(request, 'GestionHopitale/GestionSpécialités.html')     
+@csrf_exempt
+def pageProfileA(request, token):
+    token = Token.objects.filter(token=token).first()
+    return render(request, 'Profils/ProfilAgent.html') 
+
+@csrf_exempt
+def pageProfileM(request, token):
+    token = Token.objects.filter(token=token).first()
+    return render(request, 'Profils/ProfilMédecin.html') 
 
 @csrf_exempt
 def pageA(request, token):
@@ -64,8 +85,8 @@ def getProfilePatient(request, token):
             'fullname': user_obj.fullname,
             'date_naiss': user_obj.date_naiss,
             
-            'gouvernorat': user_obj.gouvernorat,
-            'nationalite': user_obj.nationalite,
+            'gouvernorat': user_obj.gouvernorat.options,
+            'nationalite': user_obj.nationalite.nationalite,
             'image': image_data
         }
         return JsonResponse(user_data)
@@ -178,9 +199,10 @@ def getProfileAgent(request, token):
             fullname_agent = user_obj.fullname
             date_naiss_agent = user_obj.date_naiss
             adresse_agent= user_obj.addresse
-            gouvernorat_agent = user_obj.gouvernorat
-            nationalite_agent = user_obj.nationalite
-            hopitale_agent = user_obj.hopitale
+            gouvernorat_agent = user_obj.gouvernorat.options
+            nationalite_agent = user_obj.nationalite.nationalite
+            hopitale_agent = user_obj.hopitale.nom
+            id_hoptale=user_obj.hopitale.id
             image_path = user_obj.image.path
             with open(image_path, "rb") as image_file:
                 encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
@@ -195,6 +217,7 @@ def getProfileAgent(request, token):
                 'gouvernorat':gouvernorat_agent ,
                 'nationalite': nationalite_agent,
                 'hopitale': hopitale_agent,
+                'hopital_id':id_hoptale,
                 'image': encoded_string
             }
 
@@ -350,10 +373,10 @@ def add_medecin(request, token):
                     return Response({'message': 'Le service est obligatoire'}, status=400)
 
                 # Get the groupe, grade, specialite, and service objects
-                groupe = Groupe.objects.get(pk=groupe_id)
-                grade = Grade.objects.get(pk=grade_id)
-                specialite = Specialite.objects.get(pk=specialite_id)
-                service = Service.objects.get(pk=service_id)
+                groupe = Groupe.objects.get(id=groupe_id)
+                grade = Grade.objects.get(id=grade_id)
+                specialite = Specialite.objects.get(id=specialite_id)
+                service = Service.objects.get(id=service_id)
 
                 if groupe and grade and specialite and service:
                     doctor = Medecin.objects.create(
