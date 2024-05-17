@@ -267,36 +267,36 @@ function displayReminders(message) {
                         document.getElementById('RDV').href = `/planning/HRdvP/${token}/`;
                         document.getElementById('APC').href = `/planning/HAPCP/${token}/`;
                         document.getElementById('RaH').href = `/planning/HpayP/${token}/`;
+                        document.getElementById('chat').href = `/chat/ChatPat/${token}/`;
                         }),
 
                         document.addEventListener('DOMContentLoaded', function() {
-                        document.getElementById('logout').addEventListener('click', function(event) {
-                        event.preventDefault();  
-                        
-                        const pathArray = window.location.pathname.split('/');
-                        const token = pathArray[pathArray.length - 2];
-                        fetch(`/logoutPatient/${token}/`, {
-                            
-                         method: 'POST',
-                             headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRFToken': getCookie('csrftoken')  // Get CSRF token from cookies
-                             },
-                             body: JSON.stringify({'token': token})
-                                     })
-                            .then(response => response.json())
-                            .then(data => {
-                             if (data.error) {
-                                 console.error('Logout failed:', data.error);
-                             } else {
-                             console.log('Logout successful:', data.message);
-            // Redirect to login page or wherever appropriate
-                           
-                            window.location.href = '/';
-                            }
-                            })
-                             .catch(error => console.error('Error during logout:', error));
-});
+            document.getElementById('logout').addEventListener('click', function(event) {
+                event.preventDefault();
+
+                const pathArray = window.location.pathname.split('/');
+                const token = pathArray[pathArray.length - 2];
+                
+                fetch(`/logoutPatient/${token}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')  // Get CSRF token from cookies
+                    },
+                    body: JSON.stringify({'token': token})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Logout failed:', data.error);
+                    } else {
+                        console.log('Logout successful:', data.message);
+                        window.location.href = '/';  
+                    }
+                })
+                .catch(error => console.error('Error during logout:', error));
+            });
+        });
 
 // Function to get a cookie by name
 function getCookie(name) {
@@ -312,7 +312,7 @@ function getCookie(name) {
         }
     }
     return cookieValue;
-}});
+}
                     </script>
 
 <div class="dropdown ms-sm-3 header-item topbar-user">
@@ -331,7 +331,7 @@ function getCookie(name) {
         <a id='profile'class="dropdown-item" href="pages-profile.html"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
        
         <div class="dropdown-divider"></div>
-        <a id='logout' class="dropdown-item" href="/"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Logout</span></a>
+        <button id='logout' class="dropdown-item" ><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Logout</span></button>
     </div>
 </div>
 
@@ -420,10 +420,11 @@ function getCookie(name) {
                         
                         <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-components">Components</span></li>
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarUI" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarUI">
+                            <a id="chat" class="nav-link menu-link" href="#" data-bs-toggle="collapse" role="button" >
                                 <i class="bx bx-palette"></i> <span data-key="t-base-ui">Chat</span>
                                 <!-- affiche page chat  -->
                             </a>
+                            
                                 
                            
                         </li>

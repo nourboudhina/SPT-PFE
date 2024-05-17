@@ -2,10 +2,23 @@
 {% load static %}
 {% block title %} Planning Patient {% endblock title%}
 {% block content %}
-<head><!-- fullcalendar css -->
-<link href="{% static 'assets/libs/fullcalendar/main.min.css' %}" rel="stylesheet" type="text/css" />
-</head>
+<head>
+    
+    <!-- fullcalendar css -->
+    <link href="{% static 'assets/libs/fullcalendar/main.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- Layout config Js -->
+    <script src="{% static 'assets/js/layout.js' %}"></script>
+    <!-- Bootstrap Css -->
+    <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="{% static 'assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="{% static 'assets/css/app.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- custom Css-->
+    <link href="{% static 'assets/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
 
+
+</head>
 <div class="main-content">
 
     <div class="page-content">
@@ -33,10 +46,11 @@
                                 <p class="text-muted">Ne manquez pas les événements prévus</p>
                                 <div class="pe-2 me-n1 mb-3" data-simplebar style="height: 400px">
                                     <div id="upcoming-event-list">
-                                        <!-- list des rdv de planning-->
+                                        <!-- affichage de list des rdv de planning-->
                                     </div>
                                 </div>
                             </div>
+
 
                             <div class="card">
                                 <div class="card-body bg-soft-info">
@@ -66,7 +80,7 @@
 
                     <div style='clear:both'></div>
 
-                    <!-- Add New Event MODAL -->
+                    
                     <div class="modal fade" id="event-modal" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content border-0">

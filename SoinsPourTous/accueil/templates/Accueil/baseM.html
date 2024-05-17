@@ -131,13 +131,13 @@
                                         </a>
                                     </li>
                                     <li class="nav-item waves-effect waves-light">
-                                        <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">
+                                        <a class="nav-link" data-bs-toggle="tab" href=" " role="tab" aria-selected="false">
                                             Messages
                                                                                      <!--affichage des notifications des chats -->
                                         </a>
                                     </li>
                                     <li class="nav-item waves-effect waves-light">
-                                        <a class="nav-link" data-bs-toggle="tab" href="#alerts-tab" role="tab" aria-selected="false" id="alertsTabLink">
+                                        <a class="nav-link" data-bs-toggle="tab" href=" " role="tab" aria-selected="false">
                                             Alertes
                                                                                      <!--affichage des notifications de rappel des rdv -->
                                         </a>
@@ -203,8 +203,118 @@
                         </div>
                     </div>
                 </div>
-               
-
+                <script>
+                    document.getElementById('alertsTabLink').addEventListener('click', function() {
+    fetchReminders();
+    });
+    
+    function fetchReminders() {
+    // Assuming '/envoyer_rappel_rendez_vous/' is set to return reminders data in JSON format
+    fetch('/planning/envoyer_rappel_rendez_vous/')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        displayReminders(data.message);  // Assumes that the data returned has a 'message' field
+    })
+    .catch(error => {
+        console.error('Error fetching reminders:', error);
+        document.getElementById('remindersContainer').textContent = 'Failed to load reminders.';
+    });
+    }
+    
+    function displayReminders(message) {
+    const remindersContainer = document.getElementById('remindersContainer');
+    remindersContainer.textContent = message;
+    
+    document.getElementById('alertsContent').style.display = 'block';  // Make the alerts content visible
+    }
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const pathArray = window.location.pathname.split('/');
+                        const token = pathArray[pathArray.length - 2];// You need to replace this with the actual token logic
+                        const apiUrl = `/accueil/getProfileDoctor/${token}/`;
+                    
+                        fetch(apiUrl)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error) {
+                                console.error('Failed to fetch user data:', data.error);
+                                return;
+                            }
+                            updateProfileDropdown(data);
+                        })
+                        .catch(error => console.error('Error fetching user data:', error));
+                    });
+                    
+                    function updateProfileDropdown(user) {
+                        const userImage = document.querySelector('.header-profile-user');
+                        const userNameText = document.querySelector('.user-name-text');
+                        const userWelcome = document.querySelector('.dropdown-header');
+                    
+                        userImage.src = user.image ? 'data:image/jpeg;base64,' + user.image : '/path/to/default/avatar.jpg'; // Provide a default image path
+                        userNameText.textContent = user.fullname || 'No name provided';
+                        userWelcome.textContent = 'Welcome ! ' + (user.fullname || 'Guest');
+                    }
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const pathArray = window.location.pathname.split('/');
+                        const token = pathArray[pathArray.length - 2];
+                        document.getElementById('accueilLink').href = `/accueil/pageaccueil/${token}/`;
+                        document.getElementById('planningLink').href = `/planning/planingM/${token}/`;
+                        document.getElementById('profile').href = `/accueil/pageProfileM/${token}/`;
+                        document.getElementById('RDV').href = `/planning/HRdvM/${token}/`;
+                        document.getElementById('APC').href = `/planning/HAPCM/${token}/`;
+                        
+                        document.getElementById('chat').href = `/chat/ChatMed/${token}/`;
+                        document.getElementById('SAPC').href = `/planning/SAPCPage/${token}/`;
+                        }),
+    
+                        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('logout').addEventListener('click', function(event) {
+                event.preventDefault();
+    
+                const pathArray = window.location.pathname.split('/');
+                const token = pathArray[pathArray.length - 2];
+                
+                fetch(`/logoutMedecin/${token}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')  // Get CSRF token from cookies
+                    },
+                    body: JSON.stringify({'token': token})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Logout failed:', data.error);
+                    } else {
+                        console.log('Logout successful:', data.message);
+                        window.location.href = '/';  
+                    }
+                })
+                .catch(error => console.error('Error during logout:', error));
+            });
+        });
+    
+    // Function to get a cookie by name
+    function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+    }
+                    </script>
                 <div class="dropdown ms-sm-3 header-item topbar-user">
                     <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
@@ -217,11 +327,10 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-end">
                         <!-- item-->
-                        <h6 id='fullname'class="dropdown-header">Welcome <!--affichage de username-->!</h6>
-                        <a id='profile' class="dropdown-item" href="pages-profile.html"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
-                        <a class="dropdown-item" href="pages-faqs.html"><i class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Help</span></a>
+                        <h6 class="dropdown-header">Welcome <!--affichage de username-->!</h6>
+                        <a id='profile' class="dropdown-item" href=" "><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
                         <div class="dropdown-divider"></div>
-                        <a id='logout' class="dropdown-item" href="auth-logout-basic.html"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
+                        <a id='logout' class="dropdown-item" href=" "><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
                     </div>
                 </div>
             </div>
@@ -263,7 +372,7 @@
                     <ul class="navbar-nav" id="navbar-nav">
                         <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                         <li class="nav-item">
-                            <a id="accueilLink" class="nav-link menu-link" href="#sidebarDashboards"  role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                            <a id="accueilLink" class="nav-link menu-link" href=" " data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="bx bxs-dashboard"></i> <span data-key="t-dashboards">Actualité</span>
                                 <!-- affiche page d'accueil  -->
                             </a>
@@ -272,7 +381,7 @@
                         
 
                         <li class="nav-item">
-                            <a id="planningLink" class="nav-link menu-link" href="#sidebarLayouts" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
+                            <a id="planningLink" class="nav-link menu-link" href="" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
                                 <i class="bx bx-layout"></i> <span data-key="t-layouts">Planning</span>
                                 <!-- affiche page  Planning  -->
                             </a>
@@ -284,17 +393,17 @@
                 
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarPages" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarPages">
+                            <a class="nav-link menu-link" href=" " data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarPages">
                                 <i class="bx bx-file"></i> <span data-key="t-pages">Historique</span>
                             </a>
                             <div class="collapse menu-dropdown" id="sidebarPages">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a id='RDV' href="#" class="nav-link" data-key="t-starter"> Rendez-vous </a>
+                                        <a id='RDV' href=" " class="nav-link" data-key="t-starter"> Rendez-vous </a>
                                         <!-- affiche page H RDV  -->
                                     </li>
                                     <li class="nav-item">
-                                        <a id='APC' href="#" class="nav-link" data-key="t-team"> APC </a>
+                                        <a id='APC' href=" " class="nav-link" data-key="t-team"> APC </a>
                                         <!-- affiche page H APC  -->
                                     </li>
                                     
@@ -305,7 +414,7 @@
                         
                         <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-components">Components</span></li>
                         <li class="nav-item">
-                            <a id='chat' class="nav-link menu-link" href="#sidebarUI"  role="button" aria-expanded="false" aria-controls="sidebarUI">
+                            <a id="chat"class="nav-link menu-link" href=" " data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarUI">
                                 <i class="bx bx-palette"></i> <span data-key="t-base-ui">Chat</span>
                                 <!-- affiche page chat  -->
                             </a>
@@ -314,7 +423,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a id='SAPC' class="nav-link menu-link" href="#sidebarAdvanceUI"  role="button" aria-expanded="false" aria-controls="sidebarAdvanceUI">
+                            <a id="SAPC" class="nav-link menu-link" href=" " data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAdvanceUI">
                                 <i class="bx bx-briefcase-alt"></i> <span data-key="t-advance-ui">Suivie APC </span>
                                 <!-- affiche page suivie apc  -->
                                 <span class="badge badge-pill bg-success" data-key="t-new">New</span>
@@ -325,7 +434,7 @@
                 </div>
                 <!-- Sidebar -->
             </div>
-
+            
             <div class="sidebar-background"></div>
         </div>
         <!-- Left Sidebar End -->

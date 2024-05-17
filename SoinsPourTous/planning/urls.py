@@ -1,7 +1,7 @@
 
 from django.contrib import admin
 from django.urls import path, include 
-from .views import SAPCPage,HpayP,HRdvP,HRdvM,HAPCP,HAPCM,planingP,ajout_rendez_vous_par_agent, envoyer_rappel_rendez_vous, ajout_APC_par_agent, get_Planning_Doctor, get_PaiementHistorique, suivi_apc, get_agent_rendezvous_apc,get_RendezVousH_Patient, get_APCH_Patient, get_Planning_Patient, get_RendezVousH_Doctor, get_APCH_Doctor, update_D, update_RendezVous_Date_A, update_APC_Date_A, delete_D, delete_RendezVous_A, delete_APC_A, getApcForAgent, delete_payment, add_payment, update_payment,GAPC,GPy,GRDV
+from .views import planingM, SAPCPage,HpayP,HRdvP,HRdvM,HAPCP,HAPCM,planingP,ajout_rendez_vous_par_agent, envoyer_rappel_rendez_vous, ajout_APC_par_agent, get_Planning_Doctor, get_PaiementHistorique, suivi_apc, get_agent_rendezvous_apc,get_RendezVousH_Patient, get_APCH_Patient, get_Planning_Patient, get_RendezVousH_Doctor, get_APCH_Doctor, update_D, update_RendezVous_Date_A, update_APC_Date_A, delete_D, delete_RendezVous_A, delete_APC_A, getApcForAgent, delete_payment, add_payment, update_payment,GAPC,GPy,GRDV
 
 
 urlpatterns = [
@@ -10,6 +10,7 @@ urlpatterns = [
     path('GPy/<token>/',GPy),
     path('GRDV/<token>/',GRDV),
     path('planingP/<token>/',planingP),
+    path('planingM/<token>/',planingM),
     path('HRdvP/<token>/',HRdvP),
     path('HpayP/<token>/',HpayP),
     path('HRdvM/<token>/',HRdvM),

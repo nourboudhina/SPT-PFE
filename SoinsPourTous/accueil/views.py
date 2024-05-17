@@ -18,24 +18,24 @@ import json
 from django.core.exceptions import ValidationError
 @csrf_exempt
 def GesMed(request, token):
-    token = Token.objects.filter(token=token).first()
+    token = TokenForAgent.objects.filter(token=token).first()
     return render(request, 'GestionHopitale/GestionMédecin.html') 
 @csrf_exempt
 def GesServ(request, token):
-    token = Token.objects.filter(token=token).first()
+    token = TokenForAgent.objects.filter(token=token).first()
     return render(request, 'GestionHopitale/GestionServices.html') 
 @csrf_exempt
 def GesSpec(request, token):
-    token = Token.objects.filter(token=token).first()
+    token = TokenForAgent.objects.filter(token=token).first()
     return render(request, 'GestionHopitale/GestionSpécialités.html')     
 @csrf_exempt
 def pageProfileA(request, token):
-    token = Token.objects.filter(token=token).first()
+    token = TokenForAgent.objects.filter(token=token).first()
     return render(request, 'Profils/ProfilAgent.html') 
 
 @csrf_exempt
 def pageProfileM(request, token):
-    token = Token.objects.filter(token=token).first()
+    token = TokenForDoctor.objects.filter(token=token).first()
     return render(request, 'Profils/ProfilMédecin.html') 
 
 @csrf_exempt
