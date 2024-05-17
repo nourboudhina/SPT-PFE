@@ -1,7 +1,7 @@
 
 from django.contrib import admin
 from django.urls import path, include 
-from chat.views import checkview, checkRoom, send, getmessage, getChatPatient, getChatMedecin, ChatMed, ChatPat
+from chat.views import NotificationListView, checkview, checkRoom, send, getmessage, getChatPatient, getChatMedecin, ChatMed, ChatPat
 
 
 urlpatterns = [
@@ -14,4 +14,5 @@ urlpatterns = [
     path('getMedecinRooms/<token>/',getChatMedecin),
     path('ChatMed/<token>/',ChatMed),
     path('ChatPat/<token>/',ChatPat),
+    path('notifications/', NotificationListView.as_view(), name='notification-list'),
 ]

@@ -2,7 +2,7 @@ import datetime
 import json
 import logging
 from random import randint
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404,redirect
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
@@ -623,38 +623,64 @@ def userData(request):
         return JsonResponse({'detail': 'User not authenticated'}, status=401)
 
 
-        
+logger = logging.getLogger(__name__)
+
 @api_view(['POST'])
-def logout_patient(request):
-    token = request.POST.get('token')
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def logout_patient(request, token):
+    logger.debug("Request data: %s", request.data)
+    token_value = request.data.get('token')  # Use request.data to get POST data in DRF
+
+    if not token_value:
+        logger.error("Token not provided")
+        return Response({"error": "Token not provided"}, status=400)
+
     try:
-        token_obj = Token.objects.get(token=token)
-        print(type(token_obj))
+        token_obj = Token.objects.get(token=token_value)
+        token_obj.delete()
+        logger.info("Token successfully deleted")
+        return HttpResponseRedirect('//')
     except Token.DoesNotExist:
-        return JsonResponse({"error": "Token invalide"}, status=400)
-    token_obj.delete()
-    return JsonResponse({"message": "Déconnexion réussie"})
+        logger.error("Invalid token: %s", token_value)
+        return Response({"error": "Invalid token"}, status=400)
+    
+    
 
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def logout_medecin(request,token):
-    token = request.POST.get('token')
+    logger.debug("Request data: %s", request.data)
+    token_value = request.data.get('token')  # Use request.data to get POST data in DRF
+
+    if not token_value:
+        logger.error("Token not provided")
+        return Response({"error": "Token not provided"}, status=400)
+
     try:
-        token_obj = TokenForDoctor.objects.get(token=token)
-        print(type(token_obj))
+        token_obj = TokenForDoctor.objects.get(token=token_value)
+        token_obj.delete()
+        logger.info("Token successfully deleted")
+        return HttpResponseRedirect('//')
     except TokenForDoctor.DoesNotExist:
-        return JsonResponse({"error": "Token invalide"}, status=400)
-    token_obj.delete()
-    return JsonResponse({"message": "Déconnexion réussie"})
+        logger.error("Invalid token: %s", token_value)
+        return Response({"error": "Invalid token"}, status=400)
 
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
 def logout_Agent(request,token):
-   token = request.POST.get('token')
-   try:
-        token_obj = TokenForAgent.objects.get(token=token)
-        print(type(token_obj))
-   except TokenForAgent.DoesNotExist:
-        return JsonResponse({"error": "Token invalide"}, status=400)
-   token_obj.delete()
-   return JsonResponse({"message": "Déconnexion réussie"})
+    logger.debug("Request data: %s", request.data)
+    token_value = request.data.get('token')  # Use request.data to get POST data in DRF
+
+    if not token_value:
+        logger.error("Token not provided")
+        return Response({"error": "Token not provided"}, status=400)
+
+    try:
+        token_obj = TokenForAgent.objects.get(token=token_value)
+        token_obj.delete()
+        logger.info("Token successfully deleted")
+        return HttpResponseRedirect('//')
+    except TokenForAgent.DoesNotExist:
+        logger.error("Invalid token: %s", token_value)
+        return Response({"error": "Invalid token"}, status=400)

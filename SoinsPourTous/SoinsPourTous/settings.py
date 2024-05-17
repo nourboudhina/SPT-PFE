@@ -91,14 +91,15 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'SoinsPourTous.wsgi.application'
-ASGI_APPLICATION = 'SoinsPourTous.routing.application'
+ASGI_APPLICATION = 'SoinsPourTous.asgi.application'
 
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('localhost', 6379)],
-        },
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',  # For development
+        # 'BACKEND': 'channels_redis.core.RedisChannelLayer',  # Uncomment for production
+        # 'CONFIG': {
+        #     "hosts": [('127.0.0.1', 6379)],
+        # },
     },
 }
 
