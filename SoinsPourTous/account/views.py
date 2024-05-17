@@ -91,7 +91,7 @@ def add_medecin(request):
                 email=email,
                 groupe=groupe,
                 grade=grade,
-                sepcialite=specialite,
+                specialite=specialite,
                 service=service,
                 hopitale = agent.hopitale,
                 phone=phone,
@@ -107,12 +107,12 @@ def add_medecin(request):
             return JsonResponse({'success': 'Medecin added successfully'}, status=201)
 
         except Exception as e:
-            print(e)
-            #return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+            return JsonResponse({'message': str(e)}, status=400)
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+            return JsonResponse({'message': str(e)}, status=500)
     else:
-        return JsonResponse({'error': 'Invalid HTTP method'}, status=405)
+        return JsonResponse({'message': 'Invalid HTTP method'}, status=405)
 
 @api_view(['DELETE'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
@@ -122,7 +122,7 @@ def delete_medecin(request, pk):
         medecin.delete()
         return Response({'message': 'Médecin deleted successfully'}, status=204)
     except Medecin.DoesNotExist:
-        return Response({'error': 'Médecin not found'}, status=404)
+        return Response({'message': 'Médecin not found'}, status=404)
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def list_medecins(request):
@@ -155,7 +155,7 @@ def delete_specialite(request, pk):
         specialite.delete()
         return Response({'message': 'Service deleted successfully'}, status=204)
     except Specialite.DoesNotExist:
-        return Response({'error': 'Service not found'}, status=404)
+        return Response({'message': 'Service not found'}, status=404)
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def add_specialiter(request):
@@ -165,7 +165,7 @@ def add_specialiter(request):
             data = json.loads(request.body)
             specialite_name = data.get('specialite')
             service_id=data.get('service')
-            print(service_id)
+            id=data.get('id')
             try:
                 service = Service.objects.get(id=service_id)
             except Exception as e:
@@ -174,20 +174,55 @@ def add_specialiter(request):
                 # Assuming 'hopitale_id' needs to be provided or is fixed for this example
                  # Example: Get the first hospital
                 try:
-                    new_specialite = Specialite.objects.create(id=generate_unique_id(), specialite=specialite_name, service=service)
+                    new_specialite = Specialite.objects.create(id=id, specialite=specialite_name, service=service)
                 except Exception as e:
-                    print(e)   
-                print(new_specialite.service)
+                    return JsonResponse({'message': str(e)}, status=201)
                 new_specialite.save()
-                return JsonResponse({'success': 'Service added successfully'}, status=201)
+                return JsonResponse({'message': 'Service added successfully'}, status=201)
             else:
-                return JsonResponse({'error': 'Missing service name'}, status=400)
+                return JsonResponse({'message': 'Missing service name'}, status=400)
         except json.JSONDecodeError:
-            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+            return JsonResponse({'message': 'Invalid JSON'}, status=400)
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+            return JsonResponse({'message': str(e)}, status=500)
     else:
-        return JsonResponse({'error': 'Invalid HTTP method'}, status=405)
+        return JsonResponse({'message': 'Invalid HTTP method'}, status=405)
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def edit_specialite(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            specialite_name = data.get('specialite')
+            service_id = data.get('service')
+            specialite_id = data.get('id')  # 'id' is optional for new specialities
+            print(service_id)
+            try:
+                service = Service.objects.get(id=service_id)
+            except Service.DoesNotExist:
+                return JsonResponse({'message': 'Service not found'}, status=404)
+
+            if not specialite_name:
+                return JsonResponse({'message': 'Specialite name is required'}, status=400)
+
+            if specialite_id:
+                # Update existing specialite
+                try:
+                    specialite = Specialite.objects.get(id=specialite_id)
+                    specialite.specialite = specialite_name
+                    specialite.service = service
+                    specialite.save()
+                    return JsonResponse({'message': 'Specialite updated successfully'}, status=200)
+                except Specialite.DoesNotExist:
+                    return JsonResponse({'message': 'Specialite not found'}, status=404)
+        
+
+        except json.JSONDecodeError:
+            return JsonResponse({'message': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'message': str(e)}, status=500)
+    else:
+        return JsonResponse({'message': 'Invalid HTTP method'}, status=405)
 @api_view(['GET', 'POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def specialite_list(request):
@@ -234,6 +269,42 @@ def specialite_detail(request, pk):
 
 def generate_unique_id():
     return str(uuid.uuid4())
+
+
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def edit_service(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            service_name = data.get('service')
+            token = data.get('token')
+            id = data.get('id')  # 'id' is optional for new services
+            
+            token_obj = TokenForAgent.objects.filter(token=token).first()
+            if not token_obj:
+                return JsonResponse({'error': 'Invalid token'}, status=400)
+
+            user_obj = token_obj.user
+            if not service_name:
+                return JsonResponse({'error': 'Service name is required'}, status=400)
+
+            if id:
+                # Update existing service
+                try:
+                    service = Service.objects.get(id=id, hopitale=user_obj.hopitale)  # Ensure service belongs to user's hospital
+                    service.service = service_name
+                    service.save()
+                    return JsonResponse({'success': 'Service updated successfully'}, status=200)
+                except Service.DoesNotExist:
+                    return JsonResponse({'error': 'Service not found'}, status=404)
+        
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Invalid HTTP method'}, status=405)   
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def add_service(request):
@@ -243,6 +314,7 @@ def add_service(request):
             data = json.loads(request.body)
             service_name = data.get('service')
             token=data.get('token')
+            id=data.get('id')
             token_obj = TokenForAgent.objects.filter(token=token).first()
             user_obj = token_obj.user
             print(user_obj.email)
@@ -250,7 +322,7 @@ def add_service(request):
                 # Assuming 'hopitale_id' needs to be provided or is fixed for this example
                  # Example: Get the first hospital
                 try:
-                    new_service = Service.objects.create(id=generate_unique_id(), service=service_name, hopitale=user_obj.hopitale)
+                    new_service = Service.objects.create(id=id, service=service_name, hopitale=user_obj.hopitale)
                 except Exception as e:
                     print(e)   
                 print(new_service.service)

@@ -28,7 +28,7 @@
                             <div class="d-flex align-items-center">
                                 <h5 class="card-title mb-0 flex-grow-1">Services</h5>
                                 <div class="flex-shrink-0">
-                                    <button class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#Modifier"><i class="ri-add-line align-bottom me-1"></i> Ajouter</button>
+                                    <button class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#Ajout"><i class="ri-add-line align-bottom me-1"></i> Ajouter</button>
                                     <button class="btn btn-soft-secondary" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@
             </div>
             <!--end row-->
 
-            <div class="modal fade zoomIn" id="Modifier" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade zoomIn" id="Ajout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content border-0">
                         <div class="modal-header p-3 bg-soft-info">
@@ -152,7 +152,7 @@
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
                                     <button type="submit" class="btn btn-success" id="add-btn">Ajouter</button>
-                                    <button type="button" class="btn btn-success" id="edit-btn">Modifier</button>
+                                    
                                 </div>
                             </div>
                         </form>
@@ -164,6 +164,49 @@
         </div>
         <!-- container-fluid -->
     </div>
+    <div class="modal fade zoomIn" id="Modifier" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0">
+                <div class="modal-header p-3 bg-soft-info">
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-lg-12">
+                                <div id="modal-id">
+                                    <label for="orderId" class="form-label">ID</label>
+                                    <input type="text" id="orderIdm" class="form-control" placeholder="ID"  />
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div>
+                                    <label for="tasksTitle-field" class="form-label">Services</label>
+                                    <input type="text" id="tasksTitle-fieldm" class="form-control" placeholder="username" required />
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <div class="hstack gap-2 justify-content-end">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
+                            
+                            <button type="button" class="btn btn-success" id="edit-btn">Modifier</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- api ajout et  update des services -->
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- container-fluid -->
+</div>
     <!-- End Page-content -->
 
 
@@ -203,11 +246,12 @@
                         data.forEach(service => {
                             const row = `<tr>
                                             <td><input type="checkbox" name="checkAll" value="${service.id}"></td>
-                                            <td>${service.id}</td>
-                                            <td>${service.service}</td>
+                                            <td class="id" >${service.id}</td>
+                                            <td class="service" >${service.service}</td>
                                             <td>
-                                                <button class="btn btn-soft-secondary btn-sm" onclick="editService('${service.id}', '${service.service}')"><i class="ri-pencil-fill"></i></button>
+
                                                 <button class="btn btn-danger btn-sm" onclick="deleteService('${service.id}')"><i class="ri-delete-bin-2-line"></i></button>
+                                                <button onclick="handleButtonClick(this)" class="btn btn-soft-secondary btn-sm"  data-bs-toggle="modal" data-bs-target="#Modifier"><i class="ri-pencil-fill"></i> </button>
                                             </td>
                                          </tr>`;
                             tableBody.innerHTML += row;
@@ -217,31 +261,30 @@
         
             // Call fetchServices to load services initially
             fetchServices();
-        
+            
             // Add service
             document.getElementById('add-btn').addEventListener('click', function() {
                 const serviceInput = document.getElementById('tasksTitle-field').value;
-                const tokenA ="3619fe0e116a11ef8cb7c89402a799ef";
+                const id =document.getElementById('orderId').value;
+                const pathArray = window.location.pathname.split('/');
+                const tokenA = pathArray[pathArray.length - 2];
+                
                 fetch(apiUrl + 'add/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ service: serviceInput ,token: tokenA })
+                    body: JSON.stringify({ service: serviceInput ,token: tokenA ,id:id})
                 })
                 .then(response => response.json())
                 .then(data => {
                     fetchServices(); // Refresh list after adding
-                    $('#Modifier').modal('hide'); // Hide modal after operation
+                    $('#Ajout').modal('hide'); // Hide modal after operation
                 });
             });
         
             // Edit service logic here
-            window.editService = function(id, service) {
-                document.getElementById('orderId').value = id;
-                document.getElementById('tasksTitle-field').value = service;
-                $('#Modifier').modal('show');
-            };
+        
         
             // Delete service
             window.deleteService = function(id) {
@@ -274,5 +317,32 @@
         
 
         </script>
+        <script>function handleButtonClick(button) {
+            const row = button.closest('tr'); 
+            const id = row.querySelector('.id').textContent;
+            const service = row.querySelector('.service').textContent;
+          
+            document.getElementById('orderIdm').value = id;
+            document.getElementById('tasksTitle-fieldm').value = service;
+             $('#Modifier').modal('show');}
+             document.getElementById('edit-btn').addEventListener('click', function() {
+                const serviceInput = document.getElementById('tasksTitle-fieldm').value;
+                const id =document.getElementById('orderIdm').value;
+                const pathArray = window.location.pathname.split('/');
+                const tokenA = pathArray[pathArray.length - 2];
+                
+                fetch('/services/edit/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ service: serviceInput ,token: tokenA ,id:id})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    fetchServices(); // Refresh list after adding
+                    $('#Ajout').modal('hide'); // Hide modal after operation
+                });
+            });</script>
         
 {% endblock content %}

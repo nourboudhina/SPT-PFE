@@ -1,5 +1,4 @@
 {% extends "Accueil/baseA.html" %}
-
 {% load static %}
 {% block title %} Rendez-vous {% endblock title%}
 {% block content %}
@@ -134,6 +133,46 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                         </div>
                         <form>
+                            <div class="modal-body">
+                                <div class="row g-3">
+ 
+                                    <div class="col-lg-6">
+                                        <label for="date-field" class="form-label">Date  </label>
+                                        <input type="date" id="date-field" class="form-control" data-provider="flatpickr" data-date-format="YYYY-MM-DD" placeholder="Create Date" required />
+                                    </div>
+                                    
+                                    <div class="col-lg-6">
+                                        <label for="ticket-status" class="form-label">État</label>
+                                        <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status">
+                                            <option value="">État</option>
+                                            <option value="New">Nouveau</option>
+                                            <option value="Inprogress">Annuler</option>
+                                            
+                                        </select>
+                                    </div>
+                                    
+                                </div>
+
+                            </div>
+                            
+                            <div class="modal-footer">
+                                <div class="hstack gap-2 justify-content-end">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
+                                    <button type="button" class="btn btn-success" id="edit-btn">Modifier</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade zoomIn" id="Ajouter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content border-0">
+                        <div class="modal-header p-3 bg-soft-info">
+                            <h5 class="modal-title" id="exampleModalLabel"></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                        </div>
+                        <form>
                             <!-- api d'ajouter ou modifier  rdv -->
                             <div class="modal-body">
                                 <div class="row g-3">
@@ -167,7 +206,7 @@
                                     
                                     <div class="col-lg-6">
                                         <label for="date-field" class="form-label">Date  </label>
-                                        <input type="date" id="date-field" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Create Date" required />
+                                        <input type="date" id="date-field" class="form-control" data-provider="flatpickr" data-date-format="YYYY-MM-DD" placeholder="Create Date" required />
                                     </div>
                                     
                                     <div class="col-lg-6">
@@ -188,7 +227,6 @@
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
                                     <button type="submit" class="btn btn-success" id="add-rdv">Ajouter</button>
-                                    <button type="button" class="btn btn-success" id="edit-btn">Modifier</button>
                                 </div>
                             </div>
                         </form>
@@ -335,7 +373,7 @@ const addRendezVous = () => {
     const medecinId = document.getElementById('medecin-select').value;
     const patientId = document.getElementById('patient-select').value;
     const date = document.getElementById('date-field').value;
-
+    alert(date)
     const data = {
         medecin: medecinId,
         patient: patientId,
@@ -344,7 +382,7 @@ const addRendezVous = () => {
 
     console.log('Sending data:', data);  // Log the data being sent
 
-    fetch(`/planning/ajoutRendezVousParAgent/3619fe0e116a11ef8cb7c89402a799ef/`, {
+    fetch(`/planning/ajoutRendezVousParAgent/5c123f3c136c11ef9754c89402a799ef/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

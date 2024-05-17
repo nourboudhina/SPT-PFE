@@ -12,7 +12,7 @@ class MedecinSerializer(serializers.ModelSerializer):
     nationalite_name = serializers.CharField(source='nationalite.nationalite', read_only=True)
     groupe_name = serializers.CharField(source='groupe.groupe', read_only=True)
     grade_name = serializers.CharField(source='grade.grade', read_only=True)
-    specialite_name = serializers.CharField(source='sepcialite.specialite', read_only=True)
+    specialite_name = serializers.CharField(source='specialite.specialite', read_only=True)
     service_name = serializers.CharField(source='service.service', read_only=True)
     hopitale_name = serializers.CharField(source='hopitale.nom', read_only=True)
     image_base64 = serializers.SerializerMethodField()

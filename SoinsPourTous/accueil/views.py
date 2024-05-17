@@ -417,17 +417,20 @@ def modify_medecin(request, token):
         token_agent = TokenForAgent.objects.filter(token=token).first()
         agent = token_agent.user
         if agent:
-            hopital = agent.hopitale
-            data = request.data
+            try:
+                hopital = agent.hopitale
+                data = request.data
 
-            medecin_id = data.get('medecin')
-            garde_id = data.get('garde')
-            groupe_id = data.get('groupe')
-            service = data.get('service')
-            specialite = data.get('specialite')
-
-            if not (medecin_id and (garde_id or groupe_id or service or specialite)):
-                return Response({'message': 'Veuillez renseigner au moins un champ à modifier'}, status=400)
+                medecin_id = data.get('id')
+                grade_id = data.get('grade')
+                groupe_id = data.get('groupe')
+                service_id = data.get('service')
+                specialite_id = data.get('specialite')
+            except Exception as e:
+                return Response({'message':str(e)})
+               
+            if not (medecin_id and (grade_id or groupe_id or service or specialite)):
+                return Response({'message':'Veuillez renseigner au moins un champ à modifier'},status=202)
 
             try:
                 # Get the doctor object
@@ -438,20 +441,21 @@ def modify_medecin(request, token):
                     return Response({'message': 'Vous ne pouvez pas modifier un médecin d\'un autre hôpital'}, status=400)
 
                 # Update fields based on provided values
-                if garde_id:
-                    medecin.grade = garde_id
+                if grade_id:
+                    medecin.grade = Grade.objects.get(id=grade_id)
                 if groupe_id:
-                    medecin.groupe = groupe_id
-                if service:
-                    medecin.service = service
-                if specialite:
-                    medecin.specialite = specialite
+                    medecin.groupe = Groupe.objects.get(id=groupe_id)
+                if service_id:
+                    medecin.service = Service.objects.get(id=service_id)
+                if specialite_id:
+                    medecin.specialite = Specialite.objects.get(id=specialite_id)
 
                 medecin.save()
                 return Response({'message': 'Médecin modifié avec succès'})
             except Medecin.DoesNotExist:
                 return Response({'message': 'Médecin introuvable'}, status=400)
             except Exception as e:
+                
                 return Response({'message': f'Une erreur est survenue: {str(e)}'}, status=500)
 
         else:

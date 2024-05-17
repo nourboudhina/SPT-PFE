@@ -24,6 +24,6 @@ urlpatterns = [
     path('add_service/<token>/', add_service, name='add_service'),
     path('add_specialite/<token>/', add_specialite, name='add_specialite'),
     path('add_medecin/<token>/', add_medecin, name='add_medecin'),
-    path('modify_medecin/<int:token>/', modify_medecin, name='modify_medecin'),
+    path('modify_medecin/<token>/', modify_medecin, name='modify_medecin'),
 
 ]

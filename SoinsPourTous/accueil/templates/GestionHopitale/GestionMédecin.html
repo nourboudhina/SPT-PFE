@@ -46,45 +46,6 @@
 
                                     
 
-                                    <div class="col-xxl-3 col-sm-4">
-                                        <div class="input-light">
-                                            <select class="form-control" data-plugin="choices" name="grade" id="grade-select2">
-                                                <option value="">Grade</option>
-                                                <!-- Dynamically filled -->
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xxl-3 col-sm-4">
-                                        <div class="input-light">
-                                            <select class="form-control" data-plugin="choices" name="groupe" id="groupe-select2">
-                                                <option value="">Groupe</option>
-                                                <!-- Dynamically filled -->
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xxl-3 col-sm-4">
-                                        <div class="input-light">
-                                            <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idStatus">
-                                                <option value="">Service</option>
-                                                <!--les options des services présent dans l'hopitele de l'agent -->
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-xxl-3 col-sm-4">
-                                        <div class="input-light">
-                                            <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idStatus1">
-                                                <option value="">Spécialité</option>
-                                                <!--les options des spécilités présent dans l'hopitele de l'agent -->
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xxl-1 col-sm-4">
-                                        <button type="button" class="btn btn-primary w-100" onclick="SearchData();"> <i class="ri-equalizer-fill me-1 align-bottom"></i>
-                                            Filtres
-                                        </button>
-                                    </div>
-                                    <!--end col-->
                                 </div>
                                 <!--end row-->
                             </form>
@@ -92,7 +53,7 @@
                         <!--end card-body-->
                         <div class="card-body">
                             <div class="table-responsive table-card mb-4">
-                                <table class="table align-middle table-nowrap mb-0" id="ticketTable">
+                                <table class="table align-middle table-nowrap mb-0" id="ticket-list">
                                     <thead>
                                         <tr>
                                             <th scope="col" style="width: 40px;">
@@ -161,6 +122,10 @@
                             </div>
 
                             <!-- Modal -->
+                            <div class="modal fade" id="Modifier" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <!-- Modal content -->
+                            </div>
+                            
 
                             <div class="modal fade flip" id="delete" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
@@ -192,7 +157,95 @@
                 </div>
                 <!--end col-->
             </div>
+
             <!--end row-->
+            <div class="modal fade zoomIn" id="edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content border-0">
+                        <div class="modal-header p-3 bg-soft-info">
+                            <h5 class="modal-title" id="exampleModalLabel"></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                        </div>
+                        <form>
+                            <div class="modal-body">
+                                <div class="row g-3">
+                                    <div class="col-lg-12">
+                                        <div id="modal-id">
+                                            <label for="orderId" class="form-label">ID</label>
+                                            <input type="text" id="orderId" class="form-control" placeholder="ID" value="#VLZ462" readonly />
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <div class="col-lg-12">
+                                        <div>
+                                            <label for="tasksTitle-field" class="form-label">Username</label>
+                                            <input type="text" id="tasksTitle-field" class="form-control" placeholder="username" required />
+                                        </div>
+                                    </div>
+                                    
+                                   
+                                    <div class="col-lg-6">
+                                        <div>
+                                            <label for="assignedtoName-field" class="form-label">Grade</label>
+                                            <select class="form-control" data-plugin="choices" name="grade" id="grade-select1">
+                                                <option value="">Grade</option>
+                                                <!-- Dynamically filled -->
+                                            </select>
+                                        </div>
+                                    </div>
+            
+                                
+                                    <div class="col-lg-6">
+                                        <div>
+                                            <label for="assignedtoName-field" class="form-label">Groupe</label>
+                                            <select class="form-control" data-plugin="choices" name="groupe" id="groupe-select1">
+                                                <option value="">Groupe</option>
+                                                <!-- Dynamically filled -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div>
+                                            <label for="assignedtoName-field" class="form-label">Service</label>
+                                            <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status">
+                                                <option value="">Services</option>
+                                                <!--les options des services présent dans l'hopitele de l'agent -->
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div>
+                                            <label for="assignedtoName-field" class="form-label">Spécialité</label>
+                                            <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status1">
+                                                <option value="">Spécialités</option>
+                                                <!--les options des spécilités présent dans l'hopitele de l'agent -->
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                  
+                                   
+                                    
+                                  
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <div class="hstack gap-2 justify-content-end">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
+                                 
+                                    <button type="button" class="btn btn-success" id="edit-btn">Modifier</button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- Pour  modifier  un médecin
+                        un api de update 
+                        path('modify_medecin/<int:token>/', modify_medecin, name='modify_medecin'), -->
+                    </div>
+                </div>
+            </div>
 
             <div class="modal fade zoomIn" id="Ajouter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -318,6 +371,7 @@
                             <div class="modal-footer">
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
+                                    <button type="submit" class="btn btn-success" id="add-btn">Ajouter</button>
                                     <button type="button" class="btn btn-success" id="edit-btn">Modifier</button>
                                 </div>
                             </div>
@@ -480,17 +534,18 @@
                             data.forEach(doc => {
                                 const row = `<tr>
                                     <td><input type="checkbox" value="${doc.id}"></td>
-                                    <td>${doc.id}</td>
-                                    <td>${doc.username}</td>
-                                    <td>${doc.password}</td>
-                                    <td>${doc.grade_name}</td>
-                                    <td>${doc.groupe_name}</td>
-                                    <td>${doc.service_name}</td>
-                                    <td>${doc.specialite_name}</td>
-                                    <td>${doc.date_nais}</td>
-                                    <td>${doc.status}</td>
+                                    <td class="id">${doc.id}</td>
+                                    <td class="username">${doc.username}</td>
+                                        <td class="password">${doc.password}</td>
+                                        <td class="grade">${doc.grade_name}</td>
+                                        <td class="group">${doc.groupe_name}</td>
+                                        <td class="service">${doc.service_name}</td>
+                                        <td class="specialty">${doc.specialite_name}</td>
+                                        <td class="birthdate">${doc.date_nais}</td>
+                                        <td class="status">${doc.status}</td>
                                     <td>
                                         <button onclick="deleteDoctor('${doc.id}')" class="btn btn-danger">Supprimer</button>
+                                        <button onclick="handleButtonClick(this)" class="btn btn-primary edit-btn" data-doctor-id="${doc.id}" data-bs-toggle="modal" data-bs-target="#edit">Edit</button>
                                     </td>
                                 </tr>`;
                                 tableBody.innerHTML += row;
@@ -516,7 +571,7 @@
                     const nationaliteSelect = document.getElementById('nationalite-select').value;
                     const pathArray = window.location.pathname.split('/');
                     const tokenA = pathArray[pathArray.length - 2];
-                    alert(nationaliteSelect)
+                    
                     const data = {
                         username,
                         password,
@@ -569,8 +624,8 @@
                 fetchDoctors();
             });
             document.addEventListener('DOMContentLoaded', function() {
-    const nationaliteSelect = document.getElementById('nationalite-select');
-
+            const nationaliteSelect = document.getElementById('nationalite-select');
+              
     fetch('/nationalites/')
         .then(response => response.json())
         .then(data => {
@@ -615,7 +670,72 @@ function getCookie(name) {
         }
     }
     return cookieValue;
+    // Function to fetch and display a single doctor's details for editing
+
+
 }
+
+
             </script>
-            
+<script>
+ function handleButtonClick(button) {
+    const row = button.closest('tr'); 
+    const id = row.querySelector('.id').textContent;
+    const username = row.querySelector('.username').textContent;
+    const pathArray = window.location.pathname.split('/');
+    const tokenA = pathArray[pathArray.length - 2];
+  
+
+    document.getElementById('orderId').value = id;
+    document.getElementById('tasksTitle-field').value = username;
+
+    $('#editModal').modal('show');}
+</script>
+                
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('edit-btn').addEventListener('click', function() {
+            const id = document.getElementById('orderId').value;
+            const username = document.getElementById('tasksTitle-field').value;
+            const gradeId = document.getElementById('grade-select1').value;
+            const groupeId = document.getElementById('groupe-select1').value;
+            const serviceId = document.getElementById('ticket-status').value;
+            const specialiteId = document.getElementById('ticket-status1').value;
+            const pathArray = window.location.pathname.split('/');
+            const tokenA = pathArray[pathArray.length - 2];
+  
+            // Create a data object to send to the server
+            const data = {
+                id: id,
+                username: username,
+                grade: gradeId,
+                groupe: groupeId,
+                service: serviceId,
+                specialite: specialiteId
+            };
+
+            // API endpoint for updating a doctor
+            const updateUrl = `/accueil/modify_medecin/${tokenA}/`; // Ensure you have the correct URL and token
+
+            // Send the request to the server
+            fetch(updateUrl, {
+                method: 'POST', // or 'PUT' if your API requires
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                $('#edit').modal('hide'); // Close modal on success
+                location.reload(); // Optional: reload the page to see the changes
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    });
+</script>
+           
 {% endblock content %}
