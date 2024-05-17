@@ -487,6 +487,7 @@
                         groupeSelects.forEach(select => {
                             select.innerHTML = '<option value="">Groupe</option>'; // Clear and add placeholder
                             data.forEach(groupe => {
+                               
                                 let option = new Option(groupe.groupe, groupe.id);
                                 select.appendChild(option);
                             });
