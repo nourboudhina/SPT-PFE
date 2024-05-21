@@ -5,8 +5,8 @@ from .models import  User
 from .models import Service,Specialite
 import base64
 from .models import Grade, Groupe
-from .models import Medecin
-
+from .models import Medecin 
+from planning.models import Payment
 class MedecinSerializer(serializers.ModelSerializer):
     gouvernorat_name = serializers.CharField(source='gouvernorat.options', read_only=True)
     nationalite_name = serializers.CharField(source='nationalite.nationalite', read_only=True)
@@ -78,3 +78,11 @@ class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
         fields = '__all__'
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+    patient = UserSerializer(read_only=True)  # Nested serializer for related User
+
+    class Meta:
+        model = Payment
+        fields = ['id', 'patient', 'date', 'payé']        

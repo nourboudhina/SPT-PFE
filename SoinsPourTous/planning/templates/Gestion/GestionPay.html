@@ -64,8 +64,8 @@
                                             <th class="sort" data-sort="id">ID</th>
                                             <th class="sort" data-sort="client_name">Patient </th>
                                             <th class="sort" data-sort="create_date">Date </th>
-                                            <th class="sort" data-sort="client_name">Payé</th>
-                                            <th class="sort" data-sort="status">Status</th>
+                                            <th class="sort" data-sort="client_name">Payé en Dt </th>
+                                            
                                          
                                         </tr>
                                     </thead>
@@ -154,30 +154,28 @@
                                     <div class="col-lg-12">
                                         <div id="modal-id">
                                             <label for="orderId" class="form-label">ID</label>
-                                            <input type="text" id="orderId" class="form-control" placeholder="ID"  readonly />
+                                            <input type="text" id="orderId2" class="form-control" placeholder="ID"  readonly />
                                         </div>
                                     </div>
                                     
                                     <div class="col-lg-6">
                                         <div>
-                                            <label for="client_nameName-field" class="form-label">Patient</label>
-                                            <select class="form-control" data-plugin="choices" name="Patient" id="ticket-status">
-                                                <option value="">Patients</option>
-                                                <!--les options des patients présent dans l'hopitele de l'agent -->
-                                                
-                                            </select>
+                                            <div id="modal-id">
+                                                <label for="orderId" class="form-label">patient-username</label>
+                                                <input type="text" id="patient" class="form-control" placeholder="username"  readonly />
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div>
                                             <label for="tasksTitle-field" class="form-label">Payé</label>
-                                            <input type="text" id="tasksTitle-field" class="form-control" placeholder="montant" required />
+                                            <input type="text" id="mount2" class="form-control" placeholder="montant" required />
                                         </div>
                                     </div>
                                     
                                     <div class="col-lg-6">
                                         <label for="date-field" class="form-label">Date  </label>
-                                        <input type="date" id="date-field" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Create Date" required />
+                                        <input type="date" id="datetime-field2" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Create Date" required />
                                     </div>
                                     
                                     <div class="col-lg-6">
@@ -203,7 +201,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade zoomIn" id="Modifier" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade zoomIn" id="Ajouter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content border-0">
                         <div class="modal-header p-3 bg-soft-info">
@@ -224,7 +222,7 @@
                                     <div class="col-lg-6">
                                         <div>
                                             <label for="client_nameName-field" class="form-label">Patient</label>
-                                            <select class="form-control" data-plugin="choices" name="Patient" id="ticket-status">
+                                            <select class="form-control" data-plugin="choices" name="Patient" id="patient-select">
                                                 <option value="">Patients</option>
                                                 <!--les options des patients présent dans l'hopitele de l'agent -->
                                                 
@@ -234,13 +232,13 @@
                                     <div class="col-lg-12">
                                         <div>
                                             <label for="tasksTitle-field" class="form-label">Payé</label>
-                                            <input type="text" id="tasksTitle-field" class="form-control" placeholder="montant" required />
+                                            <input type="text" id="mount" class="form-control" placeholder="montant" required />
                                         </div>
                                     </div>
                                     
                                     <div class="col-lg-6">
-                                        <label for="date-field" class="form-label">Date  </label>
-                                        <input type="date" id="date-field" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Create Date" required />
+                                        <label for="datetime-field" class="form-label">Date and Time</label>
+                                        <input type="datetime-local" id="datetime-field" class="form-control" placeholder="Create Date and Time" required />
                                     </div>
                                     
                                     <div class="col-lg-6">
@@ -259,7 +257,7 @@
                             <div class="modal-footer">
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
-                                    <button type="submit" class="btn btn-success" id="add-btn">Ajouter</button>
+                                    <button type="submit" class="btn btn-success" id="add-pay">Ajouter</button>
                                 </div>
                             </div>
                         </form>
@@ -295,5 +293,199 @@
 
     <!-- App js -->
     <script src="{% static 'assets/js/app.js'%}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pathArray = window.location.pathname.split('/');
+            const token = pathArray[pathArray.length - 2];  // Replace 'your_token_here' with the actual token
+        
+            // Function to fetch and display rendezvous and APC data
+            function fetchAndDisplayData() {
+                fetch(`/planning/paymentsA/${token}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const rendezVousTableBody = document.querySelector('#ticket-list-data');
+                        rendezVousTableBody.innerHTML = '';  // Clear existing rows
+        
+                        // Append new rows for rendezvous data
+                        data.forEach(item => {
+                            const row = `<tr>
+                                <td><input type="checkbox" name="checkAll" value="${item.id}"></td>
+                                <td>${item.id}</td>
+                                
+                                <td>${item.patient.username}</td>
+                                <td>${item.date}</td>
+                                <td>${item.payé}</td>
+                                <td>
+                                    <button class="btn btn-soft-secondary btn-sm" onclick="editItem('${item.id}','${item.date}','${item.payé}','${item.patient.username}') "data-bs-toggle="modal" data-bs-target="#Modifier"><i class="ri-pencil-fill"></i></button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteItem('${item.id}')"><i class="ri-delete-bin-2-line"></i></button>
+                                </td>
+                            </tr>`;
+                            rendezVousTableBody.insertAdjacentHTML('beforeend', row);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Failed to fetch data:', error);
+                    });
+            }
+        
+            // Call the function to fetch and display data
+            fetchAndDisplayData();
+        
+            // Function to handle item edit
+            window.editItem = function(id,date,payé,username) {
+                document.getElementById('orderId2').value = id;
+                document.getElementById('datetime-field2').value=date;
+                document.getElementById('mount2').value=payé;
+                document.getElementById('patient').value=username;
+                // Logic to handle editpatient
+                console.log('Edit item:', id);
+                const pathArray = window.location.pathname.split('/');
+                const tokenA = pathArray[pathArray.length - 2];
+                // Populate form fields and show modal if needed
+             
+                document.getElementById('edit-btn').addEventListener('click', function() {
+                    newmount=document.getElementById('mount2').value;
+                    
+                    fetch(`/planning/update_payment/${token}/${id}/`, {
+                    method: 'PUT', // or 'PUT' if your backend is set up to use PUT
+                      headers: {
+                 'Content-Type': 'application/json',
+                 },
+                body: JSON.stringify({ payé: newmount})
+                })
+            .then(response => response.json())
+                .then(data => {
+                console.log('Update response:', data);
+                alert(' updated successfully!');
+        // Refresh your data or close the modal
+                $('#Modifier').modal('hide');
+                })
+    .catch(error => console.error('Error updating date:', error));
+            })}            // Function to handle item delete
+            window.deleteItem = function(id) {
+                // Logic to handle delete
+                console.log('Delete item:', id);
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Call API to delete the item
+                        console.log('Item deleted:', id);
+                        fetch(`/planning/delete_payment/${token}/${id}`, { method: 'DELETE' })
+                            .then(response => response.json())
+                            .then(data => {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your file has been deleted.',
+                                    'success'
+                                );
+                                fetchAndDisplayData();  // Refresh data
+                            })
+                            .catch(error => {
+                                console.error('Error deleting item:', error);
+                            });
+                    }
+                });
+            };
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+    const fetchPatients = () => {
+        fetch('/patients/')
+        .then(response => response.json())
+        .then(data => {
+            const patientSelect = document.getElementById('patient-select');
+            patientSelect.innerHTML = '<option value="">Select Patient</option>';
+            data.forEach(patient => {
+                const option = new Option(patient.fullname, patient.id);
+                patientSelect.appendChild(option);
+            });
+        });
+    };
+
+    fetchPatients();
+
+    const addpay = () => {
+        const patientId = document.getElementById('patient-select').value;
+        const date = document.getElementById('datetime-field').value;
+        const mount = document.getElementById('mount').value; // Assuming you have an input for mount
+
+    
+
+        const pathArray = window.location.pathname.split('/');
+        const token = pathArray[pathArray.length - 2]; 
+        const data = {
+            mount: mount,
+            patient: patientId,
+            date: date,
+        };
+
+        fetch(`/planning/add_payment/${token}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken') // Assuming you have a function to get CSRF token
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            console.log('Response status:', response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log('Payment added:', data);
+            alert('Payment added successfully!');
+        })
+        .catch(error => {
+            console.error('Error adding payment:', error);
+        });
+    };
+
+    document.getElementById('add-pay').addEventListener('click', addpay);
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+
+/*function deleteRendezVous(rendezVousId) {
+    const pathArray = window.location.pathname.split('/');
+    const token = pathArray[pathArray.length - 2]; // Retrieve or define your token
+
+    if (confirm('Are you sure you want to delete this rendezvous?')) {
+        fetch(`/planning/delete_payment/${token}/${rendezVousId}/`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Rendezvous deleted successfully');
+                alert('Rendezvous deleted successfully');
+                // Remove the deleted item from the UI or refresh the list
+            } else {
+                throw new Error('Failed to delete rendezvous');
+            }
+        })
+        .catch(error => console.error('Error deleting rendezvous:', error));
+    }
+}*/
+        </script>
 
 {% endblock content %}

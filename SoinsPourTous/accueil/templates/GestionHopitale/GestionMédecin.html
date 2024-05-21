@@ -45,7 +45,7 @@
                                 <h5 class="card-title mb-0 flex-grow-1">Médecins</h5>
                                 <div class="flex-shrink-0">
                                     <button class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#Ajouter"><i class="ri-add-line align-bottom me-1"></i> Ajouter</button>
-                                    <button class="btn btn-soft-secondary" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -224,7 +224,7 @@
                                     <div class="col-lg-6">
                                         <div>
                                             <label for="assignedtoName-field" class="form-label">Service</label>
-                                            <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status">
+                                            <select class="form-control" data-plugin="choices" name="ticket-status" id="service1">
                                                 <option value="">Services</option>
                                                 <!--les options des services présent dans l'hopitele de l'agent -->
                                                 
@@ -234,7 +234,7 @@
                                     <div class="col-lg-6">
                                         <div>
                                             <label for="assignedtoName-field" class="form-label">Spécialité</label>
-                                            <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status1">
+                                            <select class="form-control" data-plugin="choices" name="ticket-status" id="specialiter1">
                                                 <option value="">Spécialités</option>
                                                 <!--les options des spécilités présent dans l'hopitele de l'agent -->
                                                 
@@ -276,7 +276,7 @@
                                     <div class="col-lg-12">
                                         <div id="modal-id">
                                             <label for="orderId" class="form-label">ID</label>
-                                            <input type="text" id="orderId" class="form-control" placeholder="ID" value="#VLZ462" readonly />
+                                            <input type="text" id="orderId" class="form-control" placeholder="ID" value="#VLZ462"  />
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -294,7 +294,7 @@
                                     <div class="col-lg-12">
                                         <div>
                                             <label for="tasksTitle-field" class="form-label">Username</label>
-                                            <input type="text" id="tasksTitle-field" class="form-control" placeholder="username" required />
+                                            <input type="text" id="username" class="form-control" placeholder="username" required />
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -312,7 +312,7 @@
                                     <div class="col-lg-6">
                                         <div>
                                             <label for="assignedtoName-field" class="form-label">Grade</label>
-                                            <select class="form-control" data-plugin="choices" name="grade" id="grade-select1">
+                                            <select class="form-control" data-plugin="choices" name="grade" id="grade-select2">
                                                 <option value="">Grade</option>
                                                 <!-- Dynamically filled -->
                                             </select>
@@ -334,7 +334,7 @@
                                     <div class="col-lg-6">
                                         <div>
                                             <label for="assignedtoName-field" class="form-label">Groupe</label>
-                                            <select class="form-control" data-plugin="choices" name="groupe" id="groupe-select1">
+                                            <select class="form-control" data-plugin="choices" name="groupe" id="groupe-select2">
                                                 <option value="">Groupe</option>
                                                 <!-- Dynamically filled -->
                                             </select>
@@ -343,7 +343,7 @@
                                     <div class="col-lg-6">
                                         <div>
                                             <label for="assignedtoName-field" class="form-label">Service</label>
-                                            <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status">
+                                            <select class="form-control" data-plugin="choices" name="ticket-status" id="service2">
                                                 <option value="">Services</option>
                                                 <!--les options des services présent dans l'hopitele de l'agent -->
                                                 
@@ -353,7 +353,7 @@
                                     <div class="col-lg-6">
                                         <div>
                                             <label for="assignedtoName-field" class="form-label">Spécialité</label>
-                                            <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status1">
+                                            <select class="form-control" data-plugin="choices" name="ticket-status" id="specialiter2">
                                                 <option value="">Spécialités</option>
                                                 <!--les options des spécilités présent dans l'hopitele de l'agent -->
                                                 
@@ -501,7 +501,7 @@
                 fetch('/services/')
                     .then(response => response.json())
                     .then(data => {
-                        const serviceSelects = [document.getElementById('ticket-status'), document.getElementById('idStatus')];
+                        const serviceSelects = [document.getElementById('service1'), document.getElementById('service2')];
                         serviceSelects.forEach(select => {
                             select.innerHTML = '<option value="">Service</option>'; // Clear and add placeholder
                             data.forEach(service => {
@@ -518,7 +518,7 @@
                 fetch('/specialites/')
                     .then(response => response.json())
                     .then(data => {
-                        const specialiteSelects = [document.getElementById('ticket-status1'), document.getElementById('idStatus1')];
+                        const specialiteSelects = [document.getElementById('specialiter1'), document.getElementById('specialiter2')];
                         specialiteSelects.forEach(select => {
                             select.innerHTML = '<option value="">Spécialité</option>'; // Clear and add placeholder
                             data.forEach(specialite => {
@@ -573,12 +573,14 @@
             
                 // Add a new doctor
                 const addDoctor = () => {
-                    const username = document.getElementById('tasksTitle-field').value;
+                    
+                    const id= document.getElementById('orderId').value;
+                    const username = document.getElementById('username').value;
                     const password = document.getElementById('client_nameName-field').value;
-                    const gradeId = document.getElementById('grade-select1').value;
-                    const groupeId = document.getElementById('groupe-select1').value;
-                    const serviceId = document.getElementById('ticket-status').value;
-                    const specialiteId = document.getElementById('ticket-status1').value;
+                    const gradeId = document.getElementById('grade-select2').value;
+                    const groupeId = document.getElementById('groupe-select2').value;
+                    const serviceId = document.getElementById('service2').value;
+                    const specialiteId = document.getElementById('specialiter2').value;
                     const datnes = document.getElementById('date-field').value;
                     const Addresse = document.getElementById('addresse').value;
                     const Email = document.getElementById('email').value;
@@ -588,10 +590,11 @@
                     const nationaliteSelect = document.getElementById('nationalite-select').value;
                     const pathArray = window.location.pathname.split('/');
                     const tokenA = pathArray[pathArray.length - 2];
-                    
+                    alert(username)
                     const data = {
-                        username,
-                        password,
+                        id:id,
+                        username:username,
+                        password:password,
                         grade: gradeId,
                         groupe: groupeId,
                         service: serviceId,
@@ -716,8 +719,8 @@ function getCookie(name) {
             const username = document.getElementById('tasksTitle-field').value;
             const gradeId = document.getElementById('grade-select1').value;
             const groupeId = document.getElementById('groupe-select1').value;
-            const serviceId = document.getElementById('ticket-status').value;
-            const specialiteId = document.getElementById('ticket-status1').value;
+            const serviceId = document.getElementById('service1').value;
+            const specialiteId = document.getElementById('specialiter1').value;
             const pathArray = window.location.pathname.split('/');
             const tokenA = pathArray[pathArray.length - 2];
   

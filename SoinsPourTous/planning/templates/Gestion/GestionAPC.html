@@ -148,14 +148,19 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                         </div>
                         <form>
-                            <!-- api d'ajouter ou modifier  apc -->
                             <div class="modal-body">
-                                <div class="row g-3">
-                                    
-                                    <div class="col-lg-6">
-                                        <label for="date-field" class="form-label">Date  </label>
-                                        <input type="date" id="date-field" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Create Date" required />
+                                <div class="col-lg-12">
+                                    <div id="modal-id">
+                                        <label for="orderId" class="form-label">ID</label>
+                                        <input type="text" id="orderId2" class="form-control" placeholder="ID" value="#VLZ462" readonly />
                                     </div>
+                                </div>
+                                <div class="row g-3">
+                                    <div class="col-lg-6">
+                                        <label for="datetime-field" class="form-label">Date and Time</label>
+                                        <input type="datetime-local" id="datetime-field2" class="form-control" placeholder="Create Date and Time" required />
+                                    </div>
+                                  
                                     
                                     <div class="col-lg-6">
                                         <label for="ticket-status" class="form-label">État</label>
@@ -170,6 +175,7 @@
                                 </div>
 
                             </div>
+                            
                             <div class="modal-footer">
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
@@ -188,7 +194,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                         </div>
                         <form>
-                            <!-- api d'ajouter ou modifier  apc -->
+                            <!-- api d'ajouter ou modifier  rdv -->
                             <div class="modal-body">
                                 <div class="row g-3">
                                     <div class="col-lg-12">
@@ -200,7 +206,7 @@
                                     <div class="col-lg-12">
                                         <div>
                                             <label for="tasksTitle-field" class="form-label">Médecin</label>
-                                            <select class="form-control" data-plugin="choices" name="médecin" id="ticket-status">
+                                            <select id="medecin-select" class="form-control"></select>
                                                 <option value="">Médecins</option>
                                                 <!--les options des médecins présent dans l'hopitele de l'agent -->
                                                 
@@ -210,7 +216,7 @@
                                     <div class="col-lg-6">
                                         <div>
                                             <label for="client_nameName-field" class="form-label">Patient</label>
-                                            <select class="form-control" data-plugin="choices" name="Patient" id="ticket-status">
+                                            <select id="patient-select" class="form-control"></select>
                                                 <option value="">Patients</option>
                                                 <!--les options des patients présent dans l'hopitele de l'agent -->
                                                 
@@ -219,11 +225,12 @@
                                     </div>
                                     
                                     
-                                    <div class="col-lg-6">
-                                        <label for="date-field" class="form-label">Date  </label>
-                                        <input type="date" id="date-field" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Create Date" required />
-                                    </div>
                                     
+                                    <div class="col-lg-6">
+                                        <label for="datetime-field" class="form-label">Date and Time</label>
+                                        <input type="datetime-local" id="datetime-field" class="form-control" placeholder="Create Date and Time" required />
+                                    </div>
+                                        
                                     <div class="col-lg-6">
                                         <label for="ticket-status" class="form-label">État</label>
                                         <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status">
@@ -237,10 +244,11 @@
                                 </div>
 
                             </div>
+                            
                             <div class="modal-footer">
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
-                                    <button type="submit" class="btn btn-success" id="add-btn">Ajouter</button>
+                                    <button type="submit" class="btn btn-success" id="add-rdv">Ajouter</button>
                                 </div>
                             </div>
                         </form>
@@ -298,16 +306,9 @@
                         <td>${item.date}</td>
                         <td>Active</td>
                         <td>
-                            <div class="dropdown">
-                                <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="ri-more-fill align-middle"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="#" onclick="editItem(${item.id})"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Modifier</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="deleteItem(${item.id})"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Supprimer</a></li>
-                                </ul>
-                            </div>
-                        </td>
+                                    <button class="btn btn-soft-secondary btn-sm" onclick="editItem('${item.id}','${item.date}') "data-bs-toggle="modal" data-bs-target="#Modifier"><i class="ri-pencil-fill"></i></button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteItem('${item.id}')"><i class="ri-delete-bin-2-line"></i></button>
+                                </td>
                     </tr>`;
                     tableBody.innerHTML += row; // Add the row to the table body
                 });
@@ -322,11 +323,34 @@
             fetchAndDisplayData();
         
             // Function to handle item edit
-            window.editItem = function(id) {
+            window.editItem = function(id,date) {
+                document.getElementById('orderId2').value = id;
+                document.getElementById('datetime-field2').value=date;
                 // Logic to handle edit
                 console.log('Edit item:', id);
+                const pathArray = window.location.pathname.split('/');
+                const tokenA = pathArray[pathArray.length - 2];
                 // Populate form fields and show modal if needed
-            };
+                alert(date)
+                document.getElementById('edit-btn').addEventListener('click', function() {
+                    newdate=document.getElementById('datetime-field2').value;
+                    alert(newdate)
+                    fetch(`/planning/update_APC_Date_A/${token}/${id}/`, {
+                    method: 'PUT', // or 'PUT' if your backend is set up to use PUT
+                      headers: {
+                 'Content-Type': 'application/json',
+                 },
+                body: JSON.stringify({ new_date: newdate})
+                })
+            .then(response => response.json())
+                .then(data => {
+                console.log('Update response:', data);
+                alert('Date updated successfully!');
+        // Refresh your data or close the modal
+        fetchAndDisplayData();
+                })
+    .catch(error => console.error('Error updating date:', error));
+            })} 
         
             // Function to handle item delete
             window.deleteItem = function(id) {
@@ -385,6 +409,40 @@
 
 
 });
+const addAPC = () => {
+    const medecinId = document.getElementById('medecin-select').value;
+    const patientId = document.getElementById('patient-select').value;
+    const date = document.getElementById('datetime-field').value;
+    const pathArray = window.location.pathname.split('/');
+    const token = pathArray[pathArray.length - 2]; 
+    const data = {
+        medecin: medecinId,
+        patient: patientId,
+        date_de_apc: date,
+    };
+
+    console.log('Sending data:', data);  // Log the data being sent
+
+    fetch(`/planning/ajoutAPCParAgent/${token}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        console.log('Response status:', response.status);  // Log the response status
+        return response.json();
+    })
+    .then(data => {
+        console.log('Rendez-vous added:', data);  // Log the data received
+    })
+    .catch(error => {
+        console.error('Error adding rendez-vous:', error);
+    });
+};
+
+document.getElementById('add-rdv').addEventListener('click', addAPC);
 
         </script>
 

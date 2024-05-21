@@ -138,44 +138,45 @@
         </div>
         <!-- container-fluid -->
     </div>
-    <!-- End Page-content -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const pathArray = window.location.pathname.split('/');
-            const token = pathArray[pathArray.length - 2];
+            const token = pathArray[pathArray.length - 2]; // Replace 'your_token_here' with the actual token or retrieve it dynamically if needed
         
-            fetch(`/planning/getPatientRdvH/${token}/`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    console.error('Failed to fetch rendezvous data:', data.error);
-                    return;
+            fetch(`/planning/getPatientRdvH/${token}/`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,  // Ensure proper authorization header as per your API authentication setup
+                    'Content-Type': 'application/json'
                 }
-                
-                const rdvList = document.getElementById('upcoming-event-list');
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                const tableBody = document.getElementById('upcoming-event-list');
+                tableBody.innerHTML = ''; // Clear existing entries
+        
                 data.rendez_vous.forEach(rdv => {
-                    const row = document.createElement('tr');
-                    const dateCell = document.createElement('td');
-                    dateCell.textContent = `Date: ${new Date(rdv.date_rendez_vous).toLocaleDateString()}`;
-                    
-                    const medecinCell = document.createElement('td');
-                    medecinCell.textContent = `Médecin: ${rdv.medecin__username}`;
-        
-                    const descriptionCell = document.createElement('td');
-                    descriptionCell.textContent = `Description: ${rdv.description || 'No description provided'}`;
-        
-                    row.appendChild(dateCell);
-                    row.appendChild(medecinCell);
-                    row.appendChild(descriptionCell);
-        
-                    rdvList.appendChild(row);
+                    const row = `
+                        <tr>
+                            <td>${rdv.id}</td>
+                            <td>${rdv.medecin_id}</td> <!-- Adjust 'patient' based on the actual key in your JSON response if different -->
+                            <td>${new Date(rdv.date_rendez_vous).toLocaleDateString()}</td>
+                            <td>${rdv.status}</td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row; // Append the new row to the table
                 });
             })
             .catch(error => {
-                console.error('Error loading rendezvous data:', error);
+                console.error('Error loading the rendezvous:', error);
+                tableBody.innerHTML = `<tr><td colspan="4">Failed to load data.</td></tr>`; // Show error in table
             });
         });
         </script>
+    <!-- End Page-content -->
+   
         
 
     <!-- JAVASCRIPT -->

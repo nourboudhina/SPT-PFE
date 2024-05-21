@@ -58,15 +58,13 @@ def pageProfileP(request, token):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def getPageAcceuil(request, token):
-    token_obj = (
-    TokenForDoctor.objects.filter(token=token).exists()
-    if token
-    else Token.objects.filter(token=token).exists()
-    if token
-    else TokenForAgent.objects.filter(token=token).exists())
+    token_obj = TokenForDoctor.objects.filter(token=token).exists() or \
+            Token.objects.filter(token=token).exists() or \
+            TokenForAgent.objects.filter(token=token).exists()
     if request.method == 'GET':
         if token_obj:
             page_acceuil_data = PageAcceuil.objects.values() 
+            
             for data in page_acceuil_data:
                 postwithimage_path = data['postwithimage']
                 with open(postwithimage_path, "rb") as image_file:
@@ -81,26 +79,36 @@ def getPageAcceuil(request, token):
 def getProfilePatient(request, token):
     token_obj = Token.objects.filter(token=token).first()
     if token_obj:
+                
         user_obj = token_obj.user
-        if user_obj.image and hasattr(user_obj.image, 'file'):
-            image_path = user_obj.image.path
-            with open(image_path, "rb") as image_file:
-                encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
-            image_data = encoded_string
-        else:
-            image_data = 'No image available'
-        
+        username_medecin = user_obj.username
+        email_medecin = user_obj.email
+        phone_medecin = user_obj.phone
+        fullname_medecin = user_obj.fullname
+        date_naiss_medecin = user_obj.date_naiss
+        gouvernorat_medecin = user_obj.gouvernorat.options
+        nationalite_medecin = user_obj.nationalite.nationalite
+        sexe=user_obj.sexe
+        print(sexe)
+        adresse_medecin= user_obj.addresse
+
+        image_path = user_obj.image.path
+        with open(image_path, "rb") as image_file:
+            encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
         user_data = {
-            'username': user_obj.username,
-            'email': user_obj.email,
-            'phone': user_obj.phone,
-            'fullname': user_obj.fullname,
-            'date_naiss': user_obj.date_naiss,
+            'username': username_medecin,
+            'email': email_medecin,
+            'phone': phone_medecin,
+            'fullname': fullname_medecin,
+            'date_naiss':date_naiss_medecin,
+            'gouvernorat':gouvernorat_medecin ,
+            'nationalite': nationalite_medecin,
+            'adresse': adresse_medecin,
+            'sexe':sexe,
+            'image': encoded_string,
             
-            'gouvernorat': user_obj.gouvernorat.options,
-            'nationalite': user_obj.nationalite.nationalite,
-            'image': image_data
-        }
+               
+            }
         return JsonResponse(user_data)
     else:
         return JsonResponse({"error": "Invalid token"}, status=400)
@@ -166,17 +174,17 @@ def getProfileDoctor(request, token):
             phone_medecin = user_obj.phone
             fullname_medecin = user_obj.fullname
             date_naiss_medecin = user_obj.date_nais
-            gouvernorat_medecin = user_obj.gouvernorat
-            nationalite_medecin = user_obj.nationalite
-            groupe_medecin = user_obj.groupe
-            grade_medecin = user_obj.grade
-            sepcialite_medecin = user_obj.specialite
-            service_medecin = user_obj.service
-            hopitale_medecin = user_obj.hopitale
+            gouvernorat_medecin = user_obj.gouvernorat.options
+            nationalite_medecin = user_obj.nationalite.nationalite
+            groupe_medecin = user_obj.groupe.groupe
+            grade_medecin = user_obj.grade.grade
+            adresse_medecin= user_obj.addresse
+            sepcialite_medecin = user_obj.specialite.specialite
+            service_medecin = user_obj.service.service
+            hopitale_medecin = user_obj.hopitale.nom
             image_path = user_obj.image.path
             with open(image_path, "rb") as image_file:
                 encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
-            
             user_data = {
                 'username': username_medecin,
                 'email': email_medecin,
@@ -186,11 +194,13 @@ def getProfileDoctor(request, token):
                 'gouvernorat':gouvernorat_medecin ,
                 'nationalite': nationalite_medecin,
                 'groupe':groupe_medecin ,
+                'adresse': adresse_medecin,
                 'grade': grade_medecin,
                 'sepcialite': sepcialite_medecin,
                 'service':service_medecin ,
                 'hopitale': hopitale_medecin,
                 'image': encoded_string
+               
             }
 
             # Retour des données sous forme de réponse JSON

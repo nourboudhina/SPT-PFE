@@ -52,6 +52,7 @@ def add_medecin(request):
         try:
 
             data = json.loads(request.body)
+            id=data.get('id')
             username = data.get('username')
             email = data.get('email')
             groupe_id = data.get('groupe')
@@ -86,7 +87,7 @@ def add_medecin(request):
             agent = token_agent.user
             # Create new Medecin instance
             medecin = Medecin(
-                id=generate_unique_id(),  # Assuming you have a function to generate unique IDs
+                id=id,  # Assuming you have a function to generate unique IDs
                 username=username,
                 email=email,
                 groupe=groupe,
@@ -187,6 +188,69 @@ def add_specialiter(request):
             return JsonResponse({'message': str(e)}, status=500)
     else:
         return JsonResponse({'message': 'Invalid HTTP method'}, status=405)
+
+
+import base64
+from django.core.files.base import ContentFile
+from django.http import JsonResponse
+
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def update_profile(request, token):
+    if request.method == 'POST':
+        # Attempt to retrieve the user from multiple token models
+        user_obj = None
+        for token_model in [Token, TokenForDoctor, TokenForAgent]:
+            token_query = token_model.objects.filter(token=token)
+            if token_query.exists():
+                
+                user_obj = token_query.first().user
+                break
+        print(user_obj.id)
+        if user_obj:
+            try:
+                # Fetch related models based on ids provided in request data
+                gouvernorat_id = request.data.get('gouvernorat')
+                print(gouvernorat_id)
+                nationalite_id = request.data.get('nationalite')
+                gouvernorat = get_object_or_404(Gouvernorat, options=gouvernorat_id)
+                print(gouvernorat )
+                nationalite = Nationalite.objects.get(id=nationalite_id)
+                if token_model == TokenForDoctor:
+                    user_obj.date_nais = request.data.get('date_nais', user_obj.date_nais)
+                    print('1')
+                else:
+                    user_obj.date_naiss = request.data.get('date_nais', user_obj.date_naiss)
+                    print('2')
+                # Update user attributes
+                user_obj.email = request.data.get('email', user_obj.email)
+                user_obj.username = request.data.get('username', user_obj.username)
+                user_obj.phone = request.data.get('phone', user_obj.phone)
+                user_obj.fullname = request.data.get('fullname', user_obj.fullname)
+                user_obj.addresse = request.data.get('adresse', user_obj.addresse)
+                user_obj.gouvernorat = gouvernorat
+                user_obj.nationalite = nationalite
+                user_obj.sexe = request.data.get('sexe', user_obj.sexe)
+                print('3')
+
+                # Handle image upload if provided in base64 format
+                image_data = request.data.get('image')
+                if image_data:
+                    format, imgstr = image_data.split(';base64,')
+                    ext = format.split('/')[-1]
+                    image_file = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+                    user_obj.image.save(f'profile.{ext}', image_file, save=False)
+
+                # Save the updated user object
+                user_obj.save()
+            except Exception as e:
+                print(e)
+            return JsonResponse({"message": "Profile updated successfully"}, status=200)
+        else:
+            return JsonResponse({"error": "Invalid or expired token"}, status=400)
+    else:
+        return JsonResponse({"error": "POST request required"}, status=405)
+
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def edit_specialite(request):

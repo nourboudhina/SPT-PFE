@@ -138,35 +138,40 @@
             const pathArray = window.location.pathname.split('/');
             const token = pathArray[pathArray.length - 2];  // Assumed token is second last in the URL path
         
-            fetch(`/planning/getpaiementHistorique/${token}/`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    console.error('Failed to fetch payment data:', data.error);
-                    return;
+            const tableBody = document.getElementById('ticket-list-data');
+        
+            fetch(`/planning/getpaiementHistorique/${token}/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token  // Ensure your API requires and validates this token properly
                 }
-        
-                const paymentList = document.getElementById('ticket-list-data');
-                data.forEach(payment => {
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                tableBody.innerHTML = '';  // Clear existing table rows
+                data.forEach(item => {
                     const row = document.createElement('tr');
-        
-                    const dateCell = document.createElement('td');
-                    dateCell.textContent = new Date(payment.date).toLocaleDateString();  // Format date as needed
-        
-                    const amountCell = document.createElement('td');
-                    amountCell.textContent = payment.montant.toLocaleString() + ' €';  // Assuming amount is in Euro
-        
-                    row.appendChild(dateCell);
-                    row.appendChild(amountCell);
-        
-                    paymentList.appendChild(row);
+                    row.innerHTML = `
+                        <td>${item.id}</td>
+                        <td>${new Date(item.date).toLocaleDateString()} ${new Date(item.date).toLocaleTimeString()}</td>
+                        <td>${item.montant}</td>
+                        <td>${item.status}</td>
+                    `;
+                    tableBody.appendChild(row);
                 });
             })
             .catch(error => {
-                console.error('Error loading payment data:', error);
+                console.error('Error fetching payment history:', error);
             });
         });
         </script>
+        
         
     <!-- JAVASCRIPT -->
     <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js'%}"></script>

@@ -139,46 +139,47 @@
         </div>
         <!-- container-fluid -->
     </div>
-    <!-- End Page-content -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const pathArray = window.location.pathname.split('/');
-            const token = pathArray[pathArray.length - 2];  // Assumed token is second last in the URL path
+            const token = pathArray[pathArray.length - 2]; // Replace 'your_token_here' with the actual token or retrieve it dynamically if needed
         
-            fetch(`/planning/get_APCH_Patient/${token}/`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    console.error('Failed to fetch APC data:', data.error);
-                    return;
+            fetch(`/planning/get_APCH_Patient/${token}/`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,  // Ensure proper authorization header as per your API authentication setup
+                    'Content-Type': 'application/json'
                 }
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                const tableBody = document.getElementById('ticket-list-data');
+                tableBody.innerHTML = ''; // Clear existing entries
         
-                const apcList = document.getElementById('ticket-list-data');
-                data.apc.forEach(apc => {
-                    const row = document.createElement('tr');
-        
-                    const dateCell = document.createElement('td');
-                    dateCell.textContent = new Date(apc.date).toLocaleDateString();  // Format date as needed
-        
-                    const descriptionCell = document.createElement('td');
-                    descriptionCell.textContent = apc.description || 'No description provided';
-        
-                    const detailsCell = document.createElement('td');
-                    detailsCell.textContent = apc.details || 'Details not available';  // Assuming there is a 'details' field
-        
-                    row.appendChild(dateCell);
-                    row.appendChild(descriptionCell);
-                    row.appendChild(detailsCell);
-        
-                    apcList.appendChild(row);
+                data.apc.forEach(rdv => {
+                    const row = `
+                        <tr>
+                            <td>${rdv.id}</td>
+                            <td>${rdv.medecin_id}</td> <!-- Adjust 'patient' based on the actual key in your JSON response if different -->
+                            <td>${new Date(rdv.date).toLocaleDateString()}</td>
+                            <td>${rdv.status}</td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row; // Append the new row to the table
                 });
             })
             .catch(error => {
-                console.error('Error loading APC data:', error);
+                console.error('Error loading the rendezvous:', error);
+                tableBody.innerHTML = `<tr><td colspan="4">Failed to load data.</td></tr>`; // Show error in table
             });
         });
         </script>
+   
         
+    <!-- End Page-content -->
+    
 
     <!-- JAVASCRIPT -->
     <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js'%}"></script>

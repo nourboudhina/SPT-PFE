@@ -2,23 +2,10 @@
 {% load static %}
 {% block title %} Planning Patient {% endblock title%}
 {% block content %}
-<head>
-    
-    <!-- fullcalendar css -->
-    <link href="{% static 'assets/libs/fullcalendar/main.min.css' %}" rel="stylesheet" type="text/css" />
-    <!-- Layout config Js -->
-    <script src="{% static 'assets/js/layout.js' %}"></script>
-    <!-- Bootstrap Css -->
-    <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
-    <!-- Icons Css -->
-    <link href="{% static 'assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
-    <!-- App Css-->
-    <link href="{% static 'assets/css/app.min.css' %}" rel="stylesheet" type="text/css" />
-    <!-- custom Css-->
-    <link href="{% static 'assets/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
-
-
+<head><!-- fullcalendar css -->
+<link href="{% static 'assets/libs/fullcalendar/main.min.css' %}" rel="stylesheet" type="text/css" />
 </head>
+
 <div class="main-content">
 
     <div class="page-content">
@@ -46,11 +33,10 @@
                                 <p class="text-muted">Ne manquez pas les événements prévus</p>
                                 <div class="pe-2 me-n1 mb-3" data-simplebar style="height: 400px">
                                     <div id="upcoming-event-list">
-                                        <!-- affichage de list des rdv de planning-->
+                                        <!-- list des rdv de planning-->
                                     </div>
                                 </div>
                             </div>
-
 
                             <div class="card">
                                 <div class="card-body bg-soft-info">
@@ -80,7 +66,7 @@
 
                     <div style='clear:both'></div>
 
-                    
+                    <!-- Add New Event MODAL -->
                     <div class="modal fade" id="event-modal" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content border-0">
@@ -129,46 +115,57 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const pathArray = window.location.pathname.split('/');
-            const token = pathArray[pathArray.length - 2]; // Assuming token is in the URL path
-        
-            const url = `/planning/getPatientRdvH/${token}/`; // Adjust the URL path according to your routing
-        
-            fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // Include authentication headers if necessary
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    console.error('Failed to fetch rendezvous data:', data.error);
-                    document.getElementById('upcoming-event-list').innerHTML = '<p>Error fetching data.</p>';
-                    return;
-                }
-        
-                const events = data.rendez_vous;
-                if (events.length === 0) {
-                    document.getElementById('upcoming-event-list').innerHTML = '<p>No upcoming events found.</p>';
-                    return;
-                }
-        
-                const listItems = events.map(event => `
-                    <div class="event">
-                        <h5>${event.medecin}</h5>
-                        <p>Date: ${new Date(event.date_rendez_vous).toLocaleDateString()}</p>
-                        <p>Description: ${event.description || 'No description provided.'}</p>
-                    </div>
-                `).join('');
-        
-                document.getElementById('upcoming-event-list').innerHTML = listItems;
-            })
-            .catch(error => {
-                console.error('Error fetching rendezvous data:', error);
-                document.getElementById('upcoming-event-list').innerHTML = '<p>Error loading events.</p>';
+            const token = pathArray[pathArray.length - 2]; // Replace with a secure way to retrieve the token
+    var calendarEl = document.getElementById('calendar');
+    var upcomingEventsList = document.getElementById('upcoming-event-list');
+
+    function fetchAndDisplayEvents() {
+        fetch(`/planning/get_Planning_Patient/${token}/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token  // Ensure your authentication method is correct
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            var calendarEvents = [];
+            upcomingEventsList.innerHTML = ''; // Clear previous entries
+
+            data.rendez_vous.concat(data.apc).forEach(event => {
+                var date = event.date_rendez_vous || event.date;
+                var eventTitle = `Medecin ID: ${event.medecin_id}, Patient ID: ${event.patient_id}`;
+                
+                // Add to calendar data
+                calendarEvents.push({
+                    title: eventTitle,
+                    start: date,
+                    allDay: true
+                });
+
+                // Add to upcoming events list
+                var listItem = document.createElement('div');
+                listItem.innerHTML = `<strong>Date:</strong> ${new Date(date).toLocaleString()}<br><strong>Details:</strong> ${eventTitle}`;
+                listItem.className = 'mb-3 p-2 border rounded';
+                upcomingEventsList.appendChild(listItem);
             });
+
+            // Render the calendar with events
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: calendarEvents
+            });
+            calendar.render();
+        })
+        .catch(error => {
+            console.error('Error fetching events:', error);
         });
+    }
+
+    fetchAndDisplayEvents();
+});
+
+
         </script>
         
 

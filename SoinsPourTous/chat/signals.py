@@ -4,11 +4,11 @@ from .models import Message
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 
-@receiver(post_save, sender=Message)
+"""@receiver(post_save, sender=Message)
 def send_chat_notification(sender, instance, created, **kwargs):
     if created:
         channel_layer = get_channel_layer()
-        sender_user = instance.sender
+        sender_user = instance.user
         receiver_user = instance.receiver
         message_content = instance.content
 
@@ -21,4 +21,4 @@ def send_chat_notification(sender, instance, created, **kwargs):
                     'content': message_content,
                 }
             }
-        )
+        )"""

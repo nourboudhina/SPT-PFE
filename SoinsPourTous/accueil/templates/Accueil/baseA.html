@@ -333,6 +333,7 @@
         
         const pathArray = window.location.pathname.split('/');
         const token = pathArray[pathArray.length - 2];
+        window.location.href = '/'; 
         fetch(`/logoutAgent/${token}/`, {
             
          method: 'POST',

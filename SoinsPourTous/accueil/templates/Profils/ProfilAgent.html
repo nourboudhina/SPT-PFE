@@ -45,7 +45,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <h5 class="fs-16 mb-1"><!--username d'Agent--></h5>
+                                <h5 id="agent_username" class="fs-16 mb-1"><!--username d'Agent--></h5>
                                 <p class="text-muted mb-0">Agent </p>
                             </div>
                         </div>
@@ -143,12 +143,12 @@
                                                 </div>
                                             </div>
                                             <!--end col-->
-                                            <div class="col-lg-6">
-                                                <div class="mb-3">
-                                                    <label for="designationInput" class="form-label">Nationnalité</label>
-                                                    <input id='nat'type="text" class="form-control" id="designationInput" placeholder="Designation" value="">
-                                                </div>
-                                            </div>
+                                                                                <div class="mb-3">
+                                        <select id="nationalite-select" class="form-control">
+                                            <option value="">Select Nationality</option>
+                                            <!-- Options will be populated by JavaScript -->
+                                        </select>
+                                    </div>
                                             <!--end col-->
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
@@ -203,48 +203,20 @@
 <!-- end main content-->
 
 <script>
-    document.addEventListener('DOMContentLoaded', function(){
-    const updateForm = document.getElementById("updateProfileForm");
-    updateForm.addEventListener('submit', function(event) { 
-    event.preventDefault(); // Prevent the default form submission
-    const pathArray = window.location.pathname.split('/');
-        const token = pathArray[pathArray.length - 2];
-    const formData = {
-    username: document.getElementById('firstnameInput').value,
-    fullname: document.getElementById('lastnameInput').value,
-    phone: document.getElementById('phonenumberInput').value,
-    email: document.getElementById('emailInput').value,
-    date_naiss: document.getElementById('date').value,
-    gouvernorat: document.getElementById('gouv').value,
-    nationalite: document.getElementById('nat').value,
-    adresse: document.getElementById('adresse').value,
-    sexe: document.getElementById('sex').value,
-};
-    // Fetch the file from the input and add it to FormData
- 
-
-    // Specify the endpoint with the token included in the URL path
-    // Replace with actual token logic
-    // Endpoint
-alert("khfvksgdgsmdhjbgmkjhs")
-    fetch(`/accueil/updateagent/${token}/`, {
-        method: 'POST',
-        body: JSON.stringify(formData), 
-        headers: {
-        'X-CSRFToken': getCookie('csrftoken')
-    },
-})
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        alert('Agent updated successfully!');
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-        alert('Failed to update agent.');
-    });
-    });
+    document.getElementById('profile-img-file-input').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(loadEvent) {
+            const base64String = loadEvent.target.result;
+            // Update the image source to the base64 string to display the selected image
+            document.getElementById('image').src = base64String;
+            // Optionally, you can send this base64String to a server or use it in any way required
+        };
+        reader.readAsDataURL(file); // This will trigger `onload` once done
+    }
 });
+    
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -286,7 +258,7 @@ function getCookie(name) {
                 document.getElementById('phonenumberInput').value = data.phone || '';
                 document.getElementById('emailInput').value = data.email || '';
                 document.getElementById('date').value = data.date_naiss || '';
-                document.getElementById('nat').value = data.nationalite || '';
+               
                 document.getElementById('adresse').value = data.adresse || '';
                
                 setSelectedOption(data.gouvernorat);
@@ -344,7 +316,80 @@ function getCookie(name) {
     });
     </script>
     
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const updateForm = document.getElementById("updateProfileForm");
+            updateForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission
+                const inputDate = document.getElementById('date').value;
+                const dateObject = new Date(inputDate);
+                const formattedDate = dateObject.toISOString().split('T')[0];
+                const pathArray = window.location.pathname.split('/');
+                const token = pathArray[pathArray.length - 2]; // Assuming token is the last part of the URL
+                const imageElement = document.getElementById('image');
+                const formData = {
+                    username: document.getElementById('lastnameInput').value,
+                    fullname: document.getElementById('firstnameInput').value,
+                    phone: document.getElementById('phonenumberInput').value,
+                    email: document.getElementById('emailInput').value,
+                    date_nais: formattedDate,
+                    gouvernorat: document.getElementById('gouv').value,
+                    nationalite: document.getElementById('nationalite-select').value,
+                    adresse: document.getElementById('adresse').value,
+                    sexe: document.getElementById('sex').value,
+                    image: imageElement.src.includes('base64') ? imageElement.src : null // Send image only if it's a base64 string
+                };
+        
+                fetch(`/update_profile/${token}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken') // Fetch CSRF token using getCookie function
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    alert('Profile updated successfully!');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to update profile.');
+                });
+            });
+        
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const nationaliteSelect = document.getElementById('nationalite-select');
+              
+    fetch('/nationalites/')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(item => {
+                const option = new Option(item.nationalite, item.id);
+                nationaliteSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error loading nationalities:', error));
+});
+        </script>
+        
+        
 
 <!-- JAVASCRIPT -->
 <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js'%}"></script>

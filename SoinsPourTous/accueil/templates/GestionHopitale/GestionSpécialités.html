@@ -359,9 +359,9 @@
              // Show the modal for editing
             };
             document.getElementById('edit-btn').addEventListener('click', function() {
-        const specialiteInput = document.getElementById('tasksTitle-field').value;
-        const serviceId = document.getElementById('ticket-status').value;
-        const specialiteId = document.getElementById('orderId').value;
+            const specialiteInput = document.getElementById('tasksTitle-field').value;
+            const serviceId = document.getElementById('ticket-status').value;
+            const specialiteId = document.getElementById('orderId').value;
 
         fetch('/specialites/edit/', {
             method: 'POST',

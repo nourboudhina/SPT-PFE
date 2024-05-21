@@ -1,52 +1,68 @@
 {% extends "Accueil/baseA.html" %}
 {% load static %}
-{% block title %} Actualité {% endblock title%}
+
+{% block title %}Actualité{% endblock %}
+
 {% block content %}
-
-               <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
-        <div class="main-content">
-
-            <div class="page-content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0">SPT Actualité</h4>
-
-                            
-                            </div>
-                        </div>
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">SPT Actualité</h4>
                     </div>
-                    <!-- end page title -->
-                    <div class="row">
-                        <div class="col-xxl-12">
-                            <div class="card">
-                                <div class="card-body p-0">
-                                    <div class="row g-0">
-                                        <div class="col-xxl-8">
-                                            <div class="">
-                                                <div class="card-header border-0 align-items-center d-flex">
-                                                    <h4 class="card-title mb-0 flex-grow-1">Marketplace</h4>
-                                                </div><!-- end card header -->
-                                                <div id="posttext">
-
-                                                </div>  
-
-                                            </div>
+                </div>
+            </div>
+            <!-- end page title -->
+            <div class="row">
+                <div class="col-xxl-12">
+                    <div class="card">
+                        <div class="card-body p-0">
+                            <div class="row g-0">
+                                <div class="col-xxl-8">
+                                    <div class="">
+                                        <div class="card-header border-0 align-items-center d-flex">
+                                            <h4 class="card-title mb-0 flex-grow-1">Marketplace</h4>
+                                        </div><!-- end card header -->
+                                        <div id="posttext">
+                                            <!-- Content will be loaded here -->
                                         </div>
                                     </div>
-
                                 </div>
-
                             </div>
                         </div>
                     </div>
-                    
-                <!-- api d'affichage de contenu de page d'accueil de la base de donnée -->
                 </div>
-                <!-- container-fluid -->
             </div>
-            <!-- End Page-content -->
-{% endblock content %}
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+    </div>
+</div>
+
+<!-- JAVASCRIPT to fetch and display data -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const pathArray = window.location.pathname.split('/');
+    const token = pathArray[pathArray.length - 2];
+    fetch(`/accueil/getpageacceuil/${token}/`)  // Adjust the path to match the URL of your API
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not OK');
+        return response.json();
+    })
+    .then(data => {
+        const container = document.getElementById('posttext');
+        data.forEach(item => {
+            const div = document.createElement('div');
+            div.innerHTML = `<p>${item.title}</p><img src="data:image/png;base64,${item.postwithimage}" alt="Image">`;
+            container.appendChild(div);
+        });
+    })
+    .catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+    });
+});
+</script>
+
+{% endblock %}

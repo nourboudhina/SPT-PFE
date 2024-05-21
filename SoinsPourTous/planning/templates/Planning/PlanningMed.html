@@ -1,199 +1,120 @@
-{% extends "accueil/baseM.html" %}
+{% extends "Accueil/baseM.html" %}
 {% load static %}
 {% block title %} Planning Médecin {% endblock title%}
 {% block content %}
+
 <head><!-- fullcalendar css -->
     <link href="{% static 'assets/libs/fullcalendar/main.min.css' %}" rel="stylesheet" type="text/css" />
-    <!-- Layout config Js -->
-    <script src="{% static 'assets/js/layout.js' %}"></script>
-    <!-- Bootstrap Css -->
-    <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
-    <!-- Icons Css -->
-    <link href="{% static 'assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
-    <!-- App Css-->
-    <link href="{% static 'assets/css/app.min.css' %}" rel="stylesheet" type="text/css" />
-    <!-- custom Css-->
-    <link href="{% static 'assets/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
-
-
-</head>
-
-<div class="main-content">
-
-    <div class="page-content">
-        <div class="container-fluid">
-
-            <!-- start page title -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Planning</h4>
-
-                       
+    </head>
+    
+    <div class="main-content">
+    
+        <div class="page-content">
+            <div class="container-fluid">
+    
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                            <h4 class="mb-sm-0">Planning</h4>
+    
+                           
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- end page title -->
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-xl-3">
-                            <div class="card card-h-100">
-                                        
-                                <h5 class="mb-1">Événements à venir</h5>
-                                <p class="text-muted">Ne manquez pas les événements prévus</p>
-                                <div class="pe-2 me-n1 mb-3" data-simplebar style="height: 400px">
-                                    <div id="upcoming-event-list">
-                                        <!-- affichage de list des rdv de planning-->
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card">
-                                <div class="card-body bg-soft-info">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <i data-feather="calendar" class="text-info icon-dual-info"></i>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="fs-15">Bienvenue sur votre Planning!</h6>
-                                            <p class="text-muted mb-0">Consultation que le carnet d'applications apparaîtra ici. Cliquez sur une consultation pour voir les détails et gérer l'événement des candidats.</p>
+                <!-- end page title -->
+    
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-xl-3">
+                                <div class="card card-h-100">
+                                            
+                                    <h5 class="mb-1">Événements à venir</h5>
+                                    <p class="text-muted">Ne manquez pas les événements prévus</p>
+                                    <div class="pe-2 me-n1 mb-3" data-simplebar style="height: 400px">
+                                        <div id="upcoming-event-list">
+                                            <!-- list des rdv de planning-->
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!--end card-->
-                        </div> <!-- end col-->
-
-                        <div class="col-xl-9">
-                            <div class="card card-h-100">
-                                <div class="card-body">
-                                    <div id="calendar"></div>
-                                </div>
-                            </div>
-                        </div><!-- end col -->
-                    </div>
-                    <!--end row-->
-
-                    <div style='clear:both'></div>
-
-                    <!-- Add update Event MODAL -->
-                    <div class="modal fade" id="event-modal" tabindex="-1">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content border-0">
-                                <div class="modal-header p-3 bg-soft-info">
-                                    <h5 class="modal-title" id="modal-title">Consultation</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                                </div>
-                                <div class="modal-body p-4">
-                                    <form class="needs-validation" name="event-form" id="form-event" novalidate>
-                                        <!-- api de modifier un rdv ou l'api de modifier un apc selon le tupe de consultation-->
-                                        <div class="text-end">
-                                            <a href="#" class="btn btn-sm btn-soft-primary" id="edit-event-btn" data-id="edit-event" onclick="editEvent(this)" role="button">Modifier</a>
+    
+                                <div class="card">
+                                    <div class="card-body bg-soft-info">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0">
+                                                <i data-feather="calendar" class="text-info icon-dual-info"></i>
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">
+                                                <h6 class="fs-15">Bienvenue sur votre Planning!</h6>
+                                                <p class="text-muted mb-0">Consultation que le carnet d'applications apparaîtra ici. </p>
+                                            </div>
                                         </div>
-                                        <div class="event-details">
-                                            <div class="d-flex mb-2">
-                                                <div class="flex-grow-1 d-flex align-items-center">
+                                    </div>
+                                </div>
+                                <!--end card-->
+                            </div> <!-- end col-->
+                       
+                            <div class="col-xl-9">
+                                <div class="card card-h-100">
+                                    <div class="card-body">
+                                        <div id="calendar"></div>
+                                    </div>
+                                </div>
+                            </div><!-- end col -->
+                        </div>
+                        <!--end row-->
+    
+                        <div style='clear:both'></div>
+    
+                        <!-- Add New Event MODAL -->
+                        <div class="modal fade" id="event-modal" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content border-0">
+                                    <div class="modal-header p-3 bg-soft-info">
+                                        <h5 class="modal-title" id="modal-title">Consultation</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                                    </div>
+                                    <div class="modal-body p-4">
+                                        <form class="needs-validation" name="event-form" id="form-event" novalidate>
+                                           <!-- l'affichage mta3 détails de rdv -->
+                                            <div class="event-details">
+                                                <div class="d-flex mb-2">
+                                                    <div class="flex-grow-1 d-flex align-items-center">
+                                                        <div class="flex-shrink-0 me-3">
+                                                            <i class="ri-calendar-event-line text-muted fs-16"></i>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <h6 class="d-block fw-semibold mb-0" id="event-start-date-tag"></h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center mb-2">
                                                     <div class="flex-shrink-0 me-3">
-                                                        <i class="ri-calendar-event-line text-muted fs-16"></i>
+                                                        <i class="ri-time-line text-muted fs-16"></i>
                                                     </div>
                                                     <div class="flex-grow-1">
-                                                        <h6 class="d-block fw-semibold mb-0" id="event-start-date-tag"></h6>
+                                                        <h6 class="d-block fw-semibold mb-0">
+                                                        <span id="event-timepicker1-tag"></span> - <span id="event-timepicker2-tag"></span></h6>
                                                     </div>
                                                 </div>
+                                                
                                             </div>
-                                            <div class="d-flex align-items-center mb-2">
-                                                <div class="flex-shrink-0 me-3">
-                                                    <i class="ri-time-line text-muted fs-16"></i>
-                                                </div>
-                                                <div class="flex-grow-1">
-                                                    <h6 class="d-block fw-semibold mb-0"><span id="event-timepicker1-tag"></span> - <span id="event-timepicker2-tag"></span></h6>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                        <div class="row event-form">
-                                            <div class="col-12">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Type</label>
-                                                    <select class="form-select d-none" name="category" id="event-category" required>
-                                                        <option value="bg-soft-danger">Rendez-vous</option>
-                                                        <option value="bg-soft-success">APC</option>
-                                                  
-                                                    </select>
-                                                    <div class="invalid-feedback">Veuillez sélectionner une catégorie d'événement valide</div>
-                                                </div>
-                                            </div>
-                                            <!--end col-->
-                                            <div class="col-12">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Patient</label>
-                                                    <select class="form-control" data-plugin="choices" name="Patient" id="ticket-status">
-                                                        <option value="">Patient</option>
-                                                        <!--les options des patients présent dans l'hopitele de l'agent -->
-                                                        
-                                                    </select>
-                                                    <div class="invalid-feedback">Veuillez saisir le username du patient</div>
-                                                </div>
-                                            </div>
-                                            <!--end col-->
-                                            <div class="col-12">
-                                                <div class="mb-3">
-                                                    <label>Date</label>
-                                                    <div class="input-group d-none">
-                                                        <input type="text" id="event-start-date" class="form-control flatpickr flatpickr-input" placeholder="date" readonly required>
-                                                        <span class="input-group-text"><i class="ri-calendar-event-line"></i></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--end col-->
-                                            <div class="col-12" id="event-time">
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Heure de debut</label>
-                                                            <div class="input-group d-none">
-                                                                <input id="timepicker1" type="text" class="form-control flatpickr flatpickr-input" placeholder="Sélectionner l'heure de debut" readonly>
-                                                                <span class="input-group-text"><i class="ri-time-line"></i></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Heure de fin</label>
-                                                            <div class="input-group d-none">
-                                                                <input id="timepicker2" type="text" class="form-control flatpickr flatpickr-input" placeholder="Sélectionner l'heure de fin" readonly>
-                                                                <span class="input-group-text"><i class="ri-time-line"></i></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--end col-->
-                                            
-                                            
-                                        </div>
-                                        <!--end row-->
-                                        <div class="hstack gap-2 justify-content-end">
-                                            <button type="button" class="btn btn-soft-danger" id="btn-delete-event"><i class="ri-close-line align-bottom"></i> Annuler</button>
-                                            <button type="submit" class="btn btn-success" id="btn-save-event">Modifier</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div> <!-- end modal-content-->
-                        </div> <!-- end modal dialog-->
-                    </div> <!-- end modal-->
-                    <!-- end modal-->
-                </div>
-            </div> <!-- end row-->
-
+                                        </form>
+                                    </div>
+                                </div> <!-- end modal-content-->
+                            </div> <!-- end modal dialog-->
+                        </div> <!-- end modal-->
+                        <!-- end modal-->
+                    </div>
+                </div> <!-- end row-->
+    
+            </div>
+            <!-- container-fluid -->
         </div>
-        <!-- container-fluid -->
-    </div>
     <!-- End Page-content -->
  
-
+    <link href="{% static 'assets/libs/fullcalendar/main.min.css' %}" rel="stylesheet">
      <!-- JAVASCRIPT -->
      <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
      <script src="{% static 'assets/libs/simplebar/simplebar.min.js' %}"></script>
@@ -210,5 +131,61 @@
  
      <!-- App js -->
      <script src="{% static 'assets/js/app.js' %}"></script>
+     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pathArray = window.location.pathname.split('/');
+            const token = pathArray[pathArray.length - 2]; // Replace with a secure way to retrieve the token
+    var calendarEl = document.getElementById('calendar');
+    var upcomingEventsList = document.getElementById('upcoming-event-list');
 
+    function fetchAndDisplayEvents() {
+        fetch(`/planning/get_Planning_Doctor/${token}/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token  // Ensure your authentication method is correct
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            var calendarEvents = [];
+            upcomingEventsList.innerHTML = ''; // Clear previous entries
+
+            data.rendez_vous.concat(data.apc).forEach(event => {
+                var date = event.date_rendez_vous || event.date;
+                var eventTitle = `Medecin ID: ${event.medecin_id}, Patient ID: ${event.patient_id}`;
+                
+                // Add to calendar data
+                calendarEvents.push({
+                    title: eventTitle,
+                    start: date,
+                    allDay: true
+                });
+
+                // Add to upcoming events list
+                var listItem = document.createElement('div');
+                listItem.innerHTML = `<strong>Date:</strong> ${new Date(date).toLocaleString()}<br><strong>Details:</strong> ${eventTitle}`;
+                listItem.className = 'mb-3 p-2 border rounded';
+                upcomingEventsList.appendChild(listItem);
+            });
+
+            // Render the calendar with events
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: calendarEvents
+            });
+            calendar.render();
+        })
+        .catch(error => {
+            console.error('Error fetching events:', error);
+        });
+    }
+
+    fetchAndDisplayEvents();
+});
+
+
+        </script>
+        
+    
 {% endblock content %}

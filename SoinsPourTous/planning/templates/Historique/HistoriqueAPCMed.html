@@ -1,4 +1,4 @@
-{% extends "accueil/baseM.html" %}
+{% extends "Accueil/baseM.html" %}
 {% load static %}
 {% block title %} Historique APC {% endblock title%}
 {% block content %}
@@ -146,7 +146,43 @@
     </div>
     <!-- End Page-content -->
 
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pathArray = window.location.pathname.split('/');
+            const token = pathArray[pathArray.length - 2]; // Replace 'your_token_here' with the actual token or retrieve it dynamically if needed
+        
+            fetch(`/planning/get_APCH_Doctor/${token}/`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,  // Ensure proper authorization header as per your API authentication setup
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                const tableBody = document.getElementById('ticket-list-data');
+                tableBody.innerHTML = ''; // Clear existing entries
+        
+                data.apc.forEach(rdv => {
+                    const row = `
+                        <tr>
+                            <td>${rdv.id}</td>
+                            <td>${rdv.patient_id}</td> <!-- Adjust 'patient' based on the actual key in your JSON response if different -->
+                            <td>${new Date(rdv.date).toLocaleDateString()}</td>
+                            <td>${rdv.status}</td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row; // Append the new row to the table
+                });
+            })
+            .catch(error => {
+                console.error('Error loading the rendezvous:', error);
+                tableBody.innerHTML = `<tr><td colspan="4">Failed to load data.</td></tr>`; // Show error in table
+            });
+        });
+        </script>
     <!-- JAVASCRIPT -->
     <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
     <script src="{% static 'assets/libs/simplebar/simplebar.min.js'%}"></script>

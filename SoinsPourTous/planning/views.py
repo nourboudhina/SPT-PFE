@@ -14,7 +14,19 @@ from celery import shared_task
 from django.db.models import Count
 from datetime import datetime
 from django.shortcuts import render
+from datetime import datetime
+import random
+from account.serializers import PaymentSerializer
 
+def convert_to_hex_with_prefix(seconds):
+    # Generate a random uppercase letter
+    prefix = chr(random.randint(ord('A'), ord('Z')))
+    # Extract the integer part before the decimal
+    integer_part = int(seconds)
+    # Convert integer part to hexadecimal
+    hex_value = format(integer_part, 'X')
+    # Return the combined string
+    return f"{prefix}{hex_value}"
 @csrf_exempt
 def SAPCPage(request, token):
     token = TokenForDoctor.objects.filter(token=token).exists() if token else Token.objects.filter(token=token).exists()
@@ -115,13 +127,15 @@ def ajout_rendez_vous_par_agent(request , token) :
         token = TokenForAgent.objects.filter(token=token).first()
         if request.method == 'POST':
             try:
+                now = datetime.now()
+                midnight = datetime.combine(now.date(), datetime.min.time())
                 date_de_rdv = request.data.get('date_de_rdv')
                 print(date_de_rdv)
                 medecin = request.data.get('medecin')
                 
                 patient = request.data.get('patient')
                 print(patient)
-                id=medecin+date_de_rdv+patient
+                id=convert_to_hex_with_prefix((now - midnight).total_seconds() )
                 dateExist = RendezVous.objects.filter(date_rendez_vous = date_de_rdv)
                 medecinExist = Medecin.objects.filter(id = medecin).exists()
                 patientExist = User.objects.filter(id = patient)
@@ -148,18 +162,23 @@ def ajout_rendez_vous_par_agent(request , token) :
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def ajout_APC_par_agent(request , token) : 
         token = TokenForAgent.objects.filter(token=token).first()
+        now = datetime.now()
+        midnight = datetime.combine(now.date(), datetime.min.time())
         if request.method == 'POST':
             date_de_apc = request.data.get('date_de_apc')
+            print(date_de_apc)
             medecin = request.data.get('medecin')
             patient = request.data.get('patient')
-            dateExist = Apc.objects.filter(date_rendez_vous = date_de_apc)
-            medecinExist = Medecin.objects.filter(username = medecin).exists()
-            patientExist = User.objects.filter(username = patient)
-            
+            dateExist = Apc.objects.filter(date = date_de_apc)
+            medecinExist = Medecin.objects.filter(id = medecin).exists()
+            patientExist = User.objects.filter(id = patient)
+            id=convert_to_hex_with_prefix((now - midnight).total_seconds() )
             if not(dateExist) and patientExist and medecinExist : 
-               apc =  Apc.objects.create(date_rendez_vous = date_de_apc,patient = patient , medecin = medecin)
-               apc.save()
-               return JsonResponse({'success': 'Consultation APC ajouté avec succès'}, status=201)
+                patientobj=User.objects.filter(id=patient).first()
+                medobj=Medecin.objects.filter(id=medecin).first()
+                apc =  Apc.objects.create( id=id,date = date_de_apc,patient = patientobj , medecin = medobj)
+                apc.save()
+                return JsonResponse({'success': 'Consultation APC ajouté avec succès'}, status=201)
 
             elif dateExist and patientExist and medecinExist : 
                 return JsonResponse({'erreur APC': 'Consultation APC avec ce medecin et ce patient existe déja'}, status=400)
@@ -173,19 +192,20 @@ def ajout_APC_par_agent(request , token) :
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def get_Planning_Doctor(request, token):
     token_obj = TokenForDoctor.objects.filter(token=token).first()
-
+    print(token_obj)
     if request.method == 'GET':
         if token_obj:
             user_obj = token_obj.user
+            print(user_obj)
             username_medecin = user_obj.username
 
             upcoming_rendez_vous = RendezVous.objects.filter(
-                medecin=username_medecin,
-                date__gt=timezone.now().date()  
+                medecin=user_obj,
+                date_rendez_vous__gt=timezone.now().date()  
             )
 
             upcoming_apc = Apc.objects.filter(
-                medecin=username_medecin,
+                medecin=user_obj,
                 date__gt=timezone.now().date()  
             )
 
@@ -211,8 +231,8 @@ def get_RendezVousH_Doctor(request, token):
             username_medecin = user_obj.username
 
             past_rendez_vous = RendezVous.objects.filter(
-                medecin=username_medecin,
-                date__lt=timezone.now().date() 
+                medecin=user_obj,
+                date_rendez_vous__lt=timezone.now().date() 
             )
 
             user_data = {
@@ -236,8 +256,8 @@ def get_APCH_Doctor(request, token):
             username_medecin = user_obj.username
 
             past_apc = Apc.objects.filter(
-               medecin=username_medecin,
-                date__gt=timezone.now().date()  
+                medecin=user_obj,
+                date__lt=timezone.now().date()  
             )
 
             user_data = {
@@ -313,8 +333,9 @@ def get_Planning_Patient(request, token):
 
             upcoming_rendez_vous = RendezVous.objects.filter(
                 patient__username=username_patient,
-                date__gt=timezone.now().date()  
+                date_rendez_vous__gt=timezone.now().date()  
             )
+            print(upcoming_rendez_vous.values)
             upcoming_apc = Apc.objects.filter(
                 patient__username=username_patient,
                 date__gt=timezone.now().date()  
@@ -344,6 +365,7 @@ def get_PaiementHistorique(request, token):
             paiements_data = []
             for paiement in paiements:
                 paiement_data = {
+                    "id":paiement.id,
                     "montant": paiement.payé,
                     "date": paiement.date,  
                 }
@@ -371,7 +393,7 @@ def suivi_apc(request, token):
             
            
             
-            apc_list = [a.id for a in apc]
+            apc_list = [{'id': a.id, 'date': a.date.strftime('%Y-%m-%d')} for a in apc]
             
             return Response({
                 'apc': apc_list,
@@ -399,8 +421,8 @@ def get_agent_rendezvous_apc(request, token):
             for rv in rendez_vous:
                 rendez_vous_data.append({
                     "id": rv.id,
-                    "date_rendez_vous": rv.date_rendez_vous.strftime("%Y-%m-%d"),  
-                    "patient": rv.patient.username,  
+                    "date_rendez_vous": rv.date_rendez_vous.strftime("%Y-%m-%d %H:%M"),  
+                    "patient": rv.patient.fullname,  
                     "medecin": rv.medecin.username,  
                 })
 
@@ -409,8 +431,8 @@ def get_agent_rendezvous_apc(request, token):
                 apc_data.append({
                     "id": a.id,
                     "date": a.date.strftime("%Y-%m-%d %H:%M:%S"),  
-                    "patient": a.patient.username,  
-                    "medecin": a.medecin.username, 
+                    "patient": a.patient.id,  
+                    "medecin": a.medecin.id, 
                 })
 
             return Response({
@@ -474,12 +496,16 @@ def update_RendezVous_Date_A(request, token, rendez_vous_id):
             new_date = request.data.get('new_date')
             if not new_date:
                 return JsonResponse({"error": "Date de rendez-vous requise"}, status=400)
-            try:
-                new_date = datetime.datetime.strptime(new_date, '%Y-%m-%d').date()
-            except ValueError:
+            #try:
+                #new_date = datetime.strptime(new_date, '%Y-%m-%d').date()
+            #except ValueError:
+
                 return JsonResponse({"error": "Format de date invalide"}, status=400)
+            
             rendez_vous.date_rendez_vous = new_date
+            
             rendez_vous.save()
+            
             return JsonResponse({"message": "Date de rendez-vous mise à jour avec succès"})
         else:
             return JsonResponse({"error": "Token invalide"}, status=400)
@@ -499,10 +525,10 @@ def update_APC_Date_A(request, token, apc_id):
             new_date = request.data.get('new_date')
             if not new_date:
                 return JsonResponse({"error": "Date de APC requise"}, status=400)
-            try:
-                new_date = datetime.datetime.strptime(new_date, '%Y-%m-%d').date()
-            except ValueError:
-                return JsonResponse({"error": "Format de date invalide"}, status=400)
+            #try:
+                #new_date = datetime.datetime.strptime(new_date, '%Y-%m-%d').date()
+            #except ValueError:
+                #return JsonResponse({"error": "Format de date invalide"}, status=400)
             apc.date = new_date
             apc.save()
             return JsonResponse({"message": "Date de APC mise à jour avec succès"})
@@ -617,15 +643,22 @@ def add_payment(request, token):
     if request.method == 'POST':
         if token_obj:
             
-                
+            now = datetime.now()
+            midnight = datetime.combine(now.date(), datetime.min.time())
+            id=convert_to_hex_with_prefix((now - midnight).total_seconds() )
+            print(token_obj)   
             patient = request.data.get('patient')
-            payé = request.data.get('payé') 
+            payé = request.data.get('mount') 
             date = request.data.get('date') 
-            patientExist = User.objects.filter(username = patient)
-            
+            patientobj=User.objects.filter(id=patient).first()
+            patientExist = User.objects.filter(id=patient)
+            print()
             if patientExist :
-                payment = Payment.objects.create(patient=patient, payé=payé, date=date)
-                payment.save()
+                try:
+                    payment = Payment.objects.create(id=id,patient=patientobj, payé=payé, date=date)
+                    payment.save()
+                except Exception as e:
+                    print(e)
                 return JsonResponse({"message": "Paiement ajouté avec succès", "id": payment.id})
             elif patientExist : 
                 return JsonResponse({'erreur APC': ' ce patient nexiste pas'}, status=400)
@@ -643,7 +676,7 @@ def delete_payment(request, token, payment_id):
     if request.method == 'DELETE':
         if token_obj:
             try:
-                payment = Payment.objects.get(pk=payment_id)
+                payment = Payment.objects.get(id=payment_id)
                 payment.delete()
                 return JsonResponse({"message": "Paiement supprimé"})
             except payment.DoesNotExist:
@@ -663,9 +696,10 @@ def update_payment(request, token, payment_id):
 
     if request.method == 'PUT':
         if token_obj:
+            
             if request.data:
                 try:
-                    payment = Payment.objects.get(pk=payment_id)
+                    payment = Payment.objects.get(id=payment_id)
                     payé = request.data.get('payé') 
                     payment.payé = payé
                     payment.save()
@@ -681,5 +715,15 @@ def update_payment(request, token, payment_id):
 
     return JsonResponse({"error": "Requête PUT requise"}, status=400)
 
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+def list_payments(request,token):
+    token_obj = TokenForAgent.objects.filter(token=token).first()
 
-
+    if request.method == 'GET':
+        if token_obj:
+            payments = Payment.objects.all()
+            serializer = PaymentSerializer(payments, many=True)
+            return Response(serializer.data)
+        else:
+            return JsonResponse({"error": "Token invalide"}, status=400)

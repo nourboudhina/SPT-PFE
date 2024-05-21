@@ -1,4 +1,4 @@
-{% extends "accueil/baseM.html" %}
+{% extends "Accueil/baseM.html" %}
 {% load static %}
 {% block title %} Chat {% endblock title%}
 {% block content %}
@@ -30,6 +30,10 @@
                             <div class="flex-grow-1">
                                 <h5 class="mb-4">Chats</h5>
                             </div>
+                            <h3 id='roomid' class="text-truncate mb-0 fs-16"><a class="text-reset username" data-bs-toggle="offcanvas"  aria-controls="userProfileCanvasExample">
+                                <!-- username de patient -->
+                            </a></h3>
+                            
                             
                         </div>
                         
@@ -49,9 +53,9 @@
                                     </div>
                                     <div class="flex-shrink-0">
                                         <div data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="bottom" title="Nouveau chat">
-
+                                            <!--<button class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#Ajouter"><i class="ri-add-line align-bottom me-1"></i> Ajouter</button>-->
                                             <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-soft-success btn-sm shadow-none" data-bs-target="#Ajouter">
+                                            <button type="button" class="btn btn-soft-success btn-sm " data-bs-toggle="modal" data-bs-target="#Ajouter">
                                                 <i class="ri-add-line align-bottom"></i>
                                                 <!-- api pour créer un room 
                                                     path('<token>/<username>/checkview/', checkview, name='checkview'),-->
@@ -63,8 +67,7 @@
                                 <div class="chat-message-list">
 
                                     <ul class="list-unstyled chat-list chat-user-list" id="userList">
-                                        <!-- list des rooms dans la base de données correspond à la médecin
-                                            path('getMedecinRooms/<token>/',getChatMedecin),-->
+                                        <!-- Dynamically filled -->
                                     </ul>
                                 </div>
                                 <div class="chat-message-list">
@@ -109,9 +112,17 @@
                                                                 <span class="user-status"></span>
                                                             </div>
                                                             <div class="flex-grow-1 overflow-hidden">
-                                                                <h5 class="text-truncate mb-0 fs-16"><a class="text-reset username" data-bs-toggle="offcanvas"  aria-controls="userProfileCanvasExample">
+                                                                <h4 id='roomid' class="text-truncate mb-0 fs-16"><a class="text-reset username" data-bs-toggle="offcanvas"  aria-controls="userProfileCanvasExample">
                                                                     <!-- username de patient -->
-                                                                </a></h5>
+                                                                </a></h4>
+                                                                <h3 id='username' class="text-truncate mb-0 fs-16"><a class="text-reset username" data-bs-toggle="offcanvas"  aria-controls="userProfileCanvasExample">
+                                                                    <!-- username de patient -->
+                                                                </a></h3>
+                                                                <h3 id='userid' class="text-truncate mb-0 fs-16"><a class="text-reset username" data-bs-toggle="offcanvas"  aria-controls="userProfileCanvasExample">
+                                                                    <!-- username de patient -->
+                                                                </a></h3>
+                                                                
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -163,35 +174,19 @@
                                     <form id="chatinput-form" enctype="multipart/form-data">
                                         <div class="row g-0 align-items-center">
                                             <div class="col-auto">
-                                                <div class="chat-input-links me-2">
-                                                    <div class="links-list-item">
-                                                        <button type="button" class="btn btn-link text-decoration-none emoji-btn" id="emoji-btn">
-                                                            <i class="bx bx-smile align-middle"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
+                                                <!-- Emoji Button -->
                                             </div>
-
                                             <div class="col">
-                                                <div class="chat-input-feedback">
-                                                    Veuillez saisir un message
-                                                </div>
                                                 <input type="text" class="form-control chat-input bg-light border-light" id="chat-input" placeholder="Saisissez votre message..." autocomplete="off">
                                             </div>
                                             <div class="col-auto">
-                                                <div class="chat-input-links ms-2">
-                                                    <div class="links-list-item">
-                                                        <button type="submit" class="btn btn-success chat-send waves-effect waves-light">
-                                                            <i class="ri-send-plane-2-fill align-bottom"></i>
-                                                            <!-- button to send messages api send
-                                                                path('<token>/<username>/<room_code>/send/', send, name='send'),  -->
-                                                        </button>
-                                                    </div>
-                                                </div>
+                                                <button type="submit" class="btn btn-success chat-send waves-effect waves-light" data-room-code="roomCodeHere">
+                                                    <i class="ri-send-plane-2-fill align-bottom"></i>
+                                                </button>
                                             </div>
-
                                         </div>
                                     </form>
+                                    
                                
                                 </div>
 
@@ -203,7 +198,6 @@
                                                     <h5 class="conversation-name"></h5>
                                                     <p class="mb-0"></p>
                                                 </div>
-                                                <div class="flex-shrink-0">
                                                     <button type="button" id="close_toggle" class="btn btn-sm btn-link mt-n2 me-n3 fs-18">
                                                         <i class="bx bx-x align-middle"></i>
                                                     </button>
@@ -235,11 +229,21 @@
                                 <div class="col-lg-12">
                                     <div id="modal-id">
                                         <label for="orderId" class="form-label">code</label>
-                                        <input type="text" id="orderId" class="form-control" placeholder="ID" value="#VLZ462" readonly />
+                                        <input type="text" id="orderId" class="form-control" placeholder="ID" value="#VLZ462"  />
                                     </div>
                                 </div>
                             </div>
 
+                        </div>
+                        <div class="col-lg-6">
+                            <div>
+                                <label for="client_nameName-field" class="form-label">Patient</label>
+                                <select id="patient-select" class="form-control"></select>
+                                    <option value="">Patients</option>
+                                    <!--les options des patients présent dans l'hopitele de l'agent -->
+                                    
+                                </select>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <div class="hstack gap-2 justify-content-end">
@@ -254,6 +258,23 @@
         </div>
 
     </div>
+    <style>
+        .message {
+          padding: 10px;
+          margin: 5px;
+          border-radius: 10px;
+        }
+        .sender {
+          background-color: #DCF8C6; /* Light green background for sender */
+          text-align: right;
+          margin-left: auto;
+        }
+        .receiver {
+          background-color: #FFFFFF; /* White background for receiver */
+          text-align: left;
+          margin-right: auto;
+        }
+      </style>
     <!-- End Page-content -->
 
      <!-- JAVASCRIPT -->
@@ -275,5 +296,209 @@
  
      <!-- App js -->
      <script src="{% static 'assets/js/app.js' %}"></script>
+     <script>
+        function fetchDoctorRooms(token) {
+    const url = `/chat/getMedecinRooms/${token}/`;
+
+    fetch(url, {
+        headers: {
+            'Authorization': `Bearer ${token}`  // Adjust this if you use a different auth method
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            console.error('Failed to fetch rooms:', data.error);
+        } else {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = ''; // Clear current list
+            data.rooms.forEach(room => {
+                const li = document.createElement('li');
+                li.textContent = `Room Code: ${room.code}, Patient: ${room.patient_name}`;
+                li.setAttribute('data-room-code', room.code);
+                li.setAttribute('userid',room.patient_id);
+                li.setAttribute('username',room.patient_name);
+
+                userList.appendChild(li);
+            });
+        }
+    })
+    .catch(error => console.error('Error fetching rooms:', error));
+}
+// Function to update the room list in the DOM
+function updateRoomList(roomCodes) {
+    const userList = document.getElementById('userList');
+    userList.innerHTML = ''; // Clear existing entries
+
+    roomCodes.forEach(code => {
+        const li = document.createElement('li');
+        li.textContent = `Room Code: ${code}`;
+        userList.appendChild(li);
+    });
+}
+        document.addEventListener('DOMContentLoaded', function() {
+            const fetchPatients = () => {
+        fetch('/patients/')
+        .then(response => response.json())
+        .then(data => {
+            const patientSelect = document.getElementById('patient-select');
+            patientSelect.innerHTML = '<option value="">Select Patient</option>';
+            data.forEach(patient => {
+                const option = new Option(patient.fullname, patient.id);
+                patientSelect.appendChild(option);
+            });
+        });
+    };
+    fetchPatients();
+
+            const addButton = document.getElementById('add-btn');
+            addButton.addEventListener('click', function() {
+                const room_code = document.getElementById('orderId').value; // Get the value from the input
+                const token = '55bb7910161811efa2b3c89402a799ef'; 
+                const patientId = document.getElementById('patient-select').value;// Replace with your method of getting the token securely
+                alert(room_code)
+                fetch(`/chat/create_Room/${token}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` // Include this if your API requires authentication
+                    },
+                    body: JSON.stringify({
+                        room_code: room_code ,
+                        patientId:patientId, // Send the room ID as JSON
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Room created:', data);
+                    alert('Room successfully created!');
+                    // Close the modal and reset the form
+                    $('#Modifier').modal('hide');
+                    document.getElementById('orderId').value = '';  // Clear the input field after successful submission
+                })
+                .catch(error => {
+                    console.error('Error creating room:', error);
+                    alert('Failed to create room. Please try again.');
+                });
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+    const token = '55bb7910161811efa2b3c89402a799ef'; // Replace with dynamic token retrieval logic
+    fetchDoctorRooms(token);
+});
+function openChatRoom(roomCode,id) {
+    const token = '55bb7910161811efa2b3c89402a799ef';  // Replace with secure token retrieval
+    const currentUserID = id;  // This should be dynamically retrieved
+
+    fetch(`/chat/messages/${token}/${roomCode}/`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const messageList = document.getElementById('users-conversation');
+        messageList.innerHTML = '';  // Clear existing messages
+        data.forEach(msg => {
+            const messageElement = document.createElement('li');
+            messageElement.classList.add('message');
+            messageElement.textContent = msg.value;  // Message text
+
+            // Check if the current user is the sender
+            if (msg.sender === currentUserID) {
+                messageElement.classList.add('sender');
+            } else {
+                messageElement.classList.add('receiver');
+            }
+
+            messageList.appendChild(messageElement);
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching messages:', error);
+    });
+}
+
+// Add event listener to room list items
+document.addEventListener('DOMContentLoaded', function() {
+    const userList = document.getElementById('userList');
+    userList.addEventListener('click', function(event) {
+        let target = event.target;
+        while (target != this) {
+            if (target.tagName === 'LI') {
+                const roomCode = target.getAttribute('data-room-code'); 
+                const id = target.getAttribute('userid'); 
+                const username = target.getAttribute('username'); 
+                document.getElementById('username').textContent=username;
+                document.getElementById('userid').textContent=id;
+                document.getElementById('roomid').textContent=roomCode;
+                // Ensure each 'li' element has a 'data-room-code' attribute
+                openChatRoom(roomCode,id);
+                break;
+            }
+            target = target.parentNode;
+        }
+    });
+});
+document.getElementById('chatinput-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+    const messageInput = document.getElementById('chat-input');
+    const messageText = messageInput.value;
+
+    id=document.getElementById('userid').textContent;
+    roomCode=document.getElementById('roomid').textContent;
+     // Ensure the room code is set correctly
+    const token = '55bb7910161811efa2b3c89402a799ef'; // Retrieve this securely, e.g., from a meta tag or another storage
+    alert(messageText)
+    alert(roomCode)
+    if (!messageText.trim()) {
+        alert('Please enter a message.');
+        return;
+    }
+
+    fetch(`/chat/send_message/${token}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+             // Include this if your API requires authentication
+        },
+        body: JSON.stringify({
+            message: messageText,
+            room_code: roomCode,
+            receiver_id: id // This needs to be fetched or determined based on the chat context
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            console.error('Error sending message:', data.error);
+            alert('Failed to send message: ' + data.error);
+        } else {
+            console.log('Message sent:', data);
+            // Optionally clear the input field
+            messageInput.value = '';
+            // Append the new message to the chat window
+            appendMessageToChat(data);
+        }
+    })
+    .catch(error => console.error('Error sending message:', error));
+});
+
+function appendMessageToChat(message) {
+    const messageList = document.getElementById('users-conversation');
+    const messageElement = document.createElement('li');
+    messageElement.textContent = message.message; // Adjust according to your response structure
+    messageList.appendChild(messageElement);
+}
+
+        </script>
+        
 
 {% endblock content %}

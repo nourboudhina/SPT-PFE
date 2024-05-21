@@ -1,7 +1,7 @@
 
 from django.contrib import admin
 from django.urls import path, include 
-from .views import planingM, SAPCPage,HpayP,HRdvP,HRdvM,HAPCP,HAPCM,planingP,ajout_rendez_vous_par_agent, envoyer_rappel_rendez_vous, ajout_APC_par_agent, get_Planning_Doctor, get_PaiementHistorique, suivi_apc, get_agent_rendezvous_apc,get_RendezVousH_Patient, get_APCH_Patient, get_Planning_Patient, get_RendezVousH_Doctor, get_APCH_Doctor, update_D, update_RendezVous_Date_A, update_APC_Date_A, delete_D, delete_RendezVous_A, delete_APC_A, getApcForAgent, delete_payment, add_payment, update_payment,GAPC,GPy,GRDV
+from .views import get_Planning_Patient,list_payments,planingM, SAPCPage,HpayP,HRdvP,HRdvM,HAPCP,HAPCM,planingP,ajout_rendez_vous_par_agent, envoyer_rappel_rendez_vous, ajout_APC_par_agent, get_Planning_Doctor, get_PaiementHistorique, suivi_apc, get_agent_rendezvous_apc,get_RendezVousH_Patient, get_APCH_Patient, get_Planning_Patient, get_RendezVousH_Doctor, get_APCH_Doctor, update_D, update_RendezVous_Date_A, update_APC_Date_A, delete_D, delete_RendezVous_A, delete_APC_A, getApcForAgent, delete_payment, add_payment, update_payment,GAPC,GPy,GRDV
 
 
 urlpatterns = [
@@ -20,7 +20,9 @@ urlpatterns = [
     path('ajoutAPCParAgent/<token>/',ajout_APC_par_agent),
     path('envoyer_rappel_rendez_vous/', envoyer_rappel_rendez_vous, name='envoyer_rappel_rendez_vous'),
     path('getpaiementHistorique/<token>/',get_PaiementHistorique),
+    path('paymentsA/<token>/', list_payments, name='payment-list'),
     path('get_Planning_Doctor/<token>/',get_Planning_Doctor),
+    path('get_Planning_Patient/<token>/',get_Planning_Patient),
     path('suivi_apc/<token>/',suivi_apc),
     path('get_agent_rendezvous_apc/<token>/',get_agent_rendezvous_apc, name='get_agent_rendezvous_apc'),
     path('getPatientRdvH/<token>/',get_RendezVousH_Patient),
@@ -30,7 +32,7 @@ urlpatterns = [
     path('get_APCH_Doctor/<token>/',get_APCH_Doctor),
     path("updateDateDoctor/<token>/<type>/<id>/",update_D),
     path("updateRdvDateAgent/<token>/<rendez_vous_id>/",update_RendezVous_Date_A),
-    path('update_APC_Date_A/<token>/<apc_id>',update_APC_Date_A),
+    path("update_APC_Date_A/<token>/<apc_id>/",update_APC_Date_A),
     path("deleteRendezVousDoctor/<token>/<type>/<id>/",delete_D),
     path("deleteRendezVousAgent/<token>/<rendez_vous_id>/",delete_RendezVous_A),
     path('delete_APC_A/<token>/<apc_id>',delete_APC_A),
