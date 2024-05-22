@@ -6,7 +6,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Mot de passe | SPT</title>
+    <title>Resend | SPT</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -70,7 +70,7 @@
                                             <form>
                                                 <div class="mb-4">
                                                     <label class="form-label">Numéro de téléphone</label>
-                                                    <input type="text" class="form-control" id="email" placeholder="Saisiez votre numéro">
+                                                    <input type="text" class="form-control" id="phone" placeholder="Saisiez votre numéro">
                                                 </div>
 
                                                 <div class="text-center mt-4">
@@ -131,6 +131,51 @@
 
 <!-- password-addon init -->
 <script src="{% static 'assets/js/pages/password-addon.init.js'%}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const phone = document.getElementById('phone').value;
+
+            fetch('/resend_otp/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken') // Assurez-vous d'inclure le jeton CSRF si nécessaire
+                },
+                body: JSON.stringify({ phone: phone })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(`Error: ${data.error}`);
+                } else {
+                    window.location.href = '/verification/';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while resending OTP.');
+            });
+        });
+    });
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
 </body>
 
 </html>

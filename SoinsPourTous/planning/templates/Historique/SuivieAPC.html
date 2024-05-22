@@ -132,36 +132,52 @@
             const apcListElement = document.getElementById('upcoming-event-list');
             const pathArray = window.location.pathname.split('/');
             const token = pathArray[pathArray.length - 2]; // Assuming token is the last segment
-        
+    
+            if (!calendarEl || !apcListElement) {
+                console.error('Required DOM elements are missing.');
+                return;
+            }
+    
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    right: 'dayGridMonth'
                 },
                 events: function(fetchInfo, successCallback, failureCallback) {
+                    const year = fetchInfo.startStr.split('-')[0];
+                    const month = fetchInfo.startStr.split('-')[1];
+    
+                    if (!year || !month) {
+                        console.error('Year or month is not defined.');
+                        return;
+                    }
+    
                     fetch(`/planning/suivi_apc/${token}/`, {
-                        method: 'POST',
+                        method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${token}`
                         },
-                        body: JSON.stringify({ month: `${fetchInfo.startStr.split('-')[0]}-${fetchInfo.startStr.split('-')[1]}` })
+                        body: JSON.stringify({ month: `${year}-${month}` })
                     })
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
                     .then(data => {
-                        
                         const events = data.apc.map(apc => {
                             return {
                                 title: `APC ID: ${apc.id}`,
                                 start: apc.date,
                                 allDay: true
-                                
                             };
                         });
                         successCallback(events);
-        
+    
                         apcListElement.innerHTML = `<h5>Total des Consultations: ${data.total_patients}</h5>`;
                         data.apc.forEach(apc => {
                             apcListElement.innerHTML += `<div class='apc-item'><p>APC ID: ${apc.id}</p><p>Date: ${new Date(apc.date).toLocaleDateString()}</p></div>`;
@@ -174,10 +190,12 @@
                     });
                 }
             });
-        
+    
             calendar.render();
         });
-        </script>
+    </script>
+    
+    
         
         
         
