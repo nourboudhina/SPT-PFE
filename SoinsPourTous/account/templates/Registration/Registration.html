@@ -74,9 +74,6 @@
                                                         Veuillez saisir le numéro de téléphone.
                                                     </div>
                                                 </div>
-                                               
-                                               
-                                                
                                                 <div class="mb-3">
                                                     <label for="password-input" class="form-label">Mot de passe</label>
                                                     <div class="position-relative auth-pass-inputgroup">
@@ -89,11 +86,8 @@
                                                 </div>
                                                 <div class="mt-4">
                                                     <button class="btn btn-success w-100" type="submit">Créer</button>
-                                                    <!--request otp pour verification de phone au meme temps
-                                                    qui prend email et phone comme champ de verification -->
                                                 </div>
                                             </form>
-                                            <!--Page Verification pour vérifier son numéro -->
                                         </div>
                                         <div class="mt-5 text-center">
                                             <p class="mb-0">Vous avez déjà un compte? <a href="{% url 'Patient' %}" class="fw-semibold text-primary text-decoration-underline">Se connecter</a></p>
@@ -145,8 +139,6 @@
                     fullname: document.getElementById('fullname').value,
                     phone: document.getElementById('phone').value,
                     password: document.getElementById('password-input').value,
-                    
-                    
                 };
 
                 fetch('/create_account/', {
@@ -160,14 +152,34 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.message) {
-                        window.location.href = '/'; // Redirect to login page or wherever appropriate
+                        // Send OTP request after successful account creation
+                        return fetch('/request_otp/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': getCookie('csrftoken')
+                            },
+                            body: JSON.stringify({
+                                email: formData.email,
+                                phone: formData.phone
+                            })
+                        });
+                    } else {
+                        throw new Error(data.error);
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        // Redirect to OTP verification page
+                        window.location.href = '/Verification/';
                     } else {
                         alert('Error: ' + data.error);
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert(error);
+                    alert(error.message);
                 });
             });
 

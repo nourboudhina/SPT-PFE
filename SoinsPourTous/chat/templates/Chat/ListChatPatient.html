@@ -62,9 +62,9 @@
 
                                 <div class="chat-message-list">
 
-                                    <ul class="list-unstyled chat-list chat-user-list" id="userList">
+                                    <div class="list-unstyled chat-list chat-user-list" id="userList">
                                         <!-- Dynamically filled -->
-                                    </ul>
+                                    </div>
                                 </div>
                                 <div class="chat-message-list">
 
@@ -124,33 +124,13 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-8 col-4">
-                                                <ul class="list-inline user-chat-nav text-end mb-0">
-                                                    
-
-                                                    <li class="list-inline-item m-0">
-                                                        <div class="dropdown">
-                                                            <button class="btn btn-ghost-secondary btn-icon" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i data-feather="more-vertical" class="icon-sm"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu dropdown-menu-end">
-                                                                
-                                                                <a class="dropdown-item" href="#"><i class="ri-delete-bin-5-line align-bottom text-muted me-2"></i> Supprimer</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                            
                                         </div>
 
                                     </div>
                                     <!-- end chat user head -->
                                     <div class="chat-conversation p-3 p-lg-4 " id="chat-conversation" data-simplebar>
-                                        <div id="elmLoader">
-                                            <div class="spinner-border text-primary avatar-sm" role="status">
-                                                <span class="visually-hidden">Téléchargement...</span>
-                                            </div>
-                                        </div>
+                                        
                                         <ul class="list-unstyled chat-conversation-list" id="users-conversation">
                                             <!-- api pour get message d' un room -->
                                             <!-- affichage des messages correspond à cette conversation
@@ -229,6 +209,20 @@
           text-align: left;
           margin-right: auto;
         }
+        .room-button {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.room-button:hover {
+    background-color: #0056b3;
+}
       </style>
     <!-- End Page-content -->
 
@@ -252,110 +246,106 @@
      <!-- App js -->
      <script src="{% static 'assets/js/app.js' %}"></script>
      <script>
-        function fetchDoctorRooms(token) {
-    const url = `/chat/getPatientRooms/${token}/`;
-
-    fetch(url, {
-        headers: {
-            'Authorization': `Bearer ${token}`  // Adjust this if you use a different auth method
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.error) {
-            console.error('Failed to fetch rooms:', data.error);
-        } else {
-            const userList = document.getElementById('userList');
-            userList.innerHTML = ''; // Clear current list
-            data.rooms.forEach(room => {
-                const li = document.createElement('li');
-                li.textContent = `Room Code: ${room.code}, medecin: ${room.medecin_name}`;
-                li.setAttribute('data-room-code', room.code);
-                li.setAttribute('userid',room.medecin_id);
-                li.setAttribute('username',room.medecin_name);
-
-                userList.appendChild(li);
-            });
-        }
-    })
-    .catch(error => console.error('Error fetching rooms:', error));
-}
-// Function to update the room list in the DOM
-function updateRoomList(roomCodes) {
-    const userList = document.getElementById('userList');
-    userList.innerHTML = ''; // Clear existing entries
-
-    roomCodes.forEach(code => {
-        const li = document.createElement('li');
-        li.textContent = `Room Code: ${code}`;
-        userList.appendChild(li);
-    });
-}
-        
-
-            
-       
-        document.addEventListener('DOMContentLoaded', function() {
-    const token = '8061e258170811ef8733c89402a799ef'; // Replace with dynamic token retrieval logic
-    fetchDoctorRooms(token);
-});
-function openChatRoom(roomCode,id) {
-    const token = '8061e258170811ef8733c89402a799ef';  // Replace with secure token retrieval
-    const currentUserID = id;  // This should be dynamically retrieved
-
-    fetch(`/chat/messages/${token}/${roomCode}/`, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        const messageList = document.getElementById('users-conversation');
-        messageList.innerHTML = '';  // Clear existing messages
-        data.forEach(msg => {
-            const messageElement = document.createElement('li');
-            messageElement.classList.add('message');
-            messageElement.textContent = msg.value;  // Message text
-
-            // Check if the current user is the sender
-            if (msg.sender === currentUserID) {
-                messageElement.classList.add('sender');
-            } else {
-                messageElement.classList.add('receiver');
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = '8061e258170811ef8733c89402a799ef'; // Replace with dynamic token retrieval logic
+        fetchDoctorRooms(token);
+        const userList = document.getElementById('userList');
+        userList.addEventListener('click', function(event) {
+            let target = event.target;
+            while (target != this) {
+                if (target.tagName === 'BUTTON') {
+                    const roomCode = target.getAttribute('data-room-code'); 
+                    const id = target.getAttribute('userid'); 
+                    const username = target.getAttribute('username'); 
+                    document.getElementById('username').textContent = username;
+                    document.getElementById('userid').textContent = id;
+                    document.getElementById('roomid').textContent = roomCode;
+                    openChatRoom(roomCode, id);
+                    break;
+                }
+                target = target.parentNode;
             }
-
-            messageList.appendChild(messageElement);
         });
-    })
-    .catch(error => {
-        console.error('Error fetching messages:', error);
-    });
-}
 
-// Add event listener to room list items
-document.addEventListener('DOMContentLoaded', function() {
-    const userList = document.getElementById('userList');
-    userList.addEventListener('click', function(event) {
-        let target = event.target;
-        while (target != this) {
-            if (target.tagName === 'LI') {
-                const roomCode = target.getAttribute('data-room-code'); 
-                const id = target.getAttribute('userid'); 
-                const username = target.getAttribute('username'); 
-                document.getElementById('username').textContent=username;
-                document.getElementById('userid').textContent=id;
-                document.getElementById('roomid').textContent=roomCode;
-                // Ensure each 'li' element has a 'data-room-code' attribute
-                openChatRoom(roomCode,id);
-                break;
-            }
-            target = target.parentNode;
-        }
+        document.getElementById('chatinput-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+            sendMessage(token);
+        });
     });
-});
-document.getElementById('chatinput-form').addEventListener('submit', function(event) {
+    function getToken() {
+        // Replace this with the actual logic to retrieve the token securely
+        return '8061e258170811ef8733c89402a799ef';
+    }
+    function fetchDoctorRooms(token) {
+        const url = `/chat/getPatientRooms/${token}/`;
+
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${token}` // Adjust this if you use a different auth method
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error('Failed to fetch rooms:', data.error);
+            } else {
+                const userList = document.getElementById('userList');
+                userList.innerHTML = ''; // Clear current list
+                data.rooms.forEach(room => {
+                    const button = document.createElement('button');
+                    button.textContent = `Room Code: ${room.code}, Medecin: ${room.medecin_name}`;
+                    button.setAttribute('data-room-code', room.code);
+                    button.setAttribute('userid', room.medecin_id);
+                    button.setAttribute('username', room.medecin_name);
+                    button.classList.add('room-button'); 
+
+                    button.addEventListener('click', () => {
+                        console.log(`Room code: ${room.code}, Medecin: ${room.medecin_name}`);
+                    });
+
+                    userList.appendChild(button);
+                });
+            }
+        })
+        .catch(error => console.error('Error fetching rooms:', error));
+    }
+
+    function openChatRoom(roomCode, id) {
+        const token = '8061e258170811ef8733c89402a799ef';  // Replace with secure token retrieval
+        const currentUserID = id;  // This should be dynamically retrieved
+
+        fetch(`/chat/messages/${token}/${roomCode}/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const messageList = document.getElementById('users-conversation');
+            messageList.innerHTML = '';  // Clear existing messages
+            data.forEach(msg => {
+                const messageElement = document.createElement('li');
+                messageElement.classList.add('message');
+                messageElement.textContent = msg.value;  // Message text
+
+                // Check if the current user is the sender
+                if (msg.sender === currentUserID) {
+                    messageElement.classList.add('sender');
+                } else {
+                    messageElement.classList.add('receiver');
+                }
+
+                messageList.appendChild(messageElement);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching messages:', error);
+        });
+    }
+
+    document.getElementById('chatinput-form').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent the default form submission behavior
     const messageInput = document.getElementById('chat-input');
     const messageText = messageInput.value;
@@ -406,7 +396,23 @@ function appendMessageToChat(message) {
     messageList.appendChild(messageElement);
 }
 
-        </script>
+
+    function displayNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.classList.add('alert', `alert-${type}`, 'alert-dismissible');
+        notification.role = 'alert';
+        notification.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        `;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.remove();
+        }, 5000);
+    }
+</script>
+
         
 
 {% endblock content %}

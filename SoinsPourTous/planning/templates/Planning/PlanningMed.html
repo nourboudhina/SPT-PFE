@@ -159,7 +159,7 @@
                 calendarEvents.push({
                     title: eventTitle,
                     start: date,
-                    allDay: true
+                    allDay: false
                 });
 
                 // Add to upcoming events list
@@ -172,6 +172,11 @@
             // Render the calendar with events
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth'
+                },
                 events: calendarEvents
             });
             calendar.render();

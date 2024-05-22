@@ -453,6 +453,10 @@ def Registration(request):
 def Verif(request):
     return render(request, 'Verif/VerificationForm.html')
 
+@csrf_exempt
+def Resend(request):
+    return render(request, 'Verif/Resend.html')
+
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def request_otp(request):

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include 
-from .views import update_profile,edit_specialite,edit_service,list_patient,get_gouvernorats,list_nationalites,add_medecin,delete_medecin,list_medecins,list_grades, list_groupes,delete_specialite,add_specialiter,add_service, delete_service, list_services,create_account, login, password_reset_confirm, password_reset_form, password_updated, request_otp, resend_otp, userData, verify_otp, password_reset_email, login_pour_medecin, login_pour_agent, logout_Agent, logout_medecin, logout_patient, landing, about, contact, loginA, loginM, loginP, Registration, Verif, Personnel
+from .views import Resend, update_profile,edit_specialite,edit_service,list_patient,get_gouvernorats,list_nationalites,add_medecin,delete_medecin,list_medecins,list_grades, list_groupes,delete_specialite,add_specialiter,add_service, delete_service, list_services,create_account, login, password_reset_confirm, password_reset_form, password_updated, request_otp, resend_otp, userData, verify_otp, password_reset_email, login_pour_medecin, login_pour_agent, logout_Agent, logout_medecin, logout_patient, landing, about, contact, loginA, loginM, loginP, Registration, Verif, Personnel
 from . import views
 
 urlpatterns = [
@@ -29,6 +29,7 @@ urlpatterns = [
     path('Agent/',loginA, name='Agent'),
     path('Regis/',Registration, name='Registration'),
     path('Verification/',Verif, name='Verification'),
+    path('Resend/',Resend, name='Resend'),
     path('gouvernorats/', get_gouvernorats, name='gouvernorats-api'),
     path('request_otp/',request_otp, name = 'request_otp'),
     path('resend_otp/',resend_otp,name='resend_otp'),

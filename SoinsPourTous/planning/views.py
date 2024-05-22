@@ -377,10 +377,10 @@ def get_PaiementHistorique(request, token):
             return JsonResponse({"error": "Token invalide"}, status=400)
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def suivi_apc(request, token):
-    if request.method == 'POST':
+    if request.method == 'GET':
         token = TokenForDoctor.objects.filter(token=token).first()
         if token:
             month = request.data.get("month")

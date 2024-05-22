@@ -67,7 +67,7 @@
                                             <th class="sort" data-sort="tasks_name">Médecin</th>
                                             <th class="sort" data-sort="client_name">Patient </th>
                                             <th class="sort" data-sort="create_date">Date </th>
-                                            <th class="sort" data-sort="status">État</th>
+                                            
                                          
                                         </tr>
                                     </thead>
@@ -163,15 +163,7 @@
                                         <input type="datetime-local" id="datetime-field2" class="form-control" placeholder="Create Date and Time" required />
                                     </div>
                                     
-                                    <div class="col-lg-6">
-                                        <label for="ticket-status" class="form-label">État</label>
-                                        <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status">
-                                            <option value="">État</option>
-                                            <option value="New">Nouveau</option>
-                                            <option value="Inprogress">Annuler</option>
-                                            
-                                        </select>
-                                    </div>
+                                    
                                     
                                 </div>
 
@@ -201,7 +193,7 @@
                                     <div class="col-lg-12">
                                         <div id="modal-id">
                                             <label for="orderId" class="form-label">ID</label>
-                                            <input type="text" id="orderId" class="form-control" placeholder="ID" value="#VLZ462" readonly />
+                                            <input type="text" id="orderId" class="form-control" placeholder="ID" value="#VLZ462" />
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -232,15 +224,7 @@
                                         <input type="datetime-local" id="datetime-field" class="form-control" placeholder="Create Date and Time" required />
                                     </div>
                                         
-                                    <div class="col-lg-6">
-                                        <label for="ticket-status" class="form-label">État</label>
-                                        <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status">
-                                            <option value="">État</option>
-                                            <option value="New">Nouveau</option>
-                                            <option value="Inprogress">Annuler</option>
-                                            
-                                        </select>
-                                    </div>
+                                    
                                     
                                 </div>
 
@@ -305,7 +289,7 @@
                                 <td>${item.medecin}</td>
                                 <td>${item.patient}</td>
                                 <td>${item.date_rendez_vous}</td>
-                                <td>${item.status}</td>
+                                
                                 <td>
                                     <button class="btn btn-soft-secondary btn-sm" onclick="editItem('${item.id}','${item.date_rendez_vous}') "data-bs-toggle="modal" data-bs-target="#Modifier"><i class="ri-pencil-fill"></i></button>
                                     <button class="btn btn-danger btn-sm" onclick="deleteItem('${item.id}')"><i class="ri-delete-bin-2-line"></i></button>
