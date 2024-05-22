@@ -84,8 +84,8 @@
                                             <th class="sort" data-sort="assignedto">Groupe</th>
                                             <th class="sort" data-sort="assignedto">Service</th>
                                             <th class="sort" data-sort="assignedto">Spécialité</th>
-                                            <th class="sort" data-sort="create_date">Date Creation</th>
-                                            <th class="sort" data-sort="status">Status</th>
+                                            <th class="sort" data-sort="create_date">Date de naissance</th>
+                                            
                                          
                                         </tr>
                                     </thead>
@@ -361,7 +361,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <label for="date-field" class="form-label">Date Creation </label>
+                                        <label for="date-field" class="form-label">Date de naissance </label>
                                         <input type="text" id="date-field" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Create Date" required />
                                     </div>
                                     <div class="col-lg-12">
@@ -371,15 +371,7 @@
                                         </div>
                                     </div>
                                     
-                                    <div class="col-lg-6">
-                                        <label for="ticket-status" class="form-label">État</label>
-                                        <select class="form-control" data-plugin="choices" name="ticket-status" id="ticket-status">
-                                            <option value="">État</option>
-                                            <option value="New">Nouveau</option>
-                                            <option value="Inprogress">Inprogrès</option>
-                                            
-                                        </select>
-                                    </div>
+                                    
                                     
                                 </div>
 
@@ -388,7 +380,7 @@
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
                                     <button type="submit" class="btn btn-success" id="add-btn">Ajouter</button>
-                                    <button type="button" class="btn btn-success" id="edit-btn">Modifier</button>
+                                    
                                 </div>
                             </div>
                         </form>
