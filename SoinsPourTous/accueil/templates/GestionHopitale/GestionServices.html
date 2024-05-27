@@ -45,7 +45,6 @@
                                 <h5 class="card-title mb-0 flex-grow-1">Services</h5>
                                 <div class="flex-shrink-0">
                                     <button class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#Ajout"><i class="ri-add-line align-bottom me-1"></i> Ajouter</button>
-                                    <button class="btn btn-soft-secondary" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -305,13 +304,13 @@
             // Delete service
             window.deleteService = function(id) {
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "This will delete the service permanently!",
+                    title: 'Etes-vous sûr?',
+                    text: "Vous ne serez pas en mesure de renverser ça!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
+                    confirmButtonText: 'Oui, Supprimer!'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         fetch(apiUrl + 'delete/' + id, {
@@ -320,9 +319,9 @@
                         .then(() => {
                             fetchServices(); // Refresh list after deleting
                             Swal.fire(
-                                'Deleted!',
-                                'Your file has been deleted.',
-                                'success'
+                                'Supprimé!',
+                                    'Votre fichier a été supprimé.',
+                                    'succès'
                             );
                         });
                     }

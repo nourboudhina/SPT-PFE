@@ -381,24 +381,36 @@ def get_PaiementHistorique(request, token):
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def suivi_apc(request, token):
     if request.method == 'GET':
-        token = TokenForDoctor.objects.filter(token=token).first()
-        if token:
-            month = request.data.get("month")
-            month_date = datetime.strptime(month, "%Y-%m")
-            
-            apc = Apc.objects.filter(date__year=month_date.year,
-                                     date__month=month_date.month)
-            
-            total_patients = apc.aggregate(num_patients=Count('patient'))['num_patients']
-            
-           
-            
-            apc_list = [{'id': a.id, 'date': a.date.strftime('%Y-%m-%d')} for a in apc]
-            
-            return Response({
-                'apc': apc_list,
-                'total_patients': total_patients
-            })
+        token_instance = TokenForDoctor.objects.filter(token=token).first()
+        if token_instance:
+            month = request.query_params.get("month")
+            if month:
+                try:
+                    month_date = datetime.strptime(month, "%Y-%m")
+                except ValueError:
+                    return Response({"error": "Invalid date format"}, status=400)
+
+                # Log the retrieved month_date
+                print(f"Filtering APC records for year: {month_date.year}, month: {month_date.month}")
+
+                # Retrieve APC records and log them
+                apc = Apc.objects.filter(date__year=month_date.year, date__month=month_date.month)
+                print(f"APC records found: {apc.count()}")
+
+                total_patients = apc.aggregate(num_patients=Count('patient'))['num_patients']
+                print(f"Total patients found: {total_patients}")
+
+                apc_list = [{'id': a.id, 'date': a.date.strftime('%Y-%m-%d')} for a in apc]
+
+                return Response({
+                    'apc': apc_list,
+                    'total_patients': total_patients
+                })
+            else:
+                return Response({"error": "Month parameter is required"}, status=400)
+        else:
+            return Response({"error": "Invalid token"}, status=400)
+    return Response({"error": "Invalid request method"}, status=405)
         
 
 @api_view(['GET'])

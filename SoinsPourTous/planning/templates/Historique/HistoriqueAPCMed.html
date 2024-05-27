@@ -46,44 +46,7 @@
                                
                             </div>
                         </div>
-                        <div class="card-body border border-dashed border-end-0 border-start-0">
-                            <form>
-                                <div class="row g-3">
-                                    <div class="col-xxl-5 col-sm-12">
-                                        <div class="search-box">
-                                            <input type="text" class="form-control search bg-light border-light" placeholder="Chercher un consultation...">
-                                            <i class="ri-search-line search-icon"></i>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-xxl-3 col-sm-4">
-                                        <input type="date" class="form-control bg-light border-light" data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true" id="demo-datepicker" placeholder="Sélectionner la date ">
-                                    </div>
-                                    <!--end col-->
-                                    
-
-                                    
-                                    <div class="col-xxl-3 col-sm-4">
-                                        <div class="input-light">
-                                            <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idStatus">
-                                                <option value="">Patient</option>
-                                                <!--les options des patients présent  -->
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    
-                                    <div class="col-xxl-1 col-sm-4">
-                                        <button type="button" class="btn btn-primary w-100" onclick="SearchData();"> <i class="ri-equalizer-fill me-1 align-bottom"></i>
-                                            Filtres
-                                        </button>
-                                    </div>
-                                    <!--end col-->
-                                </div>
-                                <!--end row-->
-                            </form>
-                        </div>
-                        <!--end card-body-->
+                        
                         <div class="card-body">
                             <div class="table-responsive table-card mb-4">
                                 <table class="table align-middle table-nowrap mb-0" id="ticketTable">
@@ -93,7 +56,7 @@
                                             <th class="sort" data-sort="id">ID</th>
                                             <th class="sort" data-sort="client_name">Patient </th>
                                             <th class="sort" data-sort="create_date">Date </th>
-                                            <th class="sort" data-sort="status">État</th>
+                                            
                                          
                                          
                                         </tr>
@@ -171,7 +134,7 @@
                             <td>${rdv.id}</td>
                             <td>${rdv.patient_id}</td> <!-- Adjust 'patient' based on the actual key in your JSON response if different -->
                             <td>${new Date(rdv.date).toLocaleDateString()}</td>
-                            <td>${rdv.status}</td>
+                            
                         </tr>
                     `;
                     tableBody.innerHTML += row; // Append the new row to the table

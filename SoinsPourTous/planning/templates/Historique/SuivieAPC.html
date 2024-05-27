@@ -146,42 +146,58 @@
                     right: 'dayGridMonth'
                 },
                 events: function(fetchInfo, successCallback, failureCallback) {
-                    const year = fetchInfo.startStr.split('-')[0];
-                    const month = fetchInfo.startStr.split('-')[1];
+                    const year = fetchInfo.start.getFullYear();
+                    const month = fetchInfo.start.getMonth() + 1; // Les mois commencent à 0 dans JavaScript
+
+// Log the extracted year and month
+                    console.log(`Year: ${year}, Month: ${month}`);
     
                     if (!year || !month) {
                         console.error('Year or month is not defined.');
                         return;
                     }
     
-                    fetch(`/planning/suivi_apc/${token}/`, {
+                    const queryString = new URLSearchParams({ month: `${year}-${month}` }).toString();
+                    const url = `/planning/suivi_apc/${token}/?${queryString}`;
+    
+                    console.log(`Fetching events for ${year}-${month} with token ${token}`);
+    
+                    fetch(url, {
                         method: 'GET',
                         headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
-                        },
-                        body: JSON.stringify({ month: `${year}-${month}` })
+                            'Content-Type': 'application/json'
+                        }
                     })
                     .then(response => {
+                        console.log('Response received:', response);
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
                         }
                         return response.json();
                     })
                     .then(data => {
-                        const events = data.apc.map(apc => {
-                            return {
-                                title: `APC ID: ${apc.id}`,
-                                start: apc.date,
-                                allDay: true
-                            };
-                        });
-                        successCallback(events);
+                        console.log('Data received:', data);
+                        if (data && data.apc) {
+                            const events = data.apc.map(apc => {
+                                return {
+                                    title: `APC ID: ${apc.id}`,
+                                    start: apc.date,
+                                    allDay: true
+                                };
+                            });
+                            successCallback(events);
     
-                        apcListElement.innerHTML = `<h5>Total des Consultations: ${data.total_patients}</h5>`;
-                        data.apc.forEach(apc => {
-                            apcListElement.innerHTML += `<div class='apc-item'><p>APC ID: ${apc.id}</p><p>Date: ${new Date(apc.date).toLocaleDateString()}</p></div>`;
-                        });
+                            apcListElement.innerHTML = `<h5>Total des Consultations: ${data.total_patients}</h5>`;
+                            data.apc.forEach(apc => {
+                                apcListElement.innerHTML += `
+                                    <div class='apc-item'>
+                                        <p>APC ID: ${apc.id}</p>
+                                        <p>Date: ${new Date(apc.date).toLocaleDateString()}</p>
+                                    </div>`;
+                            });
+                        } else {
+                            throw new Error('Invalid data format');
+                        }
                     })
                     .catch(error => {
                         console.error('Error fetching APC data:', error);
@@ -194,6 +210,7 @@
             calendar.render();
         });
     </script>
+    
     
     
         

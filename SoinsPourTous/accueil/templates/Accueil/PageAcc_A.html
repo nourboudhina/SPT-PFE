@@ -55,7 +55,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const container = document.getElementById('posttext');
         data.forEach(item => {
             const div = document.createElement('div');
-            div.innerHTML = `<p>${item.title}</p><img src="data:image/png;base64,${item.postwithimage}" alt="Image">`;
+            div.innerHTML = `<p></p><img src="data:image/png;base64,${item.postwithimage}" alt="Image"></br>
+            <p>${item.postwithtet}</p></br></br></br>`;
             container.appendChild(div);
         });
     })

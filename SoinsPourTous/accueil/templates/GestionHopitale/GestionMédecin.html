@@ -106,7 +106,7 @@
                                                         <li><a class="dropdown-item edit-item-btn" href="#Modifier" data-bs-toggle="modal"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Modifier</a></li> 
                                                         <li>
                                                             <a class="dropdown-item remove-item-btn" data-bs-toggle="modal" href="#delete">
-                                                                <button class="btn btn-danger" onclick="deleteDoctor('${doc.id}')">Supprimer</button>
+                                                                <button class="ri-delete-bin-fill align-bottom me-2 text-muted" onclick="deleteDoctor('${doc.id}')">Supprimer</button>
 
                                                             </a>
                                                         </li>
@@ -551,10 +551,10 @@
                                         <td class="service">${doc.service_name}</td>
                                         <td class="specialty">${doc.specialite_name}</td>
                                         <td class="birthdate">${doc.date_nais}</td>
-                                        <td class="status">${doc.status}</td>
+                                        
                                     <td>
-                                        <button onclick="deleteDoctor('${doc.id}')" class="btn btn-danger">Supprimer</button>
-                                        <button onclick="handleButtonClick(this)" class="btn btn-primary edit-btn" data-doctor-id="${doc.id}" data-bs-toggle="modal" data-bs-target="#edit">Edit</button>
+                                        <button onclick="deleteDoctor('${doc.id}')" class="btn btn-danger btn-sm"><i class="ri-delete-bin-2-line"></i></button>
+                                        <button onclick="handleButtonClick(this)" class="btn btn-soft-secondary btn-sm" data-doctor-id="${doc.id}" data-bs-toggle="modal" data-bs-target="#edit"><i class="ri-pencil-fill"></i></button>
                                     </td>
                                 </tr>`;
                                 tableBody.innerHTML += row;
