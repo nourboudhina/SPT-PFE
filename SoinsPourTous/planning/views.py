@@ -134,12 +134,10 @@ def ajout_rendez_vous_par_agent(request , token) :
                 medecin = request.data.get('medecin')
                 
                 patient = request.data.get('patient')
-                print(patient)
                 id=convert_to_hex_with_prefix((now - midnight).total_seconds() )
                 dateExist = RendezVous.objects.filter(date_rendez_vous = date_de_rdv)
                 medecinExist = Medecin.objects.filter(id = medecin).exists()
                 patientExist = User.objects.filter(id = patient)
-                print(patientExist)
                 if not(dateExist) and patientExist and medecinExist : 
                     patientobj=User.objects.filter(id=patient).first()
                     medobj=Medecin.objects.filter(id=medecin).first()
@@ -196,7 +194,6 @@ def get_Planning_Doctor(request, token):
     if request.method == 'GET':
         if token_obj:
             user_obj = token_obj.user
-            print(user_obj)
             username_medecin = user_obj.username
 
             upcoming_rendez_vous = RendezVous.objects.filter(
@@ -417,7 +414,6 @@ def suivi_apc(request, token):
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 def get_agent_rendezvous_apc(request, token):
     if request.method == "GET":
-        print(token)
         token_agent = TokenForAgent.objects.filter(token=token).first()
         print(token_agent)
         agent = token_agent.user
@@ -658,13 +654,11 @@ def add_payment(request, token):
             now = datetime.now()
             midnight = datetime.combine(now.date(), datetime.min.time())
             id=convert_to_hex_with_prefix((now - midnight).total_seconds() )
-            print(token_obj)   
             patient = request.data.get('patient')
             payé = request.data.get('mount') 
             date = request.data.get('date') 
             patientobj=User.objects.filter(id=patient).first()
             patientExist = User.objects.filter(id=patient)
-            print()
             if patientExist :
                 try:
                     payment = Payment.objects.create(id=id,patient=patientobj, payé=payé, date=date)
